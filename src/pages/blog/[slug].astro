@@ -2,6 +2,7 @@
 import { Badge } from "@/components/ui/badge"
 import Layout from "@/layouts/main.astro"
 import { site } from "@/config"
+import { absolute } from "@/lib/seo"
 import { readingTime, slugifyTag } from "@/lib/text"
 import { getCollection, render } from "astro:content"
 
@@ -36,8 +37,8 @@ const jsonLd = {
   ...(post.data.updatedDate
     ? { dateModified: post.data.updatedDate.toISOString() }
     : {}),
-  author: { "@type": "Person", name: site.name, url: site.site },
-  mainEntityOfPage: `${site.site}/blog/${post.id}/`,
+  author: { "@type": "Person", name: site.name, url: absolute("/") },
+  mainEntityOfPage: absolute(`/blog/${post.id}/`),
 }
 ---
 
