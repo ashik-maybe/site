@@ -6,125 +6,131 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: var(--font-sans);
-    --font-sans: 'Inter Variable', sans-serif;
-    --color-sidebar-ring: var(--sidebar-ring);
-    --color-sidebar-border: var(--sidebar-border);
-    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-    --color-sidebar-accent: var(--sidebar-accent);
-    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-    --color-sidebar-primary: var(--sidebar-primary);
-    --color-sidebar-foreground: var(--sidebar-foreground);
-    --color-sidebar: var(--sidebar);
-    --color-chart-5: var(--chart-5);
-    --color-chart-4: var(--chart-4);
-    --color-chart-3: var(--chart-3);
-    --color-chart-2: var(--chart-2);
-    --color-chart-1: var(--chart-1);
-    --color-ring: var(--ring);
-    --color-input: var(--input);
-    --color-border: var(--border);
-    --color-destructive: var(--destructive);
-    --color-accent-foreground: var(--accent-foreground);
-    --color-accent: var(--accent);
-    --color-muted-foreground: var(--muted-foreground);
-    --color-muted: var(--muted);
-    --color-secondary-foreground: var(--secondary-foreground);
-    --color-secondary: var(--secondary);
-    --color-primary-foreground: var(--primary-foreground);
-    --color-primary: var(--primary);
-    --color-popover-foreground: var(--popover-foreground);
-    --color-popover: var(--popover);
-    --color-card-foreground: var(--card-foreground);
-    --color-card: var(--card);
-    --color-foreground: var(--foreground);
-    --color-background: var(--background);
-    --radius-sm: calc(var(--radius) * 0.6);
-    --radius-md: calc(var(--radius) * 0.8);
-    --radius-lg: var(--radius);
-    --radius-xl: calc(var(--radius) * 1.4);
-    --radius-2xl: calc(var(--radius) * 1.8);
-    --radius-3xl: calc(var(--radius) * 2.2);
-    --radius-4xl: calc(var(--radius) * 2.6);
+  --font-heading: var(--font-sans);
+  --font-sans: "Inter Variable", sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* ============================================
+   LIGHT MODE — Catppuccin Latte
+   ============================================ */
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+  --background: oklch(0.958 0.006 264.532); /* Base #eff1f5 */
+  --foreground: oklch(0.435 0.043 279.325); /* Text #4c4f69 */
+  --card: oklch(0.933 0.009 264.521); /* Mantle #e6e9ef */
+  --card-foreground: oklch(0.435 0.043 279.325); /* Text #4c4f69 */
+  --popover: oklch(0.958 0.006 264.532); /* Base #eff1f5 */
+  --popover-foreground: oklch(0.435 0.043 279.325); /* Text #4c4f69 */
+  --primary: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
+  --primary-foreground: oklch(0.958 0.006 264.532); /* Base #eff1f5 */
+  --secondary: oklch(0.857 0.014 268.476); /* Surface 0 #ccd0da */
+  --secondary-foreground: oklch(0.435 0.043 279.325); /* Text #4c4f69 */
+  --muted: oklch(0.906 0.012 264.507); /* Crust #dce0e8 */
+  --muted-foreground: oklch(0.547 0.034 279.084); /* Subtext 0 #6c6f85 */
+  --accent: oklch(0.808 0.017 271.198); /* Surface 1 #bcc0cc */
+  --accent-foreground: oklch(0.435 0.043 279.325); /* Text #4c4f69 */
+  --destructive: oklch(0.55 0.216 19.809); /* Red #d20f39 */
+  --border: oklch(0.857 0.014 268.476); /* Surface 0 #ccd0da */
+  --input: oklch(0.808 0.017 271.198); /* Surface 1 #bcc0cc */
+  --ring: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
+  --chart-1: oklch(0.714 0.105 33.097); /* Rosewater #dc8a78 */
+  --chart-2: oklch(0.625 0.177 140.445); /* Green #40a02b */
+  --chart-3: oklch(0.714 0.149 67.777); /* Yellow #df8e1d */
+  --chart-4: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
+  --chart-5: oklch(0.682 0.145 235.382); /* Sky #04a5e5 */
+  --radius: 0.625rem;
+  --sidebar: oklch(0.933 0.009 264.521); /* Mantle #e6e9ef */
+  --sidebar-foreground: oklch(0.435 0.043 279.325); /* Text #4c4f69 */
+  --sidebar-primary: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
+  --sidebar-primary-foreground: oklch(0.958 0.006 264.532); /* Base #eff1f5 */
+  --sidebar-accent: oklch(0.857 0.014 268.476); /* Surface 0 #ccd0da */
+  --sidebar-accent-foreground: oklch(0.435 0.043 279.325); /* Text #4c4f69 */
+  --sidebar-border: oklch(0.857 0.014 268.476); /* Surface 0 #ccd0da */
+  --sidebar-ring: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
 }
 
+/* ============================================
+   DARK MODE — Catppuccin Macchiato
+   ============================================ */
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+  --background: oklch(0.279 0.035 276.937); /* Base #24273a */
+  --foreground: oklch(0.871 0.048 273.665); /* Text #cad3f5 */
+  --card: oklch(0.249 0.03 278.435); /* Mantle #1e2030 */
+  --card-foreground: oklch(0.871 0.048 273.665); /* Text #cad3f5 */
+  --popover: oklch(0.249 0.03 278.435); /* Mantle #1e2030 */
+  --popover-foreground: oklch(0.871 0.048 273.665); /* Text #cad3f5 */
+  --primary: oklch(0.772 0.126 303.898); /* Mauve #c6a0f6 */
+  --primary-foreground: oklch(0.219 0.025 280.657); /* Crust #181926 */
+  --secondary: oklch(0.426 0.039 276.948); /* Surface 1 #494d64 */
+  --secondary-foreground: oklch(0.871 0.048 273.665); /* Text #cad3f5 */
+  --muted: oklch(0.354 0.037 275.985); /* Surface 0 #363a4f */
+  --muted-foreground: oklch(0.751 0.044 273.533); /* Subtext 0 #a5adcb */
+  --accent: oklch(0.494 0.039 275.683); /* Surface 2 #5b6078 */
+  --accent-foreground: oklch(0.871 0.048 273.665); /* Text #cad3f5 */
+  --destructive: oklch(0.737 0.125 11.194); /* Red #ed8796 */
+  --border: oklch(0.426 0.039 276.948); /* Surface 1 #494d64 */
+  --input: oklch(0.494 0.039 275.683); /* Surface 2 #5b6078 */
+  --ring: oklch(0.772 0.126 303.898); /* Mauve #c6a0f6 */
+  --chart-1: oklch(0.911 0.029 31.133); /* Rosewater #f4dbd6 */
+  --chart-2: oklch(0.835 0.108 138.15); /* Green #a6da95 */
+  --chart-3: oklch(0.879 0.074 84.751); /* Yellow #eed49f */
+  --chart-4: oklch(0.772 0.126 303.898); /* Mauve #c6a0f6 */
+  --chart-5: oklch(0.837 0.072 209.366); /* Sky #91d7e3 */
+  --sidebar: oklch(0.249 0.03 278.435); /* Mantle #1e2030 */
+  --sidebar-foreground: oklch(0.871 0.048 273.665); /* Text #cad3f5 */
+  --sidebar-primary: oklch(0.772 0.126 303.898); /* Mauve #c6a0f6 */
+  --sidebar-primary-foreground: oklch(0.219 0.025 280.657); /* Crust #181926 */
+  --sidebar-accent: oklch(0.426 0.039 276.948); /* Surface 1 #494d64 */
+  --sidebar-accent-foreground: oklch(0.871 0.048 273.665); /* Text #cad3f5 */
+  --sidebar-border: oklch(0.426 0.039 276.948); /* Surface 1 #494d64 */
+  --sidebar-ring: oklch(0.772 0.126 303.898); /* Mauve #c6a0f6 */
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    }
+  }
   body {
     @apply bg-background text-foreground;
-    }
+  }
   html {
     @apply font-sans;
-    }
+  }
 }
