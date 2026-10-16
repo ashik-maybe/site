@@ -1,0 +1,82 @@
+---
+import { buttonVariants } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import Layout from "@/layouts/main.astro"
+import { site } from "@/config"
+import { GithubIcon } from "@/components/icons/github"
+import { LinkedinIcon } from "@/components/icons/linkedin"
+import { MailIcon } from "lucide-react"
+import type { ComponentType } from "react"
+
+type IconProps = { className?: string; "aria-hidden"?: boolean | "true" | "false" }
+
+const icons: Record<string, ComponentType<IconProps>> = {
+  GitHub: GithubIcon,
+  LinkedIn: LinkedinIcon,
+  Email: MailIcon,
+}
+---
+
+<Layout title={`Contact | ${site.name}`}>
+  <section class="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6">
+    <h1 class="font-mono text-2xl font-medium">Contact</h1>
+    <p class="mt-3 max-w-prose text-muted-foreground">
+      The fastest way to reach me is email. I answer questions about the
+      projects here, collaborations, and internships.
+    </p>
+
+    <ButtonGroup className="mt-8">
+      <a
+        href="mailto:hello@example.com"
+        data-slot="button"
+        class={buttonVariants()}
+      >
+        <MailIcon />
+        Email me
+      </a>
+      <a
+        href={`https://github.com/${site.handle}`}
+        rel="me noopener"
+        data-slot="button"
+        class={buttonVariants({ variant: "outline" })}
+      >
+        <GithubIcon />
+        GitHub
+      </a>
+    </ButtonGroup>
+
+    <h2 class="mt-14 text-lg font-medium">Elsewhere</h2>
+    <ul class="mt-4 grid gap-3 sm:grid-cols-2">
+      {
+        site.socials.map((social) => {
+          const Icon = icons[social.label] ?? MailIcon
+          const external = social.href.startsWith("http")
+          return (
+            <li>
+              <Card className="relative">
+                <CardHeader className="flex-row items-center gap-4">
+                  <Icon aria-hidden="true" className="size-5 text-muted-foreground" />
+                  <div>
+                    <CardTitle className="text-base">
+                      <a
+                        href={social.href}
+                        {...(external ? { rel: "me noopener" } : {})}
+                        class="after:absolute after:inset-0 after:content-['']"
+                      >
+                        {social.label}
+                      </a>
+                    </CardTitle>
+                    <CardDescription className="font-mono text-xs break-all">
+                      {social.href.replace(/^mailto:/, "")}
+                    </CardDescription>
+                  </div>
+                </CardHeader>
+              </Card>
+            </li>
+          )
+        })
+      }
+    </ul>
+  </section>
+</Layout>

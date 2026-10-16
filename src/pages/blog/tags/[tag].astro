@@ -1,0 +1,42 @@
+---
+import PostRow from "@/components/blog/PostRow.astro"
+import Layout from "@/layouts/main.astro"
+import { site } from "@/config"
+import { slugifyTag } from "@/lib/text"
+import { getCollection } from "astro:content"
+import type { CollectionEntry } from "astro:content"
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog", ({ data }) => !data.draft)
+  const byTag = new Map<string, { label: string; entries: CollectionEntry<"blog">[] }>()
+  for (const post of posts) {
+    for (const tag of post.data.tags) {
+      const key = slugifyTag(tag)
+      const group = byTag.get(key) ?? { label: tag, entries: [] }
+      group.entries.push(post)
+      byTag.set(key, group)
+    }
+  }
+  return [...byTag].map(([tag, { label, entries }]) => ({
+    params: { tag },
+    props: {
+      tag: label,
+      entries: entries.sort(
+        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+      ),
+    },
+  }))
+}
+
+const { tag, entries } = Astro.props
+---
+
+<Layout title={`Posts tagged “${tag}” | ${site.name}`}>
+  <section class="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6">
+    <p class="font-mono text-sm text-muted-foreground">Tag</p>
+    <h1 class="mt-1 font-mono text-2xl font-medium">{tag}</h1>
+    <ul class="mt-10 divide-y divide-border border-t border-border/60">
+      {entries.map((post) => <PostRow post={post} />)}
+    </ul>
+  </section>
+</Layout>

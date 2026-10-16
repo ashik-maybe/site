@@ -1,0 +1,95 @@
+---
+import { Badge } from "@/components/ui/badge"
+import { buttonVariants } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+import Layout from "@/layouts/main.astro"
+import { site } from "@/config"
+import { slugifyTag } from "@/lib/text"
+import { getCollection, render } from "astro:content"
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects")
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }))
+}
+
+const { project } = Astro.props
+const { Content } = await render(project)
+const base = import.meta.env.BASE_URL
+const date = project.data.pubDate.toLocaleDateString("en-US", {
+  month: "long",
+  year: "numeric",
+  timeZone: "UTC",
+})
+---
+
+<Layout
+  title={`${project.data.title} | ${site.name}`}
+  description={project.data.description}
+>
+  <article class="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6">
+    <a
+      href={`${base}/projects/`}
+      class="font-mono text-sm text-muted-foreground transition-colors hover:text-foreground"
+    >
+      Projects
+    </a>
+    <h1 class="mt-4 text-balance text-3xl font-medium tracking-tight sm:text-4xl">
+      {project.data.title}
+    </h1>
+    <p class="mt-3 max-w-prose text-muted-foreground">
+      {project.data.description}
+    </p>
+
+    <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
+      <span class="font-mono text-sm text-muted-foreground">{date}</span>
+      <div class="flex flex-wrap gap-1.5">
+        {
+          project.data.tags.map((tag) => (
+            <a
+              href={`${base}/projects/tags/${slugifyTag(tag)}/`}
+              aria-label={`More projects tagged ${tag}`}
+            >
+              <Badge variant="secondary" className="font-normal">
+                {tag}
+              </Badge>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+
+    {
+      (project.data.repo || project.data.demo) && (
+        <ButtonGroup className="mt-6">
+          {project.data.repo && (
+            <a
+              href={project.data.repo}
+              rel="noopener"
+              data-slot="button"
+              class={buttonVariants()}
+            >
+              Source
+            </a>
+          )}
+          {project.data.demo && (
+            <a
+              href={project.data.demo}
+              rel="noopener"
+              data-slot="button"
+              class={buttonVariants({ variant: "outline" })}
+            >
+              Live demo
+            </a>
+          )}
+        </ButtonGroup>
+      )
+    }
+
+    <div class="prose prose-neutral mt-10 max-w-none dark:prose-invert">
+      <Content />
+    </div>
+  </article>
+</Layout>

@@ -1,13 +1,17 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@plugin "@tailwindcss/typography";
 @import "@fontsource-variable/inter";
+@import "@fontsource-variable/jetbrains-mono";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --font-heading: var(--font-sans);
   --font-sans: "Inter Variable", sans-serif;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo,
+    monospace;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -63,7 +67,7 @@
   --secondary: oklch(0.857 0.014 268.476); /* Surface 0 #ccd0da */
   --secondary-foreground: oklch(0.435 0.043 279.325); /* Text #4c4f69 */
   --muted: oklch(0.906 0.012 264.507); /* Crust #dce0e8 */
-  --muted-foreground: oklch(0.547 0.034 279.084); /* Subtext 0 #6c6f85 */
+  --muted-foreground: oklch(0.492 0.04 279.5); /* Subtext #5c5f78, 5.5:1 on Base #eff1f5 (Subtext 0 was 4.37:1) */
   --accent: oklch(0.808 0.017 271.198); /* Surface 1 #bcc0cc */
   --accent-foreground: oklch(0.435 0.043 279.325); /* Text #4c4f69 */
   --destructive: oklch(0.55 0.216 19.809); /* Red #d20f39 */
@@ -132,5 +136,24 @@
   }
   html {
     @apply font-sans;
+  }
+}
+
+/* Opaque fallback for the translucent nav bar. */
+@media (prefers-reduced-transparency: reduce) {
+  .site-header {
+    background-color: var(--background);
+    backdrop-filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }
