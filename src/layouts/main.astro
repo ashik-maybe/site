@@ -1,5 +1,7 @@
 ---
 import "@/styles/global.css"
+import interWoff2 from "@/assets/fonts/inter-latin-wght-normal.woff2?url"
+import jetWoff2 from "@/assets/fonts/jetbrains-mono-latin-wght-normal.woff2?url"
 
 import Header from "@/components/layout/Header.astro"
 import Footer from "@/components/layout/Footer.astro"
@@ -57,6 +59,9 @@ const ogImageAlt = `${site.name} — portfolio, projects, and notes`
       title={`Blog · ${site.name}`}
       href={absolute("/blog/rss.xml")}
     />
+
+    <link rel="preload" as="font" href={interWoff2} type="font/woff2-variations" crossorigin />
+    <link rel="preload" as="font" href={jetWoff2} type="font/woff2-variations" crossorigin />
 
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content={site.name} />
