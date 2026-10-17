@@ -1,7 +1,7 @@
 ---
 import Layout from "@/layouts/main.astro"
 import { site } from "@/config"
-import { absolute } from "@/lib/seo"
+import { graph, personNode, webSiteNode } from "@/lib/seo"
 import { buttonVariants } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
 import {
@@ -24,15 +24,7 @@ const latest = await getCollection("blog", ({ data }) => !data.draft)
 latest.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
 const posts = latest.slice(0, 3)
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  name: site.name,
-  url: absolute("/"),
-  sameAs: site.socials
-    .filter((social) => social.href.startsWith("https"))
-    .map((social) => social.href),
-}
+const jsonLd = graph(personNode(), webSiteNode())
 ---
 
 <Layout>

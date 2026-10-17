@@ -2,7 +2,7 @@
 import { Badge } from "@/components/ui/badge"
 import Layout from "@/layouts/main.astro"
 import { site } from "@/config"
-import { absolute } from "@/lib/seo"
+import { absolute, breadcrumbNode, graph, personNode, webSiteNode } from "@/lib/seo"
 import { readingTime, slugifyTag } from "@/lib/text"
 import { getCollection, render } from "astro:content"
 
@@ -28,21 +28,48 @@ const date = post.data.pubDate.toLocaleDateString("en-US", {
   timeZone: "UTC",
 })
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  headline: post.data.title,
-  description: post.data.description,
-  datePublished: post.data.pubDate.toISOString(),
-  ...(post.data.updatedDate
-    ? { dateModified: post.data.updatedDate.toISOString() }
-    : {}),
-  author: { "@type": "Person", name: site.name, url: absolute("/") },
-  mainEntityOfPage: absolute(`/blog/${post.id}/`),
-}
+const postUrl = absolute(`/blog/${post.id}/`)
+const words = (post.body ?? "").trim().split(/\s+/).length
+
+const jsonLd = graph(
+  personNode(),
+  webSiteNode(),
+  {
+    "@type": "BlogPosting",
+    "@id": `${postUrl}#article`,
+    headline: post.data.title,
+    description: post.data.description,
+    url: postUrl,
+    mainEntityOfPage: { "@type": "WebPage", "@id": postUrl },
+    datePublished: post.data.pubDate.toISOString(),
+    ...(post.data.updatedDate
+      ? { dateModified: post.data.updatedDate.toISOString() }
+      : {}),
+    inLanguage: "en",
+    ...(post.data.tags.length > 0
+      ? { keywords: post.data.tags.join(", ") }
+      : {}),
+    wordCount: words,
+    timeRequired: `PT${minutes}M`,
+    image: absolute("/og.png"),
+    author: { "@id": `${absolute("/")}#person` },
+    isPartOf: { "@id": `${absolute("/")}#website` },
+  },
+  breadcrumbNode([
+    { name: "Blog", path: "/blog/" },
+    { name: post.data.title, path: `/blog/${post.id}/` },
+  ]),
+)
 ---
 
-<Layout title={`${post.data.title} | ${site.name}`} description={post.data.description}>
+<Layout
+  title={`${post.data.title} | ${site.name}`}
+  description={post.data.description}
+  type="article"
+  publishedTime={post.data.pubDate.toISOString()}
+  modifiedTime={post.data.updatedDate?.toISOString()}
+  tags={post.data.tags}
+>
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <article class="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6">
     <header>

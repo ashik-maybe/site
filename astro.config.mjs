@@ -27,6 +27,10 @@ export default defineConfig({
         uiFontFamily: '"Inter Variable", sans-serif',
       },
     }),
-    sitemap(),
+    sitemap({
+      // Tag archives are thin, near-duplicate listings; they are marked
+      // `noindex` and kept out of the sitemap on purpose.
+      filter: (page) => !page.includes("/tags/"),
+    }),
   ],
 })
