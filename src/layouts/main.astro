@@ -99,6 +99,36 @@ const ogImageAlt = `${site.name} — portfolio, projects, and notes`
           var root = document.documentElement
           root.classList.toggle("dark", dark)
           root.style.colorScheme = dark ? "dark" : "light"
+          // Sync the browser chrome to the resolved theme, not the OS
+          // preference — otherwise a manual toggle leaves the address bar
+          // showing the wrong color.
+          var tcLight = document.querySelector(
+            'meta[name="theme-color"][media="(prefers-color-scheme: light)"',
+          )
+          var tcDark = document.querySelector(
+            'meta[name="theme-color"][media="(prefers-color-scheme: dark)"',
+          )
+          var applyThemeColor = function (isDark) {
+            var color = isDark ? "#24273a" : "#eff1f5"
+            if (tcLight) {
+              tcLight.media = ""
+              tcLight.content = color
+            }
+            if (tcDark) {
+              tcDark.media = ""
+              tcDark.content = color
+            }
+          }
+          applyThemeColor(dark)
+          if (tcLight || tcDark) {
+            var observer = new MutationObserver(function () {
+              applyThemeColor(root.classList.contains("dark"))
+            })
+            observer.observe(root, {
+              attributes: true,
+              attributeFilter: ["class"],
+            })
+          }
         } catch (error) {
           // Storage can be unavailable; the light theme is a safe default.
         }
