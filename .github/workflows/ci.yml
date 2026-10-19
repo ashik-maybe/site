@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  # Gate pull requests; pushes to `main` are covered by the deploy workflow,
+  # which runs the same checks before publishing.
+  pull_request:
+  workflow_dispatch:
+
+# Read-only: this workflow never publishes anything.
+permissions:
+  contents: read
+
+# A newer push to the same PR supersedes the in-flight run.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      # Steps intentionally mirror `.github/workflows/deploy.yml`: this is the
+      # pre-merge gate, that one re-checks before deploying.
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.4.3"
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Lint
+        run: bun run lint
+      - name: Format check
+        run: bun run format:check
+      - name: Type-check and build
+        run: bun run build:ci
