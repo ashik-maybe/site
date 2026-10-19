@@ -15,7 +15,9 @@
     "lint": "oxlint",
     "format": "oxfmt --write \"**/*.{ts,tsx,astro}\"",
     "format:check": "oxfmt --check \"**/*.{ts,tsx,astro}\"",
-    "typecheck": "astro check"
+    "typecheck": "astro check",
+    "check-dist": "node scripts/check-dist.mjs",
+    "verify": "bun run lint && bun run format:check && bun run build:ci && node scripts/check-dist.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7",

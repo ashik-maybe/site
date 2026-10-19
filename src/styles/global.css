@@ -137,8 +137,13 @@
 
 /* Pagefind components (search page). Their hosts reset inherited styles with
    `all: initial`, but custom properties still inherit — these map the
-   component variables onto the Catppuccin tokens, so both themes follow. */
-:root {
+   component variables onto the Catppuccin tokens, so both themes follow.
+   `:root:root` on purpose: pagefind's own stylesheet ships `:root` defaults for
+   the same variables, and Astro's ClientRouter appends newly fetched
+   `<link rel=stylesheet>` *after* ours, so at equal specificity the winner
+   flips on client-side navigation into /search (it worked on direct load).
+   One specificity point up makes the mapping order-independent. */
+:root:root {
   --pf-text: var(--foreground);
   --pf-text-secondary: var(--muted-foreground);
   --pf-text-muted: var(--muted-foreground);

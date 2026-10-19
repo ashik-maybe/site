@@ -17,7 +17,16 @@
 - Styling: the component hosts reset inherited properties (`all: initial`), so
   the template's colour/font are set explicitly in `global.css`
   (`.search-result*`); `--pf-*` variables are mapped onto Catppuccin tokens on
-  `:root`, which both themes inherit since the tokens flip on `.dark`.
+  `:root:root` (doubled on purpose — pagefind's own stylesheet defines the same
+  variables on `:root`, and the ClientRouter appends newly fetched stylesheets
+  *after* ours, so equal specificity meant pagefind's stock defaults won after a
+  client-side navigation into `/search` while a direct load looked correct).
+  Both themes inherit, since the tokens flip on `.dark`.
+- Client-side navigation into `/search` is safe: the head-slot stylesheet and
+  module script are fetched on the swap, the custom elements upgrade, and the
+  component reads the theme from the document (verified in Chrome: input keeps
+  its Catppuccin colour/`10px` radius/`44px` height, results render, dark mode
+  survives the transition, no console errors).
 - Scope: only blog posts are indexed. Their `<article>` carries
   `data-pagefind-body` (once any page has it, pages without it are skipped) and
   the `h1` carries `data-pagefind-meta="title"` for clean result titles.

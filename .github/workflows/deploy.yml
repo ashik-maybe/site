@@ -46,21 +46,20 @@ jobs:
       # about as much as it saves; a cache step here is deliberately omitted.
       - name: Install dependencies
         run: bun install --frozen-lockfile
-      # Lint is ~0.2s and the format check ~2s; one step, two commands, so the
-      # runner pays a single shell hand-off.
-      - name: Lint and format check
-        run: |
-          bun run lint
-          bun run format:check
-      # Type-check, build, and run Pagefind — ~20s and the bulk of the job.
-      # `astro check` stays here (rather than only in CI) because pushes to
-      # `main` do not necessarily come through a pull request.
-      - name: Type-check and build
-        run: bun run build:ci
+      # Lint ~0.2s, format check ~2s, type-check + build + Pagefind ~20s, then
+      # scripts/check-dist.mjs asserts the built output (base path, Pagefind
+      # index, islands, OG images, sitemap exclusions, feeds, theme CSS).
+      # `astro check` stays in because pushes to `main` do not necessarily come
+      # through a pull request.
+      - name: Lint, build, and verify dist
+        run: bun run verify
       # Stamp the artifact with its commit so the published site can be proven
-      # to match this build (see the verification step at the end).
+      # to match this build (see the verification step at the end). Re-running
+      # check-dist with the expected sha proves the stamp landed in the artifact.
       - name: Stamp build
-        run: echo "$GITHUB_SHA" > dist/build.txt
+        run: |
+          echo "$GITHUB_SHA" > dist/build.txt
+          node scripts/check-dist.mjs --expect-sha "$GITHUB_SHA"
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
