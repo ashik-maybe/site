@@ -35,6 +35,7 @@ const date = post.data.pubDate.toLocaleDateString("en-US", {
 })
 
 const postUrl = absolute(`/blog/${post.id}/`)
+const ogImage = `/og/blog/${post.id}.png`
 const words = (post.body ?? "").trim().split(/\s+/).length
 
 const jsonLd = graph(
@@ -57,7 +58,7 @@ const jsonLd = graph(
       : {}),
     wordCount: words,
     timeRequired: `PT${minutes}M`,
-    image: absolute("/og.png"),
+    image: absolute(ogImage),
     author: { "@id": `${absolute("/")}#person` },
     isPartOf: { "@id": `${absolute("/")}#website` },
   },
@@ -75,6 +76,8 @@ const jsonLd = graph(
   publishedTime={post.data.pubDate.toISOString()}
   modifiedTime={post.data.updatedDate?.toISOString()}
   tags={post.data.tags}
+  image={ogImage}
+  imageAlt={post.data.title}
 >
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <div class="reading-progress" aria-hidden="true"></div>

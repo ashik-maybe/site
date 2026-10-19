@@ -124,9 +124,12 @@ export default defineConfig({
     sitemap({
       // Tag archives are thin, near-duplicate listings; they are marked
       // `noindex` and kept out of the sitemap on purpose. The search page is
-      // `noindex` too (it is a client-side results view, not content).
+      // `noindex` too (it is a client-side results view, not content). Generated
+      // OG images are assets, not crawlable pages.
       filter: (page) =>
-        !page.includes("/tags/") && !page.includes("/search/"),
+        !page.includes("/tags/") &&
+        !page.includes("/search/") &&
+        !page.includes("/og/"),
       // Stamp content pages with their own date for crawl freshness.
       serialize(item) {
         const path = new URL(item.url).pathname.slice(base.length)

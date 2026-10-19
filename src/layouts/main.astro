@@ -23,6 +23,10 @@ interface Props {
   modifiedTime?: string
   /** Post tags, emitted as `article:tag`, for `article` pages. */
   tags?: string[]
+  /** Site-relative path to the Open Graph image. */
+  image?: string
+  /** Alt text for the Open Graph image. */
+  imageAlt?: string
 }
 
 const {
@@ -33,10 +37,12 @@ const {
   publishedTime,
   modifiedTime,
   tags,
+  image = "/og.png",
+  imageAlt,
 } = Astro.props
 const base = import.meta.env.BASE_URL
-const ogImage = absolute("/og.png")
-const ogImageAlt = `${site.name} — portfolio, projects, and notes`
+const ogImage = absolute(image)
+const ogImageAlt = imageAlt ?? `${site.name} — portfolio, projects, and notes`
 ---
 
 <!doctype html>
