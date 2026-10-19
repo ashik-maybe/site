@@ -8,7 +8,6 @@ import {
   EmptyMedia,
   EmptyTitle,
 } from "@/components/ui/empty"
-import { cn } from "cn"
 import { SearchIcon } from "lucide-react"
 
 /**
@@ -54,9 +53,7 @@ const panelStates = [
 
 <section class="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6">
   <header class="flex flex-col gap-3">
-    <h1 class="font-heading text-2xl font-medium tracking-tight text-balance">
-      Search
-    </h1>
+    <h1 class="font-mono text-2xl font-medium text-balance">Search</h1>
     <p class="max-w-prose text-muted-foreground">
       Full-text search across blog posts. Results are served from a static index
       built at deploy time.
@@ -103,6 +100,7 @@ const panelStates = [
 
     {panelStates.map(({ state, title, description, icon }) => (
       <Empty
+        className="border"
         data-search-panel-state={state}
         data-slot="search-panel-state"
         hidden={state !== "idle"}
@@ -120,10 +118,7 @@ const panelStates = [
           <a
             href={`${base}/tags/`}
             data-slot="button"
-            class={cn(
-              buttonVariants({ variant: "outline", size: "lg" }),
-              "w-fit"
-            )}
+            class={buttonVariants({ variant: "outline" })}
           >
             Browse by tag
           </a>
@@ -135,7 +130,7 @@ const panelStates = [
         once `dist/pagefind/` has been built; if it is missing the module reports
         it instead of leaving an inert input. */}
     <noscript>
-      <Empty>
+      <Empty className="border">
         <EmptyHeader>
           <EmptyTitle>Search needs JavaScript</EmptyTitle>
           <EmptyDescription>
@@ -146,14 +141,14 @@ const panelStates = [
           <a
             href={`${base}/blog/`}
             data-slot="button"
-            class={buttonVariants({ variant: "outline", size: "lg" })}
+            class={buttonVariants({ variant: "outline" })}
           >
             Browse the blog
           </a>
           <a
             href={`${base}/tags/`}
             data-slot="button"
-            class={buttonVariants({ variant: "outline", size: "lg" })}
+            class={buttonVariants({ variant: "outline" })}
           >
             Explore tags
           </a>

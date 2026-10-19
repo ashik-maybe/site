@@ -85,9 +85,18 @@ const jsonLd = graph(
     class="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6"
     data-pagefind-body
   >
+    {/* Same back link as the project detail pages. Ignored by Pagefind so the
+        label never enters the search index. */}
+    <a
+      href={`${base}/blog/`}
+      data-pagefind-ignore
+      class="font-mono text-sm text-muted-foreground transition-colors hover:text-primary"
+    >
+      Blog
+    </a>
     <header>
       <h1
-        class="text-3xl font-medium tracking-tight text-balance sm:text-4xl"
+        class="mt-4 text-3xl font-medium tracking-tight text-balance sm:text-4xl"
         data-pagefind-meta="title"
       >
         {post.data.title}
@@ -123,7 +132,7 @@ const jsonLd = graph(
             <li>
               <a
                 href={`#${heading.slug}`}
-                class="text-muted-foreground transition-colors hover:text-foreground"
+                class="text-muted-foreground transition-colors hover:text-primary"
               >
                 {heading.text}
               </a>
@@ -142,7 +151,7 @@ const jsonLd = graph(
         {older ? (
           <a
             href={`${base}/blog/${older.id}/`}
-            class="max-w-[45%] text-sm text-muted-foreground transition-colors hover:text-foreground"
+            class="max-w-[45%] text-sm text-muted-foreground transition-colors hover:text-primary"
           >
             <span class="block font-mono text-xs">Older</span>
             {older.data.title}
@@ -153,7 +162,7 @@ const jsonLd = graph(
         {newer ? (
           <a
             href={`${base}/blog/${newer.id}/`}
-            class="max-w-[45%] text-right text-sm text-muted-foreground transition-colors hover:text-foreground"
+            class="max-w-[45%] text-right text-sm text-muted-foreground transition-colors hover:text-primary"
           >
             <span class="block font-mono text-xs">Newer</span>
             {newer.data.title}

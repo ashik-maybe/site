@@ -15,6 +15,10 @@
   It is markup only, so it stays server rendered and the page **adds no island**
   (hydration is still ThemeToggle + MobileNav; `check-dist` asserts the search
   page has the same island count as the home page).
+- The panel keeps the template's page chrome: the `h1` uses the shared mono
+  page-title voice, each `Empty` adds `border` (the primitive ships
+  `border-dashed` without a width, so without it the panel renders as floating
+  text), and the link-buttons use `buttonVariants()`' default `h-8` size.
 - Why drop the components: their hosts reset inherited styles with
   `all: initial`, which fought the Catppuccin tokens and needed a `--pf-*`
   variable mapping to undo. Owning the markup removes that whole layer — the

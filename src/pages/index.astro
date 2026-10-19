@@ -34,8 +34,8 @@ const jsonLd = graph(personNode(), webSiteNode())
 
 <Layout>
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
-  <div class="space-y-24 pb-24">
-    <section class="mx-auto w-full max-w-5xl px-4 pt-20 sm:px-6">
+  <div class="space-y-14 pb-16">
+    <section class="mx-auto w-full max-w-5xl px-4 pt-16 sm:px-6">
       <h1 class="max-w-3xl text-4xl font-medium tracking-tight text-balance sm:text-5xl">
         I'm Ashik. I study computer science and build things in software and AI.
       </h1>
@@ -72,7 +72,7 @@ const jsonLd = graph(personNode(), webSiteNode())
         </a>
       </div>
       {projects.length === 0 ? (
-        <Empty className="mt-6 border">
+        <Empty className="mt-4 border">
           <EmptyHeader>
             <EmptyTitle>No projects yet</EmptyTitle>
             <EmptyDescription>
@@ -81,7 +81,7 @@ const jsonLd = graph(personNode(), webSiteNode())
           </EmptyHeader>
         </Empty>
       ) : (
-        <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
             <ProjectCard project={project} />
           ))}
@@ -135,23 +135,21 @@ const jsonLd = graph(personNode(), webSiteNode())
     <section class="mx-auto w-full max-w-5xl px-4 sm:px-6">
       <Card>
         <CardHeader>
-          <CardTitle className="text-lg">
-            Working on something together?
-          </CardTitle>
+          <CardTitle>Working on something together?</CardTitle>
           <CardDescription className="max-w-prose">
             Internships, open source, side projects, or questions about anything
             here — email reaches me fastest.
           </CardDescription>
-          <CardFooter className="mt-2 pl-0">
-            <a
-              href="mailto:hello@example.com"
-              data-slot="button"
-              class={buttonVariants()}
-            >
-              Email me
-            </a>
-          </CardFooter>
         </CardHeader>
+        <CardFooter>
+          <a
+            href="mailto:hello@example.com"
+            data-slot="button"
+            class={buttonVariants()}
+          >
+            Email me
+          </a>
+        </CardFooter>
       </Card>
     </section>
   </div>

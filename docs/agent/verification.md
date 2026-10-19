@@ -4,10 +4,11 @@
   (`astro check` + `astro build` + `pagefind --site dist`) →
   `node scripts/check-dist.mjs`. Both workflows run it (CI on `pull_request`,
   deploy on `push` to `main`), so a developer cannot forget a gate CI has.
-- `scripts/check-dist.mjs` asserts 79 properties of `dist/` (base path, routes,
+- `scripts/check-dist.mjs` asserts 82 properties of `dist/` (base path, routes,
   Pagefind index, sitemap contents and exclusions, islands and their
   hydration directives, prefetch chunks, theme/print/reduced-motion CSS, the base
   `--radius` token, the reserved scrollbar gutter, per-page container alignment,
+  the mono page-title voice, empty-state borders, detail-page back links,
   per-post
   OG PNG dimensions, feeds, tags hub, deployment stamp). It reads `base` from
   `astro.config.mjs` and the collection file names from `src/content/`, so it

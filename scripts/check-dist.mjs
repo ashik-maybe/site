@@ -153,6 +153,73 @@ check(
   searchCss.includes("[data-search-results] mark")
 )
 
+// --- page chrome consistency ----------------------------------------------
+// One page-title voice: the mono page-title style on every index page. The
+// homepage hero and the two detail pages are deliberately display-sans.
+const titledPages = [
+  ["about", "about/index.html"],
+  ["contact", "contact/index.html"],
+  ["projects", "projects/index.html"],
+  ["blog", "blog/index.html"],
+  ["tags", "tags/index.html"],
+  ["search", "search/index.html"],
+  ["404", "404.html"],
+]
+const offVoice = titledPages.filter(([, file]) => {
+  const h1 = read(file).match(/<h1[^>]*class="([^"]*)"/)?.[1] ?? ""
+  return !(h1.includes("font-mono") && h1.includes("text-2xl"))
+})
+// `font-heading text-2xl` is the sans page-title shape that used to sit on
+// /search/ and /404/; nothing should reintroduce it.
+const sansTitle = listHtml().filter((p) =>
+  readFileSync(join(dist, p), "utf8").includes("font-heading text-2xl")
+)
+check(
+  "page titles use the mono page-title style",
+  offVoice.length === 0 && sansTitle.length === 0,
+  `off-voice: ${offVoice.map(([l]) => l).join(", ") || "none"}; sans titles: ${sansTitle.join(", ") || "none"}`
+)
+// The `Empty` primitive ships `border-dashed` with no border width, so an empty
+// state without `border` renders as floating text instead of the dashed box its
+// siblings show. `border-dashed` comes from nowhere else in the output.
+const emptyClasses = listHtml().flatMap((p) =>
+  [
+    ...readFileSync(join(dist, p), "utf8").matchAll(
+      /class="([^"]*border-dashed[^"]*)"/g
+    ),
+  ].map((m) => ({ page: p, cls: m[1] }))
+)
+const boxless = emptyClasses.filter(
+  ({ cls }) => !cls.split(/\s+/).includes("border")
+)
+check(
+  "every rendered empty state keeps its dashed border",
+  emptyClasses.length > 0 && boxless.length === 0,
+  `${boxless.length}/${emptyClasses.length} without border (${boxless.map((e) => e.page).join(", ")})`
+)
+// Detail pages open with a back link to their collection so a deep link never
+// dead-ends. On posts it sits inside `data-pagefind-body`, so it must carry
+// `data-pagefind-ignore` or the label enters the search index.
+const detailPages = [
+  ...posts.map((id) => ({ page: `blog/${id}/index.html`, index: "blog" })),
+  ...projects.map((id) => ({
+    page: `projects/${id}/index.html`,
+    index: "projects",
+  })),
+].filter(({ page }) => exists(page))
+const noBackLink = detailPages.filter(({ page, index }) => {
+  const html = readFileSync(join(dist, page), "utf8")
+  const article = html.slice(html.indexOf("<article"))
+  const firstHref = article.match(/<a[^>]*href="([^"]+)"/)?.[1] ?? ""
+  return firstHref !== `${base}/${index}/`
+})
+check(
+  "detail pages lead with a back link to their collection",
+  detailPages.length > 0 && noBackLink.length === 0,
+  noBackLink.map((d) => d.page).join(", ") ||
+    `${detailPages.length} detail pages`
+)
+
 // --- sitemap ---------------------------------------------------------------
 const sitemap = read("sitemap-0.xml")
 const locs = sitemap.match(/<loc>/g)?.length ?? 0
