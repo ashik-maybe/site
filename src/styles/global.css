@@ -201,6 +201,11 @@
 /* Anchor links jump under the sticky header without this. */
 html {
   scroll-padding-top: 4.5rem;
+  /* Reserve the scrollbar track. Without it the centered `max-w-5xl` header
+     (and every other container) shifts 7.5px between short pages that do not
+     scroll and tall ones that do, so the same navbar renders offset.
+     No-op where scrollbars are overlay, so mobile and macOS keep their edge. */
+  scrollbar-gutter: stable;
   /* Accent-tinted tap feedback instead of the UA default gray. */
   -webkit-tap-highlight-color: color-mix(
     in srgb,

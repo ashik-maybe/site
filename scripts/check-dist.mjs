@@ -240,6 +240,13 @@ check(
 // Every `rounded-*` utility resolves to `var(--radius)`, so a missing base token
 // silently squares every shadcn control site-wide.
 check("base radius token is defined", /--radius:[^;]/.test(css))
+// The navbar is one component on all 12 pages, but a page tall enough to scroll
+// loses ~15px of viewport to the scrollbar, which shifts the centered
+// `max-w-5xl` header by ~7.5px. Reserving the gutter keeps every route aligned.
+check(
+  "stylesheet reserves the scrollbar gutter",
+  /scrollbar-gutter:\s*stable/.test(css)
+)
 check(
   "pagefind's stock component CSS is not shipped",
   !/:root:root\{[^}]*--pf-/.test(css) && !css.includes("--pf-background")
