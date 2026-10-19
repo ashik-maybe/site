@@ -19,6 +19,8 @@ export async function GET() {
         url,
         title: post.data.title,
         summary: post.data.description,
+        // Same card the page advertises as og:image.
+        image: absolute(`/og/blog/${post.id}.png`),
         date_published: post.data.pubDate.toISOString(),
         ...(post.data.updatedDate
           ? { date_modified: post.data.updatedDate.toISOString() }

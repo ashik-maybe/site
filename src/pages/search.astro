@@ -52,6 +52,27 @@ const base = import.meta.env.BASE_URL
           set:html={resultTemplate}
         ></script>
       </pagefind-results>
+      {/* Without JS the web components never upgrade and the box above stays
+          inert, so point at something that does work. */}
+      <noscript>
+        <p class="mt-6 text-muted-foreground">
+          Search needs JavaScript. The{" "}
+          <a
+            class="text-primary underline underline-offset-4"
+            href={`${base}/blog/`}
+          >
+            blog index
+          </a>{" "}
+          lists everything, and{" "}
+          <a
+            class="text-primary underline underline-offset-4"
+            href={`${base}/tags/`}
+          >
+            tags
+          </a>{" "}
+          groups it by topic.
+        </p>
+      </noscript>
     </div>
   </section>
 </Layout>

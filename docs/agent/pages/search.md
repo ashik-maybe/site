@@ -27,6 +27,9 @@
   component reads the theme from the document (verified in Chrome: input keeps
   its Catppuccin colour/`10px` radius/`44px` height, results render, dark mode
   survives the transition, no console errors).
+- Without JavaScript the web components never upgrade, so the page carries a
+  `<noscript>` line pointing at `/blog/` and `/tags/` (verified with
+  `javaScriptEnabled: false` in Chrome).
 - Scope: only blog posts are indexed. Their `<article>` carries
   `data-pagefind-body` (once any page has it, pages without it are skipped) and
   the `h1` carries `data-pagefind-meta="title"` for clean result titles.

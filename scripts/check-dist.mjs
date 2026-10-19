@@ -112,7 +112,20 @@ for (const slug of posts) {
   check(`post ${slug} references its og image`, read(`blog/${slug}/index.html`).includes(`${base}/og/blog/${slug}.png`))
 }
 check("shared og.png built", exists("og.png"))
-check("projects reference the shared og image", read("projects/index.html").includes(`${base}/og.png`))
+check("projects index references the shared og image", read("projects/index.html").includes(`${base}/og.png`))
+for (const slug of projects) {
+  const file = join("og/projects", `${slug}.png`)
+  check(`og image built for project ${slug}`, exists(file))
+  if (!exists(file)) continue
+  const buf = readFileSync(join(dist, file))
+  const isPng = buf.subarray(0, 8).equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))
+  check(`${slug} og image is a 1200x630 png`, isPng && buf.readUInt32BE(16) === 1200 && buf.readUInt32BE(20) === 630)
+  check(`project ${slug} references its og image`, read(`projects/${slug}/index.html`).includes(`${base}/og/projects/${slug}.png`))
+}
+// `image` reaches the layout base-relative and `absolute()` adds the base; a
+// caller that pre-prefixes it yields `/site/site/...`.
+const doubled = listHtml().filter((p) => readFileSync(join(dist, p), "utf8").includes(`${base}${base}/`))
+check("no page double-prefixes the base path", doubled.length === 0, doubled.slice(0, 3).join(", "))
 
 // --- feeds -----------------------------------------------------------------
 check("rss item links carry the base", read("blog/rss.xml").includes(`${base}/blog/`) && !read("blog/rss.xml").includes(`${base.slice(0, -1)}blog/`))
@@ -120,6 +133,7 @@ const feed = JSON.parse(read("blog/feed.json"))
 check("json feed is v1.1", feed.version === "https://jsonfeed.org/version/1.1")
 check("json feed urls are absolute and based", feed.feed_url === `${origin}${base}/blog/feed.json` && (feed.items ?? []).every((i) => i.url?.startsWith(`${origin}${base}/blog/`)), feed.feed_url ?? "no feed_url")
 check("json feed items cover every post, full text", (feed.items ?? []).length === posts.length && (feed.items ?? []).every((i) => (i.content_html ?? "").length > 0))
+check("json feed items carry their post og image", (feed.items ?? []).every((i) => i.image === `${origin}${base}/og/blog/${i.id?.match(/\/blog\/([^/]+)\/$/)?.[1]}.png`))
 
 // --- tags hub --------------------------------------------------------------
 check("tags hub is noindex", read("tags/index.html").includes("noindex"))

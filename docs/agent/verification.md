@@ -16,16 +16,20 @@
 - `bun run lint` (oxlint — `react` + `typescript` plugins, correctness category;
   also covers `.astro`) and `bun run format:check` (oxfmt, scope `ts/tsx/astro`;
   Tailwind class sorting built in) must both be clean; `bun run format` writes.
-- Per-post OG images: `dist/og/blog/<id>.png` exists for every published post,
-  each a 1200×630 PNG; post HTML has `og:image` / `twitter:image` = absolute
-  `/site/og/blog/<id>.png`, `og:image:alt` = the post title, and JSON-LD
-  `"image"` matching; other pages still reference `/site/og.png`; sitemap has no
-  `/og/`. Rendering check without vision: sample pixels (`createImageBitmap` +
-  canvas) — corners `#eff1f5`, the 56×4 mauve bar at x80/y72 is `#c6a0f6`, and
-  ink pixels scale with title length. (`check-dist` covers presence, size and
-  references; this pixel pass is the manual extra.)
+- Per-post OG images: `dist/og/blog/<id>.png` exists for every published post and
+  `dist/og/projects/<id>.png` for every project, each a 1200×630 PNG (dimensions
+  read from the PNG header by `check-dist`); post/project HTML has `og:image` /
+  `twitter:image` = absolute `/site/og/…`, `og:image:alt` = the title, and
+  JSON-LD `"image"` matching; `image` is passed site-relative (the layout calls
+  `absolute()`), and `check-dist` fails on any page containing `/site/site/`.
+  Pages without their own card still reference `/site/og.png`; sitemap has no
+  `/og/`. Rendering check without vision (Chrome + `createImageBitmap`,
+  `/tmp/opencode/vt-test/og-projects.mjs`): sample pixels — corners `#eff1f5`,
+  the 56×4 mauve bar at x80/y72 is `#c6a0f6`, and ink pixels scale with title
+  length. `check-dist` covers presence, size and references; this pixel pass is
+  the manual extra.
 - RSS links: `grep` `dist/blog/rss.xml` for item URLs starting with `/site/blog/` (not `/siteblog/`).
-- JSON Feed: parse `dist/blog/feed.json` — `version` = `https://jsonfeed.org/version/1.1`, `feed_url` absolute ending `/site/blog/feed.json`, every item `url`/`id` starts with `https://ashik-maybe.github.io/site/blog/`, `content_html` non-empty, no drafts. Any `dist` page `<head>` contains `type="application/feed+json"`.
+- JSON Feed: parse `dist/blog/feed.json` — `version` = `https://jsonfeed.org/version/1.1`, `feed_url` absolute ending `/site/blog/feed.json`, every item `url`/`id` starts with `https://ashik-maybe.github.io/site/blog/`, `content_html` non-empty, no drafts, and every item `image` = the same absolute `/site/og/blog/<id>.png` its page advertises as `og:image`. Any `dist` page `<head>` contains `type="application/feed+json"`.
 - Pagination: `dist/blog/index.html` has `href="/site/blog/2/" rel="next"` (trailing slash) and `Page 1 of 2`; `dist/blog/2/index.html` has `<title>Blog (page 2)`, `href="/site/blog/" rel="prev"`, `Page 2 of 2`; `sitemap-0.xml` lists `/blog/2/` (14 `<loc>`, still 0 `/tags/`).
 - Heading anchors: `grep -o '<h2 id="[^"]*"><a href="#[^"]*"' dist/blog/big-o-briefly/index.html` matches every h2; the TOC's `href="#…"` ids all appear among those heading ids (the visitor sets ids; Astro's `heading-ids` adopts them).
 - Reading progress: post HTML contains `<div class="reading-progress" aria-hidden="true">`, index pages do not; `dist/_astro/main.*.css` contains `reading-progress-grow`, `scroll(root)`, and `.prose :is(h2,h3)>a`.
