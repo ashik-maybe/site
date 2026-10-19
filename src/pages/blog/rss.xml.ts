@@ -23,7 +23,7 @@ export async function GET() {
         // Full text, so readers do not have to open the site.
         content: await container.renderToString(Content),
       }
-    }),
+    })
   )
 
   return rss({

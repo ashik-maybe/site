@@ -16,12 +16,8 @@ const isActive = (href: string) =>
   current === href || current.startsWith(`${href}/`)
 ---
 
-<header
-  class="site-header sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl backdrop-saturate-150"
->
-  <div
-    class="mx-auto flex h-14 w-full max-w-5xl items-center justify-between gap-2 px-4 sm:px-6"
-  >
+<header class="site-header sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl backdrop-saturate-150">
+  <div class="mx-auto flex h-14 w-full max-w-5xl items-center justify-between gap-2 px-4 sm:px-6">
     <a
       href={`${base}/`}
       class="-ml-1 rounded-md px-1 py-2 font-mono text-sm font-medium whitespace-nowrap transition-colors hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
@@ -32,27 +28,25 @@ const isActive = (href: string) =>
 
     <nav aria-label="Primary" class="hidden md:block">
       <ul class="flex items-center gap-0.5">
-        {
-          site.nav.map((item) => {
-            const active = isActive(item.href)
-            return (
-              <li>
-                <a
-                  href={hrefFor(item.href)}
-                  aria-current={active ? "page" : undefined}
-                  class:list={[
-                    "relative block rounded-md px-2.5 py-2 text-sm transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
-                    active
-                      ? "font-medium text-foreground after:absolute after:inset-x-2.5 after:bottom-0.5 after:h-0.5 after:rounded-full after:bg-primary"
-                      : "text-muted-foreground",
-                  ]}
-                >
-                  {item.label}
-                </a>
-              </li>
-            )
-          })
-        }
+        {site.nav.map((item) => {
+          const active = isActive(item.href)
+          return (
+            <li>
+              <a
+                href={hrefFor(item.href)}
+                aria-current={active ? "page" : undefined}
+                class:list={[
+                  "relative block rounded-md px-2.5 py-2 text-sm transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
+                  active
+                    ? "font-medium text-foreground after:absolute after:inset-x-2.5 after:bottom-0.5 after:h-0.5 after:rounded-full after:bg-primary"
+                    : "text-muted-foreground",
+                ]}
+              >
+                {item.label}
+              </a>
+            </li>
+          )
+        })}
       </ul>
     </nav>
 

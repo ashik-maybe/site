@@ -2,7 +2,7 @@ import { site } from "@/config"
 
 /** Site root, including the deployment base path, with a trailing slash. */
 export const root = new URL(
-  `${site.site.replace(/\/+$/, "")}${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`,
+  `${site.site.replace(/\/+$/, "")}${import.meta.env.BASE_URL.replace(/\/+$/, "")}/`
 ).href
 
 /**

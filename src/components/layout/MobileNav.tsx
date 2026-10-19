@@ -45,7 +45,9 @@ export default function MobileNav({
           <SheetTitle className="font-mono text-sm font-medium">
             {site.name}
           </SheetTitle>
-          <SheetDescription className="sr-only">Site navigation</SheetDescription>
+          <SheetDescription className="sr-only">
+            Site navigation
+          </SheetDescription>
         </SheetHeader>
         <nav aria-label="Primary" className="px-2">
           <ul className="flex flex-col gap-1">

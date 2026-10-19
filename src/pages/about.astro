@@ -1,15 +1,26 @@
 ---
 import { ProfileAvatar } from "@/components/portfolio/ProfileAvatar"
 import { Badge } from "@/components/ui/badge"
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import Layout from "@/layouts/main.astro"
 import { site } from "@/config"
 
 const skills: { group: string; items: string[] }[] = [
-  { group: "Languages", items: ["Python", "C/C++", "JavaScript", "TypeScript", "SQL"] },
+  {
+    group: "Languages",
+    items: ["Python", "C/C++", "JavaScript", "TypeScript", "SQL"],
+  },
   { group: "Web", items: ["Astro", "React", "Tailwind CSS", "HTML/CSS"] },
-  { group: "Tools", items: ["Git", "Linux", "Bash", "Docker", "NumPy", "PyTorch"] },
+  {
+    group: "Tools",
+    items: ["Git", "Linux", "Bash", "Docker", "NumPy", "PyTorch"],
+  },
 ]
 
 // TODO: replace with real education, experience, and interests.
@@ -44,9 +55,9 @@ const timeline = [
 
     <p class="mt-8 max-w-prose text-muted-foreground">
       I study computer science and build things in software and AI. This site
-      collects what I learn — data structures, Python, machine learning — and the
-      projects I ship along the way. Write here replaces notes I would otherwise
-      keep in a private folder.
+      collects what I learn — data structures, Python, machine learning — and
+      the projects I ship along the way. Write here replaces notes I would
+      otherwise keep in a private folder.
     </p>
 
     <h2 class="mt-14 text-lg font-medium">Education</h2>
@@ -55,59 +66,52 @@ const timeline = [
         <CardTitle className="text-base">
           B.E. in Computer Science and Engineering
         </CardTitle>
-        <CardDescription>
-          Placeholder University, expected 2028
-        </CardDescription>
+        <CardDescription>Placeholder University, expected 2028</CardDescription>
       </CardHeader>
     </Card>
 
     <h2 class="mt-14 text-lg font-medium">Skills</h2>
     <dl class="mt-4 space-y-4">
-      {
-        skills.map(({ group, items }) => (
-          <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:gap-6">
-            <dt class="w-24 shrink-0 font-mono text-sm text-muted-foreground">
-              {group}
-            </dt>
-            <dd class="flex flex-wrap gap-1.5">
-              {items.map((item) => (
-                <Badge variant="secondary" className="font-normal">
-                  {item}
-                </Badge>
-              ))}
-            </dd>
-          </div>
-        ))
-      }
+      {skills.map(({ group, items }) => (
+        <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:gap-6">
+          <dt class="w-24 shrink-0 font-mono text-sm text-muted-foreground">
+            {group}
+          </dt>
+          <dd class="flex flex-wrap gap-1.5">
+            {items.map((item) => (
+              <Badge variant="secondary" className="font-normal">
+                {item}
+              </Badge>
+            ))}
+          </dd>
+        </div>
+      ))}
     </dl>
 
     <h2 class="mt-14 text-lg font-medium">Experience</h2>
     <div class="mt-4 space-y-0">
-      {
-        timeline.map((entry, index) => (
-          <>
-            {index > 0 && <Separator className="my-4" />}
-            <div class="grid gap-x-8 gap-y-1 sm:grid-cols-[10rem_1fr]">
-              <span class="font-mono text-sm text-muted-foreground">
-                {entry.period}
-              </span>
-              <div>
-                <p class="font-medium">{entry.role}</p>
-                <p class="text-muted-foreground">{entry.org}</p>
-                <p class="mt-1 max-w-prose text-sm text-muted-foreground">
-                  {entry.detail}
-                </p>
-              </div>
+      {timeline.map((entry, index) => (
+        <>
+          {index > 0 && <Separator className="my-4" />}
+          <div class="grid gap-x-8 gap-y-1 sm:grid-cols-[10rem_1fr]">
+            <span class="font-mono text-sm text-muted-foreground">
+              {entry.period}
+            </span>
+            <div>
+              <p class="font-medium">{entry.role}</p>
+              <p class="text-muted-foreground">{entry.org}</p>
+              <p class="mt-1 max-w-prose text-sm text-muted-foreground">
+                {entry.detail}
+              </p>
             </div>
-          </>
-        ))
-      }
+          </div>
+        </>
+      ))}
     </div>
 
     <h2 class="mt-14 text-lg font-medium">Interests</h2>
     <p class="mt-3 max-w-prose text-muted-foreground">
-      Competitive programming, terminal tooling, machine learning papers,
-      chess.
+      Competitive programming, terminal tooling, machine learning papers, chess.
     </p>
   </section>
 </Layout>

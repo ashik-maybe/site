@@ -46,47 +46,43 @@ const date = project.data.pubDate.toLocaleDateString("en-US", {
     <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2">
       <span class="font-mono text-sm text-muted-foreground">{date}</span>
       <div class="flex flex-wrap gap-1.5">
-        {
-          project.data.tags.map((tag) => (
-            <a
-              href={`${base}/projects/tags/${slugifyTag(tag)}/`}
-              aria-label={`More projects tagged ${tag}`}
-            >
-              <Badge variant="secondary" className="font-normal">
-                {tag}
-              </Badge>
-            </a>
-          ))
-        }
+        {project.data.tags.map((tag) => (
+          <a
+            href={`${base}/projects/tags/${slugifyTag(tag)}/`}
+            aria-label={`More projects tagged ${tag}`}
+          >
+            <Badge variant="secondary" className="font-normal">
+              {tag}
+            </Badge>
+          </a>
+        ))}
       </div>
     </div>
 
-    {
-      (project.data.repo || project.data.demo) && (
-        <ButtonGroup className="mt-6">
-          {project.data.repo && (
-            <a
-              href={project.data.repo}
-              rel="noopener"
-              data-slot="button"
-              class={buttonVariants()}
-            >
-              Source
-            </a>
-          )}
-          {project.data.demo && (
-            <a
-              href={project.data.demo}
-              rel="noopener"
-              data-slot="button"
-              class={buttonVariants({ variant: "outline" })}
-            >
-              Live demo
-            </a>
-          )}
-        </ButtonGroup>
-      )
-    }
+    {(project.data.repo || project.data.demo) && (
+      <ButtonGroup className="mt-6">
+        {project.data.repo && (
+          <a
+            href={project.data.repo}
+            rel="noopener"
+            data-slot="button"
+            class={buttonVariants()}
+          >
+            Source
+          </a>
+        )}
+        {project.data.demo && (
+          <a
+            href={project.data.demo}
+            rel="noopener"
+            data-slot="button"
+            class={buttonVariants({ variant: "outline" })}
+          >
+            Live demo
+          </a>
+        )}
+      </ButtonGroup>
+    )}
 
     <div class="prose prose-neutral mt-10 max-w-none dark:prose-invert">
       <Content />

@@ -8,7 +8,10 @@ import type { CollectionEntry } from "astro:content"
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog", ({ data }) => !data.draft)
-  const byTag = new Map<string, { label: string; entries: CollectionEntry<"blog">[] }>()
+  const byTag = new Map<
+    string,
+    { label: string; entries: CollectionEntry<"blog">[] }
+  >()
   for (const post of posts) {
     for (const tag of post.data.tags) {
       const key = slugifyTag(tag)
@@ -22,7 +25,7 @@ export async function getStaticPaths() {
     props: {
       tag: label,
       entries: entries.sort(
-        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
       ),
     },
   }))
@@ -40,7 +43,9 @@ const { tag, entries } = Astro.props
     <p class="font-mono text-sm text-muted-foreground">Tag</p>
     <h1 class="mt-1 font-mono text-balance text-2xl font-medium">{tag}</h1>
     <ul class="mt-10 divide-y divide-border border-t border-border/60">
-      {entries.map((post) => <PostRow post={post} />)}
+      {entries.map((post) => (
+        <PostRow post={post} />
+      ))}
     </ul>
   </section>
 </Layout>

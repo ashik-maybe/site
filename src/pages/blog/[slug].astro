@@ -2,7 +2,13 @@
 import { Badge } from "@/components/ui/badge"
 import Layout from "@/layouts/main.astro"
 import { site } from "@/config"
-import { absolute, breadcrumbNode, graph, personNode, webSiteNode } from "@/lib/seo"
+import {
+  absolute,
+  breadcrumbNode,
+  graph,
+  personNode,
+  webSiteNode,
+} from "@/lib/seo"
 import { readingTime, slugifyTag } from "@/lib/text"
 import { getCollection, render } from "astro:content"
 
@@ -58,7 +64,7 @@ const jsonLd = graph(
   breadcrumbNode([
     { name: "Blog", path: "/blog/" },
     { name: post.data.title, path: `/blog/${post.id}/` },
-  ]),
+  ])
 )
 ---
 
@@ -80,78 +86,72 @@ const jsonLd = graph(
         <time datetime={post.data.pubDate.toISOString()}>{date}</time>
         <span class="font-mono">{minutes} min read</span>
       </div>
-      {
-        post.data.tags.length > 0 && (
-          <div class="mt-4 flex flex-wrap gap-1.5">
-            {post.data.tags.map((tag) => (
-              <a
-                href={`${base}/blog/tags/${slugifyTag(tag)}/`}
-                aria-label={`More posts tagged ${tag}`}
-              >
-                <Badge variant="secondary" className="font-normal">
-                  {tag}
-                </Badge>
-              </a>
-            ))}
-          </div>
-        )
-      }
+      {post.data.tags.length > 0 && (
+        <div class="mt-4 flex flex-wrap gap-1.5">
+          {post.data.tags.map((tag) => (
+            <a
+              href={`${base}/blog/tags/${slugifyTag(tag)}/`}
+              aria-label={`More posts tagged ${tag}`}
+            >
+              <Badge variant="secondary" className="font-normal">
+                {tag}
+              </Badge>
+            </a>
+          ))}
+        </div>
+      )}
     </header>
 
-    {
-      toc.length > 1 && (
-        <nav
-          aria-label="Table of contents"
-          class="mt-10 rounded-lg border border-border/60 bg-card p-4"
-        >
-          <p class="font-mono text-xs text-muted-foreground">On this page</p>
-          <ul class="mt-2 space-y-1 text-sm">
-            {toc.map((heading) => (
-              <li>
-                <a
-                  href={`#${heading.slug}`}
-                  class="text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {heading.text}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      )
-    }
+    {toc.length > 1 && (
+      <nav
+        aria-label="Table of contents"
+        class="mt-10 rounded-lg border border-border/60 bg-card p-4"
+      >
+        <p class="font-mono text-xs text-muted-foreground">On this page</p>
+        <ul class="mt-2 space-y-1 text-sm">
+          {toc.map((heading) => (
+            <li>
+              <a
+                href={`#${heading.slug}`}
+                class="text-muted-foreground transition-colors hover:text-foreground"
+              >
+                {heading.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
 
     <div class="prose prose-neutral mt-10 max-w-none dark:prose-invert">
       <Content />
     </div>
 
-    {
-      (newer || older) && (
-        <footer class="mt-14 flex items-start justify-between gap-6 border-t border-border/60 pt-6">
-          {older ? (
-            <a
-              href={`${base}/blog/${older.id}/`}
-              class="max-w-[45%] text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-              <span class="block font-mono text-xs">Older</span>
-              {older.data.title}
-            </a>
-          ) : (
-            <span />
-          )}
-          {newer ? (
-            <a
-              href={`${base}/blog/${newer.id}/`}
-              class="max-w-[45%] text-right text-sm text-muted-foreground transition-colors hover:text-foreground"
-            >
-              <span class="block font-mono text-xs">Newer</span>
-              {newer.data.title}
-            </a>
-          ) : (
-            <span />
-          )}
-        </footer>
-      )
-    }
+    {(newer || older) && (
+      <footer class="mt-14 flex items-start justify-between gap-6 border-t border-border/60 pt-6">
+        {older ? (
+          <a
+            href={`${base}/blog/${older.id}/`}
+            class="max-w-[45%] text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <span class="block font-mono text-xs">Older</span>
+            {older.data.title}
+          </a>
+        ) : (
+          <span />
+        )}
+        {newer ? (
+          <a
+            href={`${base}/blog/${newer.id}/`}
+            class="max-w-[45%] text-right text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            <span class="block font-mono text-xs">Newer</span>
+            {newer.data.title}
+          </a>
+        ) : (
+          <span />
+        )}
+      </footer>
+    )}
   </article>
 </Layout>

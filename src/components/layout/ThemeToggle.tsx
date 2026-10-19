@@ -30,6 +30,9 @@ export default function ThemeToggle({ className }: { className?: string }) {
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY)
     if (stored === "light" || stored === "dark" || stored === "system") {
+      // Reading storage must wait until after hydration (the server rendered
+      // the default), so this post-mount setState is deliberate.
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTheme(stored)
     }
   }, [])

@@ -47,11 +47,7 @@ const ogImageAlt = `${site.name} — portfolio, projects, and notes`
     <meta name="description" content={description} />
     <meta name="author" content={site.name} />
     {robots && <meta name="robots" content={robots} />}
-    <link
-      rel="icon"
-      type="image/svg+xml"
-      href={`${base}/favicon.svg`}
-    />
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
     <link rel="canonical" href={Astro.url.href} />
     <link
       rel="alternate"
@@ -60,8 +56,20 @@ const ogImageAlt = `${site.name} — portfolio, projects, and notes`
       href={absolute("/blog/rss.xml")}
     />
 
-    <link rel="preload" as="font" href={interWoff2} type="font/woff2-variations" crossorigin />
-    <link rel="preload" as="font" href={jetWoff2} type="font/woff2-variations" crossorigin />
+    <link
+      rel="preload"
+      as="font"
+      href={interWoff2}
+      type="font/woff2-variations"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      as="font"
+      href={jetWoff2}
+      type="font/woff2-variations"
+      crossorigin
+    />
 
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content={site.name} />
@@ -74,9 +82,15 @@ const ogImageAlt = `${site.name} — portfolio, projects, and notes`
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={ogImageAlt} />
-    {publishedTime && <meta property="article:published_time" content={publishedTime} />}
-    {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
-    {tags?.map((tag) => <meta property="article:tag" content={tag} />)}
+    {publishedTime && (
+      <meta property="article:published_time" content={publishedTime} />
+    )}
+    {modifiedTime && (
+      <meta property="article:modified_time" content={modifiedTime} />
+    )}
+    {tags?.map((tag) => (
+      <meta property="article:tag" content={tag} />
+    ))}
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
@@ -84,8 +98,16 @@ const ogImageAlt = `${site.name} — portfolio, projects, and notes`
     <meta name="twitter:image" content={ogImage} />
     <meta name="twitter:image:alt" content={ogImageAlt} />
 
-    <meta name="theme-color" content="#eff1f5" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#24273a" media="(prefers-color-scheme: dark)" />
+    <meta
+      name="theme-color"
+      content="#eff1f5"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#24273a"
+      media="(prefers-color-scheme: dark)"
+    />
 
     <script is:inline>
       // Applied before first paint so the stored theme never flashes.
@@ -103,10 +125,10 @@ const ogImageAlt = `${site.name} — portfolio, projects, and notes`
           // preference — otherwise a manual toggle leaves the address bar
           // showing the wrong color.
           var tcLight = document.querySelector(
-            'meta[name="theme-color"][media="(prefers-color-scheme: light)"',
+            'meta[name="theme-color"][media="(prefers-color-scheme: light)"'
           )
           var tcDark = document.querySelector(
-            'meta[name="theme-color"][media="(prefers-color-scheme: dark)"',
+            'meta[name="theme-color"][media="(prefers-color-scheme: dark)"'
           )
           var applyThemeColor = function (isDark) {
             var color = isDark ? "#24273a" : "#eff1f5"

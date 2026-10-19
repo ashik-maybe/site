@@ -6,7 +6,10 @@ import type { ComponentType } from "react"
 
 const base = import.meta.env.BASE_URL
 
-type IconProps = { className?: string; "aria-hidden"?: boolean | "true" | "false" }
+type IconProps = {
+  className?: string
+  "aria-hidden"?: boolean | "true" | "false"
+}
 
 const icons: Record<string, ComponentType<IconProps>> = {
   GitHub: FaGithub,
@@ -17,30 +20,26 @@ const icons: Record<string, ComponentType<IconProps>> = {
 ---
 
 <footer class="border-t border-border/60">
-  <div
-    class="mx-auto flex w-full max-w-5xl flex-col gap-4 px-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-6"
-  >
+  <div class="mx-auto flex w-full max-w-5xl flex-col gap-4 px-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-6">
     <p class="font-mono text-sm text-muted-foreground">
       © {new Date().getFullYear()} {site.name}
     </p>
     <div class="flex items-center gap-1">
-      {
-        site.socials.map((social) => {
-          const Icon = icons[social.label] ?? MailIcon
-          const external = social.href.startsWith("http")
-          return (
-            <a
-              href={social.href}
-              aria-label={social.label}
-              title={social.label}
-              {...(external ? { rel: "me noopener" } : {})}
-              class="inline-flex size-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
-            >
-              <Icon aria-hidden="true" className="size-4" />
-            </a>
-          )
-        })
-      }
+      {site.socials.map((social) => {
+        const Icon = icons[social.label] ?? MailIcon
+        const external = social.href.startsWith("http")
+        return (
+          <a
+            href={social.href}
+            aria-label={social.label}
+            title={social.label}
+            {...(external ? { rel: "me noopener" } : {})}
+            class="inline-flex size-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+          >
+            <Icon aria-hidden="true" className="size-4" />
+          </a>
+        )
+      })}
       <a
         href={`${base}/blog/rss.xml`}
         aria-label="RSS feed"

@@ -3,6 +3,8 @@
 - `bun run build`: must output 27 pages, no errors, `dist/` created.
 - `bun run build:ci`: what CI runs (`astro check && astro build`); must pass before deploy.
 - `bunx astro check`: must be 0 errors / 0 warnings / 0 hints (currently clean after removing unused `site` import in `index.astro`).
+- `bun run lint`: must pass (eslint flat config; 0 problems).
+- `bunx prettier --check "src/**/*.{ts,tsx,astro}"`: must be clean; `bun run format` writes the canonical formatting.
 - `dist/_astro/main.*.css`: must contain `--background`, `bg-background`, `text-foreground`, `.dark{...}` (theme tokens restored).
 - `public/og.png`: must exist (1200x630); all page meta references must resolve (verified via grep against `dist/`).
 - RSS links: `grep` `dist/blog/rss.xml` for item URLs starting with `/site/blog/` (not `/siteblog/`).
