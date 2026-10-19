@@ -179,3 +179,108 @@ button,
 [role="button"] {
   touch-action: manipulation;
 }
+
+/* Printing: paper is white. Drop the site chrome and force light ink even
+   from dark mode — the UA strips backgrounds, so dark text would vanish. */
+@media print {
+  html {
+    color-scheme: light !important;
+  }
+  header,
+  footer {
+    display: none !important;
+  }
+
+  /* Mirror of the LIGHT MODE palette above: .dark loses its dark values here. */
+  .dark {
+    --background: oklch(0.985 0.003 264.542); /* Base #eff1f5 */
+    --foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
+    --card: oklch(0.979 0.004 264.537); /* Surface 0 #ccd0da */
+    --card-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
+    --popover: oklch(0.979 0.004 264.537); /* Surface 0 #ccd0da */
+    --popover-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
+    --primary: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
+    --primary-foreground: oklch(0.985 0.003 264.542); /* Base #eff1f5 */
+    --secondary: oklch(0.829 0.042 263.613); /* Surface 1 #e6e9ef */
+    --secondary-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
+    --muted: oklch(0.782 0.034 260.406); /* Surface 2 #dbe0e8 */
+    --muted-foreground: oklch(0.551 0.051 279.941); /* Subtext 0 #8b8e99 */
+    --accent: oklch(0.777 0.073 183.054); /* Sky #34a0ff */
+    --accent-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
+    --destructive: oklch(0.704 0.155 11.979); /* Red #f85149 */
+    --border: oklch(0.793 0.031 261.468); /* Surface 1 #b4b8c0 */
+    --input: oklch(0.829 0.042 263.613); /* Surface 1 #e6e9ef */
+    --ring: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
+  }
+
+  /* Code blocks on paper: light box + ink, readable whether or not the UA
+     prints backgrounds. */
+  .prose {
+    --tw-prose-pre-bg: var(--card);
+    --tw-prose-pre-code: var(--foreground);
+  }
+
+  /* dark:prose-invert maps prose ink from --tw-prose-invert-*; give it the
+     light-mode neutrals so article text prints dark on white. */
+  .dark .prose {
+    --tw-prose-invert-body: oklch(37.1% 0 none);
+    --tw-prose-invert-headings: oklch(20.5% 0 none);
+    --tw-prose-invert-lead: oklch(43.9% 0 none);
+    --tw-prose-invert-links: oklch(20.5% 0 none);
+    --tw-prose-invert-bold: oklch(20.5% 0 none);
+    --tw-prose-invert-counters: oklch(55.6% 0 none);
+    --tw-prose-invert-bullets: oklch(87% 0 none);
+    --tw-prose-invert-hr: oklch(92.2% 0 none);
+    --tw-prose-invert-quotes: oklch(20.5% 0 none);
+    --tw-prose-invert-quote-borders: oklch(92.2% 0 none);
+    --tw-prose-invert-captions: oklch(55.6% 0 none);
+    --tw-prose-invert-kbd: oklch(20.5% 0 none);
+    --tw-prose-invert-kbd-shadows: oklab(20.5% 0 0/0.1);
+    --tw-prose-invert-code: oklch(20.5% 0 none);
+    --tw-prose-invert-pre-code: var(--foreground);
+    --tw-prose-invert-pre-bg: var(--card);
+    --tw-prose-invert-th-borders: oklch(87% 0 none);
+    --tw-prose-invert-td-borders: oklch(92.2% 0 none);
+  }
+
+  /* expressive-code keeps macchiato hexes under .dark that don't follow the
+     palette — mirror its light theme. !important because the dark overrides
+     live in a separate stylesheet behind a higher-specificity selector. */
+  :root.dark .expressive-code {
+    --ec-codeFg: #4c4f69 !important;
+    --ec-gtrFg: #8c8fa1 !important;
+    --ec-gtrHlFg: #8839ef !important;
+    --ec-frm-edActTabBg: #eff1f5 !important;
+    --ec-frm-edActTabFg: #8839ef !important;
+    --ec-frm-edActTabIndTopCol: #8839ef !important;
+    --ec-frm-edTabBarBg: #dce0e8 !important;
+    --ec-frm-trmBg: #eff1f5 !important;
+    --ec-frm-trmTtbBg: #dce0e8 !important;
+    --ec-frm-trmTtbFg: #4c4f69 !important;
+    --ec-frm-trmTtbDotsFg: #4c4f69 !important;
+  }
+  /* Token spans carry --0 (light) / --1 (dark) inline; pick --0 on paper. */
+  :root.dark .expressive-code .ec-line span[style^="--"] {
+    color: var(--0, inherit) !important;
+    background-color: var(--0bg, transparent) !important;
+  }
+  .expressive-code .copy {
+    display: none !important; /* clipboard UI is pointless on paper */
+  }
+
+  /* Pointers survive on paper: absolute URLs after links, no split headings. */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.85em;
+    overflow-wrap: anywhere;
+  }
+  h1,
+  h2,
+  h3 {
+    break-after: avoid;
+  }
+  figure,
+  blockquote {
+    break-inside: avoid;
+  }
+}

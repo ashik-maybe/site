@@ -10,6 +10,7 @@ import Layout from "@/layouts/main.astro"
 import { site } from "@/config"
 import { getCollection } from "astro:content"
 
+const base = import.meta.env.BASE_URL
 const projects = (await getCollection("projects")).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 )
@@ -20,7 +21,15 @@ const projects = (await getCollection("projects")).sort(
   description="Course work, tools, and things I built to learn something. Write-ups live on each project."
 >
   <section class="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6">
-    <h1 class="font-mono text-balance text-2xl font-medium">Projects</h1>
+    <div class="flex items-baseline justify-between gap-4">
+      <h1 class="font-mono text-balance text-2xl font-medium">Projects</h1>
+      <a
+        href={`${base}/tags/`}
+        class="font-mono text-sm text-muted-foreground transition-colors hover:text-primary"
+      >
+        Tags
+      </a>
+    </div>
     <p class="mt-3 max-w-prose text-muted-foreground">
       Course work, tools, and things I built to learn something. Write-ups live
       on each project.
