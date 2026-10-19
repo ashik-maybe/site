@@ -19,5 +19,6 @@ export const site = {
     { href: "https://github.com/ashik-maybe", label: "GitHub" },
     { href: "mailto:hello@example.com", label: "Email" },
     { href: "https://linkedin.com/in/ashik-maybe", label: "LinkedIn" },
+    { href: "https://discord.com/users/000000000000000000", label: "Discord" },
   ],
 } as const

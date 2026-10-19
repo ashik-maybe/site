@@ -9,9 +9,8 @@ import {
 } from "@/components/ui/card"
 import Layout from "@/layouts/main.astro"
 import { site } from "@/config"
-import { GithubIcon } from "@/components/icons/github"
-import { LinkedinIcon } from "@/components/icons/linkedin"
-import { MailIcon } from "lucide-react"
+import { FaGithub, FaLinkedin, FaDiscord } from "react-icons/fa"
+import { MailIcon } from "lucide-react";
 import type { ComponentType } from "react"
 
 type IconProps = {
@@ -20,8 +19,9 @@ type IconProps = {
 }
 
 const icons: Record<string, ComponentType<IconProps>> = {
-  GitHub: GithubIcon,
-  LinkedIn: LinkedinIcon,
+  GitHub: FaGithub,
+  LinkedIn: FaLinkedin,
+  Discord: FaDiscord,
   Email: MailIcon,
 }
 ---
@@ -52,7 +52,7 @@ const icons: Record<string, ComponentType<IconProps>> = {
         data-slot="button"
         class={buttonVariants({ variant: "outline" })}
       >
-        <GithubIcon />
+        <FaGithub />
         GitHub
       </a>
     </ButtonGroup>

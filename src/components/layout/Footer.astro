@@ -1,7 +1,6 @@
 ---
 import { site } from "@/config"
-import { GithubIcon } from "@/components/icons/github"
-import { LinkedinIcon } from "@/components/icons/linkedin"
+import { FaGithub, FaLinkedin, FaDiscord } from "react-icons/fa"
 import { MailIcon, RssIcon } from "lucide-react"
 import type { ComponentType } from "react"
 
@@ -10,8 +9,9 @@ const base = import.meta.env.BASE_URL
 type IconProps = { className?: string; "aria-hidden"?: boolean | "true" | "false" }
 
 const icons: Record<string, ComponentType<IconProps>> = {
-  GitHub: GithubIcon,
-  LinkedIn: LinkedinIcon,
+  GitHub: FaGithub,
+  LinkedIn: FaLinkedin,
+  Discord: FaDiscord,
   Email: MailIcon,
 }
 ---
@@ -36,7 +36,7 @@ const icons: Record<string, ComponentType<IconProps>> = {
               {...(external ? { rel: "me noopener" } : {})}
               class="inline-flex size-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
             >
-              <Icon aria-hidden="true" />
+              <Icon aria-hidden="true" className="size-4" />
             </a>
           )
         })
