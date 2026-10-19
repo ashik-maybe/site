@@ -19,8 +19,8 @@ permissions:
 # A cancelled run can interrupt `deploy-pages` mid-publish and leave the live
 # site on a stale artifact, so runs queue in order instead of superseding each
 # other (this is GitHub's own Pages default). No `paths-ignore` either: Tailwind
-# scans `docs/` and `learning/` for class names, so even a docs-only push can
-# change the built CSS.
+# scans the repo for class names (including the `learning/` vault), so even a
+# Markdown-only push can change the built CSS.
 concurrency:
   group: pages
   cancel-in-progress: false

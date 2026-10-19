@@ -1,8 +1,8 @@
 /**
- * Structural checks on `dist/` — the ad-hoc `grep` assertions from
- * `docs/agent/verification.md`, made runnable. Fails the build/deploy when the
- * output stops matching what the template promises (base path, Pagefind,
- * islands, OG images, sitemap exclusions, feeds, theme CSS).
+ * Structural checks on `dist/` — the template's verification, as a runnable
+ * suite rather than prose. Fails the build/deploy when the output stops matching
+ * what the template promises (base path, Pagefind, islands, OG images, sitemap
+ * exclusions, feeds, theme CSS).
  *
  *   bun run verify                  # lint + format + build + these checks
  *   node scripts/check-dist.mjs [--expect-sha <sha>]

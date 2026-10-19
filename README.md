@@ -72,7 +72,7 @@ in `astro.config.mjs`.
 ## Placeholders
 
 Sample content and social links are placeholders. Replace them before
-publishing — see `docs/agent/launch.md`.
+publishing.
 
 ## License
 

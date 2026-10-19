@@ -5,7 +5,7 @@
 - Design: no ALL-CAPS eyebrows, no `A · B · C` middots, no `01/02/03` markers, no SaaS card grids, no gradient washes. Mauve (`#c6a0f6`) = only accent.
 - No invented employers / schools / dates / roles. Placeholders stay clearly placeholder or marked TODO/ask. No private data in repo or docs.
 - Docs describe the CURRENT committed template (not owner's real content).
-- Terse chat; no over-engineering. Minimal edits; verify with `bun run build` + `bunx astro check`.
+- Terse chat; no over-engineering. Minimal edits; verify with `bun run verify` (lint → format:check → `build:ci` → `check-dist`).
 - Key guardrails: all URLs through `src/lib/seo.ts` (`absolute()`); `robots.txt` is inert on GH Pages (documented, not removed); sitemap excludes `/tags/`.
 
 # Pointer map (where to edit)
@@ -18,4 +18,4 @@
 - Blog/post: `src/pages/blog/` + `src/content.config.ts` + `src/content/blog/`
 - Projects: `src/pages/projects/` + `src/content.config.ts` + `src/content/projects/`
 - Components: `src/components/` (portfolio, blog, layout, ui/shadcn)
-- Verification: `bun run build`, `bunx astro check`, ad hoc grep assertions against `dist/`
+- Verification: `bun run verify` (lint → format:check → `build:ci` → `check-dist`); the assertions live in `scripts/check-dist.mjs` and run in both CI and deploy.
