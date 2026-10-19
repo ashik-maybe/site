@@ -56,6 +56,10 @@
   --color-accent: var(--accent);
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
+  /* Consumed only by the scrollbar rules in `@layer base`; no utility uses
+     them, but `@theme inline` is what makes the `--color-` names resolvable. */
+  --color-scrollbar-thumb: var(--scrollbar-thumb);
+  --color-scrollbar-thumb-hover: var(--scrollbar-thumb-hover);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
@@ -96,6 +100,11 @@
   --accent-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
   --destructive: oklch(0.704 0.155 11.979); /* Red #f85149 */
   --border: oklch(0.793 0.031 261.468); /* Surface 1 #b4b8c0 */
+  /* Scrollbar rail: a step past `--border` toward `--muted-foreground`, so the
+     thumb stays visible against the Latte background without becoming a
+     feature. Alpha, because the track is transparent. */
+  --scrollbar-thumb: oklch(0.735 0.038 262 / 0.55);
+  --scrollbar-thumb-hover: oklch(0.64 0.045 268 / 0.75);
   --input: oklch(0.829 0.042 263.613); /* Surface 1 #e6e9ef */
   --ring: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
   --chart-1: oklch(0.699 0.119 57.744); /* Yellow #f9e2af */
@@ -131,6 +140,9 @@
   --accent-foreground: oklch(0.871 0.048 273.665); /* Text #cad3f5 */
   --destructive: oklch(0.737 0.125 11.194); /* Red #ed8796 */
   --border: oklch(0.426 0.039 276.948); /* Surface 1 #494d64 */
+  /* Same rail, inverted: lighten toward the Macchiato subtext. */
+  --scrollbar-thumb: oklch(0.55 0.042 275 / 0.55);
+  --scrollbar-thumb-hover: oklch(0.63 0.044 274 / 0.75);
   --input: oklch(0.494 0.039 275.683); /* Surface 2 #5b6078 */
   --ring: oklch(0.772 0.126 303.898); /* Mauve #c6a0f6 */
   --chart-1: oklch(0.911 0.029 31.133); /* Rosewater #f4dbd6 */
@@ -190,11 +202,16 @@
 
   /* The universal selector above misses pseudo-elements. Astro's router
      animates view transitions on the UA's cross-fade pseudo-elements, so
-     they need the explicit kill switch. */
+     they need the explicit kill switch — and so does the scrollbar thumb,
+     which is styled purely through `::-webkit-scrollbar-thumb`. */
   ::view-transition-group(*),
   ::view-transition-old(*),
   ::view-transition-new(*) {
     animation: none !important;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    transition: none !important;
   }
 }
 
@@ -204,14 +221,45 @@ html {
   /* Reserve the scrollbar track. Without it the centered `max-w-5xl` header
      (and every other container) shifts 7.5px between short pages that do not
      scroll and tall ones that do, so the same navbar renders offset.
-     No-op where scrollbars are overlay, so mobile and macOS keep their edge. */
+     No-op where scrollbars are overlay, so mobile and macOS keep their edge.
+
+     The reserved width follows `scrollbar-width` below, so the two move
+     together: narrowing the rail moves the centered containers right. */
   scrollbar-gutter: stable;
+  /* Standard properties: Firefox, and Safari 18+. Chromium ignores both once
+     the `::-webkit-scrollbar` pseudo-elements below are styled, so each engine
+     reads the half it understands rather than fighting over one declaration. */
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-scrollbar-thumb) transparent;
   /* Accent-tinted tap feedback instead of the UA default gray. */
   -webkit-tap-highlight-color: color-mix(
     in srgb,
     var(--primary) 20%,
     transparent
   );
+}
+
+/* Same rail as above for Chromium and older Safari, which only expose these
+   pseudo-elements. The thumb is inset with a transparent border and
+   `background-clip` so it reads as a hairline inside the track instead of
+   filling it. Token colors only — the accent stays reserved for links. */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-scrollbar-thumb);
+  border: 2px solid transparent;
+  border-radius: var(--radius);
+  background-clip: padding-box;
+  transition: background-color 150ms ease;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-scrollbar-thumb-hover);
 }
 
 /* Immediate tap response; pinch-zoom stays available. */

@@ -152,6 +152,19 @@ check(
   "stylesheet styles pagefind's excerpt highlights",
   searchCss.includes("[data-search-results] mark")
 )
+// The rail is styled in `@layer base` on `html`. Both halves matter: the WebKit
+// pseudo-elements are what Chromium and older Safari paint, and the standard
+// `scrollbar-color` is all Firefox reads. Losing either drops one engine back to
+// the UA default. The reserved gutter width follows `scrollbar-width: thin`, so
+// the two must ship together or the centered containers shift.
+check(
+  "stylesheet styles the scrollbar rail",
+  searchCss.includes("::-webkit-scrollbar-thumb") &&
+    searchCss.includes("scrollbar-color:") &&
+    /html\{[^}]*scrollbar-gutter:stable[^}]*scrollbar-width:thin/.test(
+      searchCss
+    )
+)
 
 // --- page chrome consistency ----------------------------------------------
 // One page-title voice: the mono page-title style on every index page. The

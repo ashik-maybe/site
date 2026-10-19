@@ -4,10 +4,11 @@
   (`astro check` + `astro build` + `pagefind --site dist`) →
   `node scripts/check-dist.mjs`. Both workflows run it (CI on `pull_request`,
   deploy on `push` to `main`), so a developer cannot forget a gate CI has.
-- `scripts/check-dist.mjs` asserts 82 properties of `dist/` (base path, routes,
+- `scripts/check-dist.mjs` asserts 83 properties of `dist/` (base path, routes,
   Pagefind index, sitemap contents and exclusions, islands and their
   hydration directives, prefetch chunks, theme/print/reduced-motion CSS, the base
-  `--radius` token, the reserved scrollbar gutter, per-page container alignment,
+  `--radius` token, the reserved scrollbar gutter and the styled scrollbar rail,
+  per-page container alignment,
   the mono page-title voice, empty-state borders, detail-page back links,
   per-post
   OG PNG dimensions, feeds, tags hub, deployment stamp). It reads `base` from
@@ -54,6 +55,7 @@
 - Container alignment: every page's `<main>` section uses `mx-auto w-full max-w-5xl px-4 py-16 sm:px-6` (checked against `dist/blog/index.html`); the header's inner row is `max-w-5xl px-4 sm:px-6`, so the brand sits at x=148 and page headings at x=152. A page on a narrower column (`max-w-3xl`) starts its heading ~128px further in and reads as misaligned. `/tmp/opencode/vt-test/content-align.mjs` measures the first child's x on every route.
 - Base radius: `:root` must define `--radius` (`.625rem`); `rounded-sm|md|lg|xl|2xl` all resolve through it, so its absence makes `border-radius: var(--radius)` invalid and squares every shadcn control. `check-dist` asserts the token exists; `/tmp/opencode/vt-test/radius-check.mjs` confirms controls resolve to non-zero radii.
 - Scrollbar gutter: `html` must set `scrollbar-gutter: stable`. The header is a single component on all 12 pages, but only the pages tall enough to scroll lose ~15px of viewport to the scrollbar, moving the centered `max-w-5xl` row from x=128 to x=120.5 — the same navbar rendering offset between routes. Reserving the gutter makes every route measure x=120.5 (no-op where scrollbars are overlay). `check-dist` asserts the declaration is in the shipped CSS. **Measure x values with Chrome's scrollbar visible** (`--hide-scrollbars` is a Playwright default and makes every route report the same number, hiding this class of bug): `/tmp/opencode/vt-test/nav-match.mjs` must launch with `ignoreDefaultArgs: ["--hide-scrollbars"]`.
+- Scrollbar rail: `html` also carries `scrollbar-width: thin` plus the `::-webkit-scrollbar*` rules, so the **reserved gutter is 10px, not the UA default 15px** — the centered row now measures x=123 on all 9 routes (`inner.x`/`brand.x` = `123/143`), which is still route-independent, which is the whole point. `check-dist` asserts all three declarations ship together. Two measurement traps when checking this by hand: (1) screenshots are useless — headless Chrome reserves the gutter but paints no scrollbar pixels at all, so a synthetic 20px red rail reads back as pure white; verify through the CSSOM (`selectorText` + resolved tokens) and geometry instead; (2) the hover state is `::-webkit-scrollbar-thumb:hover`, which cannot be triggered by synthetic mouse moves in every build, so assert the rule resolves rather than pretending to see it.
 - View transitions: `dist/index.html` contains `astro-view-transitions-enabled`, the `ClientRouter*.js` module script, and `data-astro-transition-persist="theme-toggle"`. Ad hoc browser check (system Chrome + `playwright-core`, no committed scripts): click-through navigation must keep `window` markers (no full reload), the `dark` class, and both `theme-color` metas in sync after swap; the persisted toggle must be the same DOM node; expressive-code copy buttons must reappear after a client-side navigation into a post; with `reducedMotion: "reduce"` no `::view-transition*` animations may run. `dist/_astro/main.*.css` must contain `::view-transition-group(*)` inside a `prefers-reduced-motion` block.
 - Social links: `dist/index.html` contains Discord `discord.com/users/`; no `github.tsx` / `linkedin.tsx` residuals.
 - No `Co-authored-by:` or AI trailer in any commit message; author must match `git config user.name` (`Ashik`).
