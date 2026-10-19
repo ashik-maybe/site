@@ -95,6 +95,9 @@ const headingAnchors = () => {
 export default defineConfig({
   site: siteConfig.site,
   base,
+  // Prefetch internal links on hover (not on load) so ClientRouter navigations
+  // feel instant without warming every page up front.
+  prefetch: { defaultStrategy: "hover" },
   markdown: {
     // Heading permalinks: h2/h3 text becomes its own anchor link via a native
     // Sätteri hast visitor (rehype plugins need the legacy processor);

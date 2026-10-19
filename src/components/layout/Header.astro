@@ -58,7 +58,13 @@ const isActive = (href: string) =>
         transition:persist="theme-toggle"
         className="size-9"
       />
-      <MobileNav client:idle current={current} className="size-9 md:hidden" />
+      {/* `md:hidden` above means this island is only ever visible below 768px,
+          so skip desktop hydration entirely. */}
+      <MobileNav
+        client:media="(max-width: 767px)"
+        current={current}
+        className="size-9 md:hidden"
+      />
     </div>
   </div>
 </header>
