@@ -11,7 +11,15 @@
   OG PNG dimensions, feeds, tags hub, deployment stamp). It reads `base` from
   `astro.config.mjs` and the collection file names from `src/content/`, so it
   needs no edits when content is added. Pass `--expect-sha <sha>` to also require
-  `dist/build.txt` (what the deploy workflow stamps into the artifact).
+  `dist/build.txt` (what the deploy workflow stamps into the artifact). This is
+  the one check that runs **only** in CI, so prove it locally before touching the
+  stamp or the workflow: `echo "$(git rev-parse main)" > dist/build.txt` →
+  `node scripts/check-dist.mjs --expect-sha "$(git rev-parse main)"` must pass,
+  the same with a wrong sha must fail, and (with the stamp still present)
+  `node scripts/check-dist.mjs` must fail the local-absence check — then
+  `rm dist/build.txt`. `exists`/`read` already prefix `dist`, so these take
+  dist-relative names; passing a pre-joined path silently looks under
+  `dist/dist/` and makes the check unfalsifiable.
 - `bun run build` on its own: 29 pages, then Pagefind reports `Indexed 3 pages`
   (posts only). `bunx astro check`: 0 errors / 0 warnings / 0 hints.
 - `bun run lint` (oxlint — `react` + `typescript` plugins, correctness category;

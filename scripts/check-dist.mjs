@@ -350,19 +350,23 @@ check(
 check("tags hub is noindex", read("tags/index.html").includes("noindex"))
 
 // --- deployment stamp ------------------------------------------------------
-const stampPath = join(dist, "build.txt")
+// `exists`/`read` already prefix `dist`, so these take the dist-relative name.
+// Passing an already-joined path here made `exists` look for `dist/dist/...`,
+// which never exists — so the stamp check could never pass and the local
+// absence check could never fail.
 const shaArg = process.argv.indexOf("--expect-sha")
 if (shaArg !== -1) {
   const expected = process.argv[shaArg + 1]
+  const actual = exists("build.txt") ? read("build.txt").trim() : "missing"
   check(
     "dist/build.txt matches the expected commit",
-    exists(stampPath) && read("build.txt").trim() === expected,
-    `${exists(stampPath) ? read("build.txt").trim() : "missing"} vs ${expected}`
+    actual === expected,
+    `${actual} vs ${expected}`
   )
 } else {
   check(
     "no build.txt in a local build (deploy-workflow stamp only)",
-    !exists(stampPath)
+    !exists("build.txt")
   )
 }
 
