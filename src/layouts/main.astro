@@ -169,6 +169,8 @@ const ogImageAlt = `${site.name} — portfolio, projects, and notes`
         }
       })()
     </script>
+    {/* Per-page head extras (e.g. the search page's Pagefind assets). */}
+    <slot name="head" />
   </head>
   <body class="flex min-h-svh flex-col">
     <a

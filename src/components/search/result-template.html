@@ -1,0 +1,4 @@
+<li class="search-result">
+  <a class="search-result-title" href="{{ meta.url | default(url) | safeUrl }}">{{ meta.title | default("Untitled") }}</a>
+  {{#if excerpt}}<p class="search-result-excerpt">{{+ excerpt +}}</p>{{/if}}
+</li>

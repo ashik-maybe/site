@@ -78,9 +78,15 @@ const jsonLd = graph(
 >
   <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <div class="reading-progress" aria-hidden="true"></div>
-  <article class="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6">
+  <article
+    class="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6"
+    data-pagefind-body
+  >
     <header>
-      <h1 class="text-3xl font-medium tracking-tight text-balance sm:text-4xl">
+      <h1
+        class="text-3xl font-medium tracking-tight text-balance sm:text-4xl"
+        data-pagefind-meta="title"
+      >
         {post.data.title}
       </h1>
       <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">

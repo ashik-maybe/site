@@ -135,6 +135,62 @@
   --sidebar-ring: oklch(0.772 0.126 303.898); /* Mauve #c6a0f6 */
 }
 
+/* Pagefind components (search page). Their hosts reset inherited styles with
+   `all: initial`, but custom properties still inherit — these map the
+   component variables onto the Catppuccin tokens, so both themes follow. */
+:root {
+  --pf-text: var(--foreground);
+  --pf-text-secondary: var(--muted-foreground);
+  --pf-text-muted: var(--muted-foreground);
+  --pf-background: var(--background);
+  --pf-border: var(--border);
+  --pf-border-focus: var(--ring);
+  --pf-skeleton: var(--muted);
+  --pf-skeleton-shine: var(--secondary);
+  --pf-hover: var(--muted);
+  --pf-mark: color-mix(in srgb, var(--primary) 24%, transparent);
+  --pf-outline-focus: var(--ring);
+  --pf-font: var(--font-sans);
+  --pf-input-height: 2.75rem;
+  --pf-border-radius: 0.625rem;
+  --pf-summary-font-size: 0.8125rem;
+  --pf-result-title-font-size: 1rem;
+  --pf-result-excerpt-font-size: 0.875rem;
+}
+
+/* Result template contents render in the light DOM but their host resets
+   inherited properties with `all: initial`, so colour and font are set here
+   explicitly (custom properties still inherit). Header-style separators
+   instead of cards. */
+.search-result {
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+.search-result + .search-result {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+}
+.search-result-title {
+  color: var(--foreground);
+  font-weight: 500;
+  text-wrap: balance;
+}
+.search-result-title:hover {
+  color: var(--primary);
+}
+.search-result-excerpt {
+  margin-top: 0.375rem;
+  color: var(--muted-foreground);
+  font-size: 0.875rem;
+  line-height: 1.6;
+}
+.search-result-excerpt mark {
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--primary) 22%, transparent);
+  color: var(--foreground);
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

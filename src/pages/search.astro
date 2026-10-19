@@ -1,0 +1,57 @@
+---
+import Layout from "@/layouts/main.astro"
+import resultTemplate from "@/components/search/result-template.html?raw"
+import { site } from "@/config"
+
+const base = import.meta.env.BASE_URL
+---
+
+<Layout
+  title={`Search | ${site.name}`}
+  description="Full-text search across blog posts."
+  robots="noindex, follow"
+>
+  {/* Pagefind writes these next to the build output; `is:inline` keeps the
+      tags untouched so `astro build` never tries to resolve a file that does
+      not exist until the indexing step runs. */}
+  <Fragment slot="head">
+    <link
+      rel="stylesheet"
+      href={`${base}/pagefind/pagefind-component-ui.css`}
+    />
+    <script
+      is:inline
+      type="module"
+      src={`${base}/pagefind/pagefind-component-ui.js`}
+    ></script>
+  </Fragment>
+
+  <section class="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6">
+    <h1 class="font-mono text-2xl font-medium text-balance">Search</h1>
+    <p class="mt-3 max-w-prose text-muted-foreground">
+      Full-text search across blog posts. Results are served from a static index
+      built at deploy time.
+    </p>
+
+    {/* `base-url` keeps result links on the project path; `bundle-path` is
+        explicit because the components otherwise infer it from the script. */}
+    <pagefind-config
+      bundle-path={`${base}/pagefind/`}
+      base-url={base}
+    ></pagefind-config>
+
+    <div class="mt-8">
+      <pagefind-input placeholder="Search posts" autofocus></pagefind-input>
+      <pagefind-summary default-message="Type a word or phrase."></pagefind-summary>
+      <pagefind-results hide-sub-results>
+        {/* Result template lives in its own file and is injected raw: the
+            Astro compiler would otherwise parse the `{{ }}` as TypeScript. */}
+        <script
+          type="text/pagefind-template"
+          is:inline
+          set:html={resultTemplate}
+        ></script>
+      </pagefind-results>
+    </div>
+  </section>
+</Layout>

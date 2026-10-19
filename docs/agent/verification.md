@@ -1,7 +1,7 @@
 # Verification (ad hoc — no Playwright committed)
 
-- `bun run build`: must output 28 pages, no errors, `dist/` created.
-- `bun run build:ci`: what CI runs (`astro check && astro build`); must pass before deploy.
+- `bun run build`: must output 29 pages, no errors, `dist/` created; then Pagefind indexes `dist/` (`Indexed 3 pages` — posts only).
+- `bun run build:ci`: what CI runs (`astro check && astro build && pagefind --site dist`); must pass before deploy.
 - `bunx astro check`: must be 0 errors / 0 warnings / 0 hints.
 - `bun run lint`: must pass (oxlint — `react` + `typescript` plugins, correctness category; also covers `.astro`); CI-enforced.
 - `bun run format:check`: must be clean (oxfmt, scope `ts/tsx/astro`; Tailwind class sorting built in for `.tsx` and `.astro`); `bun run format` writes; CI-enforced.
@@ -18,6 +18,7 @@
 - JSON-LD URLs: must include `/site/` prefix; verify with `grep` for `"@id"` containing `/site/` in `dist/*.html`.
 - Font preloads: `dist/index.html` must contain `<link rel="preload" ... inter-... woff2 ...>` and `jetbrains-...`.
 - Theme-color sync: `dist/index.html` contains `applyThemeColor` / `MutationObserver` in inline `<script>`.
+- Search: `dist/pagefind/` exists with `pagefind-component-ui.{css,js}`; build log says `Indexed 3 pages` (the posts); `grep -l data-pagefind-body dist/blog/*/index.html | wc -l` = 3 and no other page carries it; `dist/search/index.html` has `noindex, follow`, `pagefind-component-ui.css`/`.js`, `<pagefind-config bundle-path="/site/pagefind/" base-url="/site">`, and the `type="text/pagefind-template"` result template; sitemap still has 14 `<loc>` and no `/search/`. Ad hoc browser check: typing a term renders result links, every `href` starts with `/site/blog/`, and the theme's text/mark colours follow `dark`.
 - View transitions: `dist/index.html` contains `astro-view-transitions-enabled`, the `ClientRouter*.js` module script, and `data-astro-transition-persist="theme-toggle"`. Ad hoc browser check (system Chrome + `playwright-core`, no committed scripts): click-through navigation must keep `window` markers (no full reload), the `dark` class, and both `theme-color` metas in sync after swap; the persisted toggle must be the same DOM node; expressive-code copy buttons must reappear after a client-side navigation into a post; with `reducedMotion: "reduce"` no `::view-transition*` animations may run. `dist/_astro/main.*.css` must contain `::view-transition-group(*)` inside a `prefers-reduced-motion` block.
 - Social links: `dist/index.html` contains Discord `discord.com/users/`; no `github.tsx` / `linkedin.tsx` residuals.
 - No `Co-authored-by:` or AI trailer in any commit message; author must match `git config user.name` (`Ashik`).

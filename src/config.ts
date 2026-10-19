@@ -12,6 +12,7 @@ export const site = {
     { href: "/about", label: "About" },
     { href: "/projects", label: "Projects" },
     { href: "/blog", label: "Blog" },
+    { href: "/search", label: "Search" },
     { href: "/contact", label: "Contact" },
   ],
   /** Replace the placeholder entries with your real profiles. */

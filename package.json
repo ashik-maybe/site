@@ -8,8 +8,8 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
-    "build:ci": "astro check && astro build",
+    "build": "astro build && pagefind --site dist",
+    "build:ci": "astro check && astro build && pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
     "lint": "oxlint",
@@ -46,6 +46,7 @@
     "github-slugger": "^2.0.0",
     "oxfmt": "^0.73.0",
     "oxlint": "^1.88.0",
+    "pagefind": "^1.5.2",
     "typescript": "~6.0.2"
   }
 }

@@ -7,4 +7,5 @@
 - Heading anchors: h2/h3 text wrapped in `<a href="#id">` by the `headingAnchors` Sätteri visitor (`astro.config.mjs`); `global.css` keeps it looking like plain text until hover (mauve hover).
 - Reading progress: `.reading-progress` div (`aria-hidden`, posts only) — fixed 2px bar, `animation-timeline: scroll(root)`; static `scaleX(0)` where scroll-driven animations are unsupported.
 - `scroll-padding-top` (`4.5rem`) ensures anchored headings don't hide under sticky header.
+- Search: the `article` carries `data-pagefind-body` and the `h1` carries `data-pagefind-meta="title"` (posts are the only indexed content type; see `pages/search.md`).
 - `expressive-code`: full-text feed uses `experimental_AstroContainer`. Theme follows `.dark` selector (not OS media).

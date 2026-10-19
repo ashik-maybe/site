@@ -123,8 +123,10 @@ export default defineConfig({
     }),
     sitemap({
       // Tag archives are thin, near-duplicate listings; they are marked
-      // `noindex` and kept out of the sitemap on purpose.
-      filter: (page) => !page.includes("/tags/"),
+      // `noindex` and kept out of the sitemap on purpose. The search page is
+      // `noindex` too (it is a client-side results view, not content).
+      filter: (page) =>
+        !page.includes("/tags/") && !page.includes("/search/"),
       // Stamp content pages with their own date for crawl freshness.
       serialize(item) {
         const path = new URL(item.url).pathname.slice(base.length)
