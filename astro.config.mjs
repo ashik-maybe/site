@@ -5,11 +5,49 @@ import tailwindcss from "@tailwindcss/vite"
 import { defineConfig } from "astro/config"
 import react from "@astrojs/react"
 import expressiveCode from "astro-expressive-code"
+import { existsSync, readFileSync, readdirSync } from "node:fs"
+import { join } from "node:path"
+
+// Single source of truth for the deployment origin: the same `site` object the
+// rest of the app reads from `src/config.ts`.
+import { site as siteConfig } from "./src/config.ts"
+
+/** Deployment base path. Kept here as the single source for `base`. */
+const base = "/site"
+
+/**
+ * Map of site-relative route to its content date, read from the collection
+ * Markdown at config time, so the sitemap can carry a `lastmod`. Tolerant of
+ * missing files — an unreadable date just means no `lastmod` for that URL.
+ * @returns {Map<string, string>}
+ */
+function contentDates() {
+  /** @type {Map<string, string>} */
+  const dates = new Map()
+  for (const collection of ["blog", "projects"]) {
+    const dir = join("src", "content", collection)
+    if (!existsSync(dir)) continue
+    for (const file of readdirSync(dir)) {
+      if (!file.endsWith(".md") && !file.endsWith(".mdx")) continue
+      const frontmatter =
+        readFileSync(join(dir, file), "utf8").split("---")[1] ?? ""
+      const match =
+        frontmatter.match(/^updatedDate:\s*"?([\d-]+)"?/m) ??
+        frontmatter.match(/^pubDate:\s*"?([\d-]+)"?/m)
+      if (match) {
+        dates.set(`/${collection}/${file.replace(/\.mdx?$/, "")}/`, match[1])
+      }
+    }
+  }
+  return dates
+}
+
+const lastmod = contentDates()
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://ashik-maybe.github.io",
-  base: "/site",
+  site: siteConfig.site,
+  base,
   vite: {
     plugins: [tailwindcss()],
   },
@@ -34,6 +72,12 @@ export default defineConfig({
       // Tag archives are thin, near-duplicate listings; they are marked
       // `noindex` and kept out of the sitemap on purpose.
       filter: (page) => !page.includes("/tags/"),
+      // Stamp content pages with their own date for crawl freshness.
+      serialize(item) {
+        const path = new URL(item.url).pathname.slice(base.length)
+        const date = lastmod.get(path)
+        return date ? { ...item, lastmod: date } : item
+      },
     }),
   ],
 })
