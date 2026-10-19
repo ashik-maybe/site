@@ -3,6 +3,7 @@ import "@/styles/global.css"
 import interWoff2 from "@/assets/fonts/inter-latin-wght-normal.woff2?url"
 import jetWoff2 from "@/assets/fonts/jetbrains-mono-latin-wght-normal.woff2?url"
 
+import { ClientRouter } from "astro:transitions"
 import Header from "@/components/layout/Header.astro"
 import Footer from "@/components/layout/Footer.astro"
 import { site } from "@/config"
@@ -43,6 +44,7 @@ const ogImageAlt = `${site.name} — portfolio, projects, and notes`
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <ClientRouter />
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="author" content={site.name} />
@@ -117,46 +119,51 @@ const ogImageAlt = `${site.name} — portfolio, projects, and notes`
 
     <script is:inline>
       // Applied before first paint so the stored theme never flashes.
+      // Re-applied on astro:after-swap: a view-transition swap replaces the
+      // <html> attributes and the head's theme-color metas with the freshly
+      // fetched page's (unthemed) ones, so both must be restored from storage.
       ;(function () {
+        // Inline scripts can re-execute across client navigations; wire once.
+        if (window.__themeSync) return
+        window.__themeSync = true
         try {
-          var stored = localStorage.getItem("theme") || "system"
-          var dark =
-            stored === "system"
-              ? window.matchMedia("(prefers-color-scheme: dark)").matches
-              : stored === "dark"
-          var root = document.documentElement
-          root.classList.toggle("dark", dark)
-          root.style.colorScheme = dark ? "dark" : "light"
-          // Sync the browser chrome to the resolved theme, not the OS
-          // preference — otherwise a manual toggle leaves the address bar
-          // showing the wrong color.
-          var tcLight = document.querySelector(
-            'meta[name="theme-color"][media="(prefers-color-scheme: light)"'
-          )
-          var tcDark = document.querySelector(
-            'meta[name="theme-color"][media="(prefers-color-scheme: dark)"'
-          )
+          // Always re-queries: references taken before a swap point at nodes
+          // that the swap has removed.
           var applyThemeColor = function (isDark) {
             var color = isDark ? "#24273a" : "#eff1f5"
-            if (tcLight) {
-              tcLight.media = ""
-              tcLight.content = color
-            }
-            if (tcDark) {
-              tcDark.media = ""
-              tcDark.content = color
+            // Not by media attribute: the first write clears it, so a media
+            // selector would never match again after the initial call.
+            var metas = document.querySelectorAll('meta[name="theme-color"]')
+            for (var i = 0; i < metas.length; i++) {
+              metas[i].media = ""
+              metas[i].content = color
             }
           }
-          applyThemeColor(dark)
-          if (tcLight || tcDark) {
-            var observer = new MutationObserver(function () {
-              applyThemeColor(root.classList.contains("dark"))
-            })
-            observer.observe(root, {
-              attributes: true,
-              attributeFilter: ["class"],
-            })
+          var applyTheme = function () {
+            var stored = localStorage.getItem("theme") || "system"
+            var dark =
+              stored === "system"
+                ? window.matchMedia("(prefers-color-scheme: dark)").matches
+                : stored === "dark"
+            var root = document.documentElement
+            root.classList.toggle("dark", dark)
+            root.style.colorScheme = dark ? "dark" : "light"
+            // Sync the browser chrome to the resolved theme, not the OS
+            // preference — otherwise a manual toggle leaves the address bar
+            // showing the wrong color.
+            applyThemeColor(dark)
           }
+          applyTheme()
+          document.addEventListener("astro:after-swap", applyTheme)
+          // The <html> element persists across swaps, so one observer is
+          // enough: it follows class changes (e.g. ThemeToggle) and only
+          // writes metas — never the class — so it cannot loop.
+          new MutationObserver(function () {
+            applyThemeColor(document.documentElement.classList.contains("dark"))
+          }).observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["class"],
+          })
         } catch (error) {
           // Storage can be unavailable; the light theme is a safe default.
         }

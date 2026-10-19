@@ -164,6 +164,15 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  /* The universal selector above misses pseudo-elements. Astro's router
+     animates view transitions on the UA's cross-fade pseudo-elements, so
+     they need the explicit kill switch. */
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
 }
 
 /* Anchor links jump under the sticky header without this. */

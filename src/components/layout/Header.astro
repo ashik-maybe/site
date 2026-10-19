@@ -51,7 +51,13 @@ const isActive = (href: string) =>
     </nav>
 
     <div class="flex items-center gap-1">
-      <ThemeToggle client:idle className="size-9" />
+      {/* Persisted so the island keeps its hydration/state across swaps;
+          MobileNav stays unpersisted — its `current` prop is per-page. */}
+      <ThemeToggle
+        client:idle
+        transition:persist="theme-toggle"
+        className="size-9"
+      />
       <MobileNav client:idle current={current} className="size-9 md:hidden" />
     </div>
   </div>
