@@ -4,6 +4,12 @@ import { graph, personNode, webSiteNode } from "@/lib/seo"
 import { buttonVariants } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
 import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "@/components/ui/empty"
+import {
   Card,
   CardDescription,
   CardFooter,
@@ -62,9 +68,22 @@ const jsonLd = graph(personNode(), webSiteNode())
           All projects
         </a>
       </div>
-      <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {projects.map((project) => <ProjectCard project={project} />)}
-      </div>
+      {
+        projects.length === 0 ? (
+          <Empty className="mt-6 border">
+            <EmptyHeader>
+              <EmptyTitle>No projects yet</EmptyTitle>
+              <EmptyDescription>
+                Projects show up here as I ship them.
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        ) : (
+          <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {projects.map((project) => <ProjectCard project={project} />)}
+          </div>
+        )
+      }
     </section>
 
     <section class="mx-auto w-full max-w-5xl px-4 sm:px-6">
@@ -77,9 +96,22 @@ const jsonLd = graph(personNode(), webSiteNode())
           All posts
         </a>
       </div>
-      <ul class="mt-4 divide-y divide-border border-t border-border/60">
-        {posts.map((post) => <PostRow post={post} />)}
-      </ul>
+      {
+        posts.length === 0 ? (
+          <Empty className="mt-4 border">
+            <EmptyHeader>
+              <EmptyTitle>No posts yet</EmptyTitle>
+              <EmptyDescription>
+                Notes show up here as I write them.
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        ) : (
+          <ul class="mt-4 divide-y divide-border border-t border-border/60">
+            {posts.map((post) => <PostRow post={post} />)}
+          </ul>
+        )
+      }
     </section>
 
     <section class="mx-auto w-full max-w-5xl px-4 sm:px-6">

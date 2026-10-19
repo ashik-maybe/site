@@ -1,5 +1,11 @@
 ---
 import ProjectCard from "@/components/portfolio/ProjectCard.astro"
+import {
+  Empty,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "@/components/ui/empty"
 import Layout from "@/layouts/main.astro"
 import { site } from "@/config"
 import { getCollection } from "astro:content"
@@ -19,8 +25,21 @@ const projects = (await getCollection("projects")).sort(
       Course work, tools, and things I built to learn something. Write-ups live
       on each project.
     </p>
-    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {projects.map((project) => <ProjectCard project={project} />)}
-    </div>
+    {
+      projects.length === 0 ? (
+        <Empty className="mt-10 border">
+          <EmptyHeader>
+            <EmptyTitle>No projects yet</EmptyTitle>
+            <EmptyDescription>
+              Write-ups show up here as I ship things.
+            </EmptyDescription>
+          </EmptyHeader>
+        </Empty>
+      ) : (
+        <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project) => <ProjectCard project={project} />)}
+        </div>
+      )
+    }
   </section>
 </Layout>

@@ -1,5 +1,4 @@
 ---
-import { AspectRatio } from "@/components/ui/aspect-ratio"
 import { Badge } from "@/components/ui/badge"
 import {
   Card,
@@ -19,15 +18,7 @@ const { project } = Astro.props
 const base = import.meta.env.BASE_URL
 ---
 
-<Card className="flex h-full flex-col overflow-hidden">
-  <AspectRatio ratio={2 / 1} className="bg-muted">
-    <span
-      class="flex size-full items-center justify-center font-mono text-3xl text-muted-foreground"
-      aria-hidden="true"
-    >
-      {project.data.title.charAt(0)}
-    </span>
-  </AspectRatio>
+<Card className="flex h-full flex-col">
   <CardHeader>
     <CardTitle className="text-base">
       <a

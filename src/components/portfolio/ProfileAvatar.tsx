@@ -7,7 +7,9 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 export function ProfileAvatar({ initial }: { initial: string }) {
   return (
     <Avatar size="lg" className="size-16!">
-      <AvatarFallback className="font-mono text-xl">{initial}</AvatarFallback>
+      <AvatarFallback className="bg-primary/10 font-mono text-xl">
+        {initial}
+      </AvatarFallback>
     </Avatar>
   )
 }
