@@ -73,7 +73,7 @@
   --card-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
   --popover: oklch(0.979 0.004 264.537); /* Surface 0 #ccd0da */
   --popover-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
-  --primary: oklch(0.5 0.22 267.009); /* Blue #1e66ff */
+  --primary: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
   --primary-foreground: oklch(0.985 0.003 264.542); /* Base #eff1f5 */
   --secondary: oklch(0.829 0.042 263.613); /* Surface 1 #e6e9ef */
   --secondary-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
@@ -84,7 +84,7 @@
   --destructive: oklch(0.704 0.155 11.979); /* Red #f85149 */
   --border: oklch(0.793 0.031 261.468); /* Surface 1 #b4b8c0 */
   --input: oklch(0.829 0.042 263.613); /* Surface 1 #e6e9ef */
-  --ring: oklch(0.5 0.22 267.009); /* Blue #1e66ff */
+  --ring: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
   --chart-1: oklch(0.699 0.119 57.744); /* Yellow #f9e2af */
   --chart-2: oklch(0.764 0.193 128.973); /* Green #a6e3a1 */
   --chart-3: oklch(0.707 0.133 253.382); /* Sapphire #74c7ec */
@@ -92,12 +92,12 @@
   --chart-5: oklch(0.726 0.104 238.662); /* Sky #89dceb */
   --sidebar: oklch(0.979 0.004 264.537); /* Surface 0 #ccd0da */
   --sidebar-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
-  --sidebar-primary: oklch(0.5 0.22 267.009); /* Blue #1e66ff */
+  --sidebar-primary: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
   --sidebar-primary-foreground: oklch(0.985 0.003 264.542); /* Base #eff1f5 */
   --sidebar-accent: oklch(0.829 0.042 263.613); /* Surface 1 #e6e9ef */
   --sidebar-accent-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
   --sidebar-border: oklch(0.793 0.031 261.468); /* Surface 1 #b4b8c0 */
-  --sidebar-ring: oklch(0.5 0.22 267.009); /* Blue #1e66ff */
+  --sidebar-ring: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
 }
 
 /* DARK MODE — Catppuccin Macchiato */
