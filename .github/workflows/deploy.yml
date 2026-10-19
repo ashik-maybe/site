@@ -1,10 +1,14 @@
 name: Deploy to GitHub Pages
 
 on:
-  # Deploy on every push to `main`; the manual trigger re-runs a deploy.
   push:
     branches: [ main ]
+  # Manual re-deploy from the Actions tab.
   workflow_dispatch:
+  # Weekly self-heal: republish `main` even if a push-triggered run was lost
+  # (a GitHub incident can leave runs queued forever without notifying anyone).
+  schedule:
+    - cron: "17 4 * * 1"
 
 # Least privilege for Pages deployment: read the repo, publish the artifact.
 permissions:
@@ -12,15 +16,21 @@ permissions:
   pages: write
   id-token: write
 
-# One deployment at a time; a newer push supersedes an in-flight run.
+# A cancelled run can interrupt `deploy-pages` mid-publish and leave the live
+# site on a stale artifact, so runs queue in order instead of superseding each
+# other (this is GitHub's own Pages default). No `paths-ignore` either: Tailwind
+# scans `docs/` and `learning/` for class names, so even a docs-only push can
+# change the built CSS.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    # ~40s when healthy; the slack absorbs a slow Pages publish and the live
+    # check below (up to 5 minutes), not a hung build.
+    timeout-minutes: 15
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -30,17 +40,27 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          # Pin the local toolchain version so CI and `bun.lock` stay in step.
-          bun-version: "1.4.3"
+          # Single source of truth for the toolchain, shared with ci.yml.
+          bun-version-file: .bun-version
+      # ~3s measured on the runner, so caching `~/.bun/install/cache` would cost
+      # about as much as it saves; a cache step here is deliberately omitted.
       - name: Install dependencies
         run: bun install --frozen-lockfile
-      - name: Lint
-        run: bun run lint
-      - name: Format check
-        run: bun run format:check
-      # Type-check, build, and run Pagefind; a broken template cannot deploy.
+      # Lint is ~0.2s and the format check ~2s; one step, two commands, so the
+      # runner pays a single shell hand-off.
+      - name: Lint and format check
+        run: |
+          bun run lint
+          bun run format:check
+      # Type-check, build, and run Pagefind — ~20s and the bulk of the job.
+      # `astro check` stays here (rather than only in CI) because pushes to
+      # `main` do not necessarily come through a pull request.
       - name: Type-check and build
         run: bun run build:ci
+      # Stamp the artifact with its commit so the published site can be proven
+      # to match this build (see the verification step at the end).
+      - name: Stamp build
+        run: echo "$GITHUB_SHA" > dist/build.txt
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v5
         with:
@@ -48,3 +68,44 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+      # `deploy-pages` reports success before its CDN serves the new build, and
+      # a platform incident can leave the previous build live. Poll the stamped
+      # commit, then sanity-check the artifacts a good publish must contain. On
+      # failure the job prints GitHub's own status so the error says whether it
+      # is our build or the platform.
+      - name: Verify the live site serves this commit
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+          EXPECTED: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          base="${PAGE_URL%/}"
+          attempts=20
+          live=""
+          for attempt in $(seq 1 "$attempts"); do
+            live=$(curl -sS --max-time 20 "$base/build.txt?run=$GITHUB_RUN_ID-$attempt" || true)
+            live="${live//[$'\r\n']/}"
+            if [ "$live" = "$EXPECTED" ]; then
+              echo "$base/build.txt serves $EXPECTED (attempt $attempt)"
+              break
+            fi
+            echo "attempt $attempt/$attempts: live build.txt is '${live:-<no response>}' (want $EXPECTED)"
+            [ "$attempt" -eq "$attempts" ] || sleep 15
+          done
+          if [ "$live" != "$EXPECTED" ]; then
+            echo "::error::$base/build.txt still does not serve this commit after $((attempts * 15))s."
+            echo "GitHub platform status (an incident is the usual cause: wait, then re-run this job):"
+            curl -sS --max-time 20 https://www.githubstatus.com/api/v2/components.json \
+              | jq -r '.components[] | select(.name | test("Actions|Pages")) | "  \(.name): \(.status)"' || true
+            curl -sS --max-time 20 https://www.githubstatus.com/api/v2/summary.json \
+              | jq -r '.incidents[]? | "  incident: \(.name) [\(.status)]"' || true
+            exit 1
+          fi
+          for asset in pagefind/pagefind.js sitemap-index.xml; do
+            code=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 "$base/$asset")
+            if [ "$code" != "200" ]; then
+              echo "::error::$base/$asset returned HTTP $code"
+              exit 1
+            fi
+            echo "$asset -> 200"
+          done
