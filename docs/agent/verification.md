@@ -23,6 +23,7 @@
 - View transitions: `dist/index.html` contains `astro-view-transitions-enabled`, the `ClientRouter*.js` module script, and `data-astro-transition-persist="theme-toggle"`. Ad hoc browser check (system Chrome + `playwright-core`, no committed scripts): click-through navigation must keep `window` markers (no full reload), the `dark` class, and both `theme-color` metas in sync after swap; the persisted toggle must be the same DOM node; expressive-code copy buttons must reappear after a client-side navigation into a post; with `reducedMotion: "reduce"` no `::view-transition*` animations may run. `dist/_astro/main.*.css` must contain `::view-transition-group(*)` inside a `prefers-reduced-motion` block.
 - Social links: `dist/index.html` contains Discord `discord.com/users/`; no `github.tsx` / `linkedin.tsx` residuals.
 - No `Co-authored-by:` or AI trailer in any commit message; author must match `git config user.name` (`Ashik`).
+- Deploy workflow: `.github/workflows/deploy.yml` parses as YAML, has exactly one job (`deploy`) with no `needs:`/`withastro/action`; steps in order: checkout@v7, setup-bun@v2, `bun install --frozen-lockfile`, lint, format check, `bun run build:ci`, `upload-pages-artifact@v5` (`path: dist`), `deploy-pages@v5`; permissions `contents: read` / `pages: write` / `id-token: write`; `concurrency.group: pages` with `cancel-in-progress`. `bunx astro preview` then serving `dist/pagefind/` proves the artifact contains the search bundle.
 
 ## Post-deploy (live host)
 
