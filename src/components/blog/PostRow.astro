@@ -41,8 +41,12 @@ const date = post.data.pubDate.toLocaleDateString("en-US", {
             <a
               href={`${base}/blog/tags/${slugifyTag(tag)}/`}
               aria-label={`More posts tagged ${tag}`}
+              class="group"
             >
-              <Badge variant="secondary" className="font-normal">
+              <Badge
+                variant="secondary"
+                className="font-normal group-hover:text-primary"
+              >
                 {tag}
               </Badge>
             </a>

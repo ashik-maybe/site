@@ -36,8 +36,12 @@ const base = import.meta.env.BASE_URL
         <a
           href={`${base}/projects/tags/${slugifyTag(tag)}/`}
           aria-label={`More projects tagged ${tag}`}
+          class="group"
         >
-          <Badge variant="outline" className="font-normal text-muted-foreground">
+          <Badge
+            variant="outline"
+            className="font-normal text-muted-foreground group-hover:text-primary"
+          >
             {tag}
           </Badge>
         </a>

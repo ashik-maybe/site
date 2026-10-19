@@ -169,4 +169,13 @@
 /* Anchor links jump under the sticky header without this. */
 html {
   scroll-padding-top: 4.5rem;
+  /* Accent-tinted tap feedback instead of the UA default gray. */
+  -webkit-tap-highlight-color: color-mix(in srgb, var(--primary) 20%, transparent);
+}
+
+/* Immediate tap response; pinch-zoom stays available. */
+a,
+button,
+[role="button"] {
+  touch-action: manipulation;
 }

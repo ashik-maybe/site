@@ -31,7 +31,7 @@ const icons: Record<string, ComponentType<IconProps>> = {
   description="The fastest way to reach me is email. I answer questions about the projects here, collaborations, and internships."
 >
   <section class="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6">
-    <h1 class="font-mono text-2xl font-medium">Contact</h1>
+    <h1 class="font-mono text-balance text-2xl font-medium">Contact</h1>
     <p class="mt-3 max-w-prose text-muted-foreground">
       The fastest way to reach me is email. I answer questions about the
       projects here, collaborations, and internships.
@@ -43,7 +43,7 @@ const icons: Record<string, ComponentType<IconProps>> = {
         data-slot="button"
         class={buttonVariants()}
       >
-        <MailIcon />
+        <MailIcon aria-hidden="true" />
         Email me
       </a>
       <a
@@ -52,7 +52,7 @@ const icons: Record<string, ComponentType<IconProps>> = {
         data-slot="button"
         class={buttonVariants({ variant: "outline" })}
       >
-        <FaGithub />
+        <FaGithub aria-hidden="true" />
         GitHub
       </a>
     </ButtonGroup>
@@ -75,7 +75,7 @@ const icons: Record<string, ComponentType<IconProps>> = {
                     <a
                       href={social.href}
                       {...(external ? { rel: "me noopener" } : {})}
-                      class="after:absolute after:inset-0 after:content-['']"
+                      class="after:absolute after:inset-0 after:content-[''] transition-colors hover:text-primary"
                     >
                       {social.label}
                     </a>
