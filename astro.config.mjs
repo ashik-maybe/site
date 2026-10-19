@@ -19,7 +19,7 @@ export default defineConfig({
       themes: ["catppuccin-latte", "catppuccin-macchiato"],
       themeCssSelector: (theme) =>
         theme.type === "dark" ? ".dark" : ":root:not(.dark)",
-      frames: { showCopyButton: true },
+      frames: { showCopyToClipboardButton: true },
       styleOverrides: {
         borderRadius: "0.625rem",
         borderColor: "var(--border)",
