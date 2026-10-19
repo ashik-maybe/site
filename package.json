@@ -12,8 +12,9 @@
     "build:ci": "astro check && astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "lint": "eslint .",
-    "format": "prettier --write \"**/*.{ts,tsx,astro}\"",
+    "lint": "oxlint",
+    "format": "oxfmt --write \"**/*.{ts,tsx,astro}\"",
+    "format:check": "oxfmt --check \"**/*.{ts,tsx,astro}\"",
     "typecheck": "astro check"
   },
   "dependencies": {
@@ -40,15 +41,9 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9",
-    "@eslint/js": "^10",
-    "eslint": "^10",
-    "eslint-plugin-react-hooks": "^7.1.1",
-    "eslint-plugin-react-refresh": "^0.5.7",
-    "globals": "^17",
-    "prettier": "^3.9.10",
-    "prettier-plugin-astro": "^1.1.1",
-    "prettier-plugin-tailwindcss": "^0.8.1",
-    "typescript": "~6.0.2",
-    "typescript-eslint": "^8"
+    "@astrojs/compiler-rs": "^0.5.2",
+    "oxfmt": "^0.73.0",
+    "oxlint": "^1.88.0",
+    "typescript": "~6.0.2"
   }
 }

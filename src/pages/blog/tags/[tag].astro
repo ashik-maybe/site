@@ -41,7 +41,7 @@ const { tag, entries } = Astro.props
 >
   <section class="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6">
     <p class="font-mono text-sm text-muted-foreground">Tag</p>
-    <h1 class="mt-1 font-mono text-balance text-2xl font-medium">{tag}</h1>
+    <h1 class="mt-1 font-mono text-2xl font-medium text-balance">{tag}</h1>
     <ul class="mt-10 divide-y divide-border border-t border-border/60">
       {entries.map((post) => (
         <PostRow post={post} />

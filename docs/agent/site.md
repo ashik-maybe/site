@@ -11,6 +11,6 @@ Static Astro + React (ThemeToggle, MobileNav islands only). Base `/site` (GitHub
 - Feed: `/blog/rss.xml` only; no JSON feed currently
 - Sitemap: `/sitemap-index.xml` (auto); excludes `/tags/` by design (the `/tags/` hub and tag archives are thin, `noindex, follow`)
 - Build: `bun run build`; 27 pages; `astro check` must pass; `public/og.png` must exist (shared OG image; per-post OG images not implemented)
-- Tooling: `bun run lint` (eslint), `bun run format` (prettier, scope `ts/tsx/astro`). Class sorting applies to `.tsx` but is inert for `.astro` (prettier-plugin-astro 1.x emits a JSX-style AST prettier-plugin-tailwindcss 0.8.1 doesn't match — upstream, not config). Note: `docs/` and `learning/` feed Tailwind's scanner, so a docs-only token (e.g. bare `prose-invert`) can add a dead utility rule
+- Tooling: `bun run lint` (oxlint — `react` + `typescript` plugins, correctness category; also lints `.astro` scripts), `bun run format` / `format:check` (oxfmt, scope `ts/tsx/astro`; Tailwind class sorting built in for `.tsx` and `.astro`, wired to `global.css` stylesheet + `cn`/`cva`). CI runs lint + format check before build/deploy. Note: `docs/` and `learning/` feed Tailwind's scanner, so a docs-only token (e.g. bare `prose-invert`) can add a dead utility rule
 
 No Playwright verification scripts committed — checks are ad hoc (`grep` assertions against `dist/`).

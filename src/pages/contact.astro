@@ -31,7 +31,7 @@ const icons: Record<string, ComponentType<IconProps>> = {
   description="The fastest way to reach me is email. I answer questions about the projects here, collaborations, and internships."
 >
   <section class="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6">
-    <h1 class="font-mono text-balance text-2xl font-medium">Contact</h1>
+    <h1 class="font-mono text-2xl font-medium text-balance">Contact</h1>
     <p class="mt-3 max-w-prose text-muted-foreground">
       The fastest way to reach me is email. I answer questions about the
       projects here, collaborations, and internships.
@@ -75,7 +75,7 @@ const icons: Record<string, ComponentType<IconProps>> = {
                     <a
                       href={social.href}
                       {...(external ? { rel: "me noopener" } : {})}
-                      class="after:absolute after:inset-0 after:content-[''] transition-colors hover:text-primary"
+                      class="transition-colors after:absolute after:inset-0 after:content-[''] hover:text-primary"
                     >
                       {social.label}
                     </a>

@@ -28,8 +28,9 @@ Obsidian notes vault. Built with Astro and deployed to GitHub Pages under a
 | `bun run build`     | build the static site to `dist/`                  |
 | `bun run preview`   | preview the built site                            |
 | `bun run typecheck` | `astro check` — types for `.astro` and TypeScript |
-| `bun run lint`      | ESLint                                            |
-| `bun run format`    | Prettier                                          |
+| `bun run lint`      | oxlint                                           |
+| `bun run format`    | oxfmt — write                                    |
+| `bun run format:check` | oxfmt — check (CI runs this + lint)           |
 
 ## Layout
 

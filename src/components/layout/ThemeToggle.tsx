@@ -32,7 +32,7 @@ export default function ThemeToggle({ className }: { className?: string }) {
     if (stored === "light" || stored === "dark" || stored === "system") {
       // Reading storage must wait until after hydration (the server rendered
       // the default), so this post-mount setState is deliberate.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+      // eslint-disable-next-line react/set-state-in-effect
       setTheme(stored)
     }
   }, [])
