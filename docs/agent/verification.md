@@ -1,13 +1,17 @@
 # Verification (ad hoc — no Playwright committed)
 
-- `bun run build`: must output 27 pages, no errors, `dist/` created.
+- `bun run build`: must output 28 pages, no errors, `dist/` created.
 - `bun run build:ci`: what CI runs (`astro check && astro build`); must pass before deploy.
-- `bunx astro check`: must be 0 errors / 0 warnings / 0 hints (currently clean after removing unused `site` import in `index.astro`).
+- `bunx astro check`: must be 0 errors / 0 warnings / 0 hints.
 - `bun run lint`: must pass (oxlint — `react` + `typescript` plugins, correctness category; also covers `.astro`); CI-enforced.
 - `bun run format:check`: must be clean (oxfmt, scope `ts/tsx/astro`; Tailwind class sorting built in for `.tsx` and `.astro`); `bun run format` writes; CI-enforced.
 - `dist/_astro/main.*.css`: must contain `--background`, `bg-background`, `text-foreground`, `.dark{...}` (theme tokens restored).
 - `public/og.png`: must exist (1200x630); all page meta references must resolve (verified via grep against `dist/`).
 - RSS links: `grep` `dist/blog/rss.xml` for item URLs starting with `/site/blog/` (not `/siteblog/`).
+- JSON Feed: parse `dist/blog/feed.json` — `version` = `https://jsonfeed.org/version/1.1`, `feed_url` absolute ending `/site/blog/feed.json`, every item `url`/`id` starts with `https://ashik-maybe.github.io/site/blog/`, `content_html` non-empty, no drafts. Any `dist` page `<head>` contains `type="application/feed+json"`.
+- Pagination: `dist/blog/index.html` has `href="/site/blog/2/" rel="next"` (trailing slash) and `Page 1 of 2`; `dist/blog/2/index.html` has `<title>Blog (page 2)`, `href="/site/blog/" rel="prev"`, `Page 2 of 2`; `sitemap-0.xml` lists `/blog/2/` (14 `<loc>`, still 0 `/tags/`).
+- Heading anchors: `grep -o '<h2 id="[^"]*"><a href="#[^"]*"' dist/blog/big-o-briefly/index.html` matches every h2; the TOC's `href="#…"` ids all appear among those heading ids (the visitor sets ids; Astro's `heading-ids` adopts them).
+- Reading progress: post HTML contains `<div class="reading-progress" aria-hidden="true">`, index pages do not; `dist/_astro/main.*.css` contains `reading-progress-grow`, `scroll(root)`, and `.prose :is(h2,h3)>a`.
 - `dist/sitemap-0.xml`: `<lastmod>` on the 8 content pages (blog + projects) only, and no `/tags/` URLs.
 - `dist/tags/index.html`: `noindex, follow`; badges with counts for every blog + project tag; linked from the blog and projects indexes; absent from the sitemap (the filter matches `/tags/`).
 - `dist/_astro/main.*.css`: contains a `@media print` block (`header,footer{display:none`, `tw-prose-invert` + `ec-codeFg` overrides).

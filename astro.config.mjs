@@ -5,6 +5,8 @@ import tailwindcss from "@tailwindcss/vite"
 import { defineConfig } from "astro/config"
 import react from "@astrojs/react"
 import expressiveCode from "astro-expressive-code"
+import { satteri } from "@astrojs/markdown-satteri"
+import Slugger from "github-slugger"
 import { existsSync, readFileSync, readdirSync } from "node:fs"
 import { join } from "node:path"
 
@@ -44,10 +46,61 @@ function contentDates() {
 
 const lastmod = contentDates()
 
+/**
+ * Heading permalinks (the wrap-style links rehype-autolink-headings makes on
+ * the legacy processor), written as a native Sätteri hast visitor. User
+ * plugins run before Astro's own `heading-ids` plugin, so this mirrors its
+ * slug logic and *sets* the id itself — `heading-ids` then adopts the
+ * existing ids, keeping TOC links and anchors consistent by construction.
+ *
+ * @returns {import("satteri").HastPluginDefinition}
+ */
+const headingAnchors = () => {
+  const slugger = new Slugger()
+  return {
+    name: "heading-anchors",
+    element: {
+      filter: ["h1", "h2", "h3", "h4", "h5", "h6"],
+      visit(node, ctx) {
+        const existingId = node.properties?.id
+        const id =
+          typeof existingId === "string"
+            ? existingId
+            : slugger.slug(ctx.textContent(node))
+        if (typeof existingId !== "string") {
+          ctx.setProperty(node, "id", id)
+        }
+        if (
+          (node.tagName === "h2" || node.tagName === "h3") &&
+          node.children.length > 0
+        ) {
+          return {
+            ...node,
+            children: [
+              {
+                type: "element",
+                tagName: "a",
+                properties: { href: `#${id}` },
+                children: node.children,
+              },
+            ],
+          }
+        }
+      },
+    },
+  }
+}
+
 // https://astro.build/config
 export default defineConfig({
   site: siteConfig.site,
   base,
+  markdown: {
+    // Heading permalinks: h2/h3 text becomes its own anchor link via a native
+    // Sätteri hast visitor (rehype plugins need the legacy processor);
+    // global.css keeps it looking like plain text until hover.
+    processor: satteri({ hastPlugins: [headingAnchors] }),
+  },
   vite: {
     plugins: [tailwindcss()],
   },
