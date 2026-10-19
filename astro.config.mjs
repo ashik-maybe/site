@@ -8,7 +8,7 @@ import expressiveCode from "astro-expressive-code"
 import { satteri } from "@astrojs/markdown-satteri"
 import Slugger from "github-slugger"
 import { existsSync, readFileSync, readdirSync } from "node:fs"
-import { join } from "node:path"
+import { extname, join } from "node:path"
 
 // Single source of truth for the deployment origin: the same `site` object the
 // rest of the app reads from `src/config.ts`.
@@ -91,6 +91,48 @@ const headingAnchors = () => {
   }
 }
 
+/**
+ * Vite plugin that serves the built Pagefind bundle under `astro dev`.
+ *
+ * Pagefind indexes `dist/` *after* `astro build`, so `/pagefind/` does not exist
+ * while developing and the search page would be inert there. This serves
+ * `dist/pagefind/` under dev, so `<base>/pagefind/…` resolves in the browser —
+ * production serving is untouched (the files are already in the artifact). Run
+ * `bun run build` once to populate `dist/pagefind/`; until then this 404s, which
+ * the search script reports as an unavailable index rather than an empty result
+ * set.
+ *
+ * @returns {import("vite").Plugin}
+ */
+function pagefindDev() {
+  // Vite strips `config.base` before handing the URL to connect middleware, so
+  // the path arriving here is `/pagefind/...`, not `${base}/pagefind/...`.
+  const prefix = "/pagefind/"
+  return {
+    name: "pagefind-dev",
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const url = req.url ?? ""
+        if (!url.startsWith(prefix)) return next()
+        const rel = url.slice(prefix.length).split("?")[0]
+        const file = join(process.cwd(), "dist", "pagefind", rel)
+        if (!existsSync(file)) return next()
+        /** @type {Record<string, string>} */
+        const types = {
+          ".js": "text/javascript",
+          ".css": "text/css",
+          ".json": "application/json",
+        }
+        res.setHeader(
+          "content-type",
+          types[extname(file)] ?? "application/octet-stream"
+        )
+        res.end(readFileSync(file))
+      })
+    },
+  }
+}
+
 // https://astro.build/config
 export default defineConfig({
   site: siteConfig.site,
@@ -105,7 +147,22 @@ export default defineConfig({
     processor: satteri({ hastPlugins: [headingAnchors] }),
   },
   vite: {
-    plugins: [tailwindcss()],
+    // ClientRouter's virtual modules are only discovered once the router first
+    // runs, which made Vite re-optimize mid-session and answer every in-flight
+    // dep request with `504 (Outdated Optimize Dep)` (plus hydration retries).
+    // Pre-including them moves that bundling into startup, so the dep graph is
+    // stable by first paint.
+    optimizeDeps: {
+      include: [
+        "astro/virtual-modules/transitions-router.js",
+        "astro/virtual-modules/transitions-types.js",
+        "astro/virtual-modules/transitions-events.js",
+        "astro/virtual-modules/transitions-swap-functions.js",
+      ],
+    },
+    // `configureServer` only runs under `astro dev`, so this is inert in a build
+    // and needs no command check.
+    plugins: [pagefindDev(), tailwindcss()],
   },
   integrations: [
     react(),

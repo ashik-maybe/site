@@ -1,0 +1,164 @@
+---
+import { buttonVariants } from "@/components/ui/button"
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty"
+import { cn } from "cn"
+import { SearchIcon } from "lucide-react"
+
+/**
+ * Chrome for the Pagefind search page: heading, the input, and the panels that
+ * stand in for results. Search itself is Pagefind's JS API, driven by the inline
+ * module in `search.astro` — this file is markup only, so it stays server
+ * rendered and adds no island.
+ *
+ * The input is a real `<input>` rather than `<pagefind-input>`: the custom
+ * element resets inherited styles with `all: initial`, which would fight the
+ * Catppuccin tokens and need a `--pf-*` mapping to undo.
+ *
+ * Links that look like buttons use `buttonVariants()` on a plain `<a>`; the
+ * repository's pattern, and required here because Base UI's `render` prop needs
+ * a React runtime that Astro does not provide for statically rendered markup.
+ */
+const base = import.meta.env.BASE_URL
+
+const panelStates = [
+  {
+    state: "idle",
+    title: "No query yet",
+    description:
+      "Type a word or phrase above. Titles and body text of every published post are indexed.",
+    icon: true,
+  },
+  {
+    state: "empty",
+    title: "No matches",
+    description:
+      "Nothing matched that query. Try a shorter term, or browse the posts by tag.",
+    icon: true,
+  },
+  {
+    state: "unavailable",
+    title: "Search is unavailable",
+    description:
+      "The search index could not be loaded. It is built at deploy time, so a local build populates it.",
+    icon: true,
+  },
+]
+---
+
+<section class="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6">
+  <header class="flex flex-col gap-3">
+    <h1 class="font-heading text-2xl font-medium tracking-tight text-balance">
+      Search
+    </h1>
+    <p class="max-w-prose text-muted-foreground">
+      Full-text search across blog posts. Results are served from a static index
+      built at deploy time.
+    </p>
+  </header>
+
+  <div
+    class="mt-8 flex flex-col gap-4"
+    data-search-panel
+    data-search-base={base}
+  >
+    <div class="relative">
+      <SearchIcon
+        aria-hidden="true"
+        className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground"
+      />
+      <input
+        id="search-input"
+        type="search"
+        placeholder="Search posts"
+        autocomplete="off"
+        autocapitalize="off"
+        spellcheck="false"
+        aria-label="Search posts"
+        aria-describedby="search-status"
+        data-search-input
+        class="h-11 w-full rounded-lg border border-input bg-background pr-3 pl-9 text-sm text-foreground transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50"
+      />
+    </div>
+
+    {/* Live region: announces the result count to screen readers without
+        stealing focus from the input as the user types. */}
+    <p
+      id="search-status"
+      class="text-sm text-muted-foreground empty:hidden"
+      role="status"
+      aria-live="polite"
+      data-search-status
+    ></p>
+
+    {/* Result rows are appended here by the inline module, in the same
+        header-separator style the page used before. */}
+    <ul class="flex flex-col" data-search-results hidden></ul>
+
+    {panelStates.map(({ state, title, description, icon }) => (
+      <Empty
+        data-search-panel-state={state}
+        data-slot="search-panel-state"
+        hidden={state !== "idle"}
+      >
+        <EmptyHeader>
+          {icon && (
+            <EmptyMedia variant="icon">
+              <SearchIcon />
+            </EmptyMedia>
+          )}
+          <EmptyTitle>{title}</EmptyTitle>
+          <EmptyDescription>{description}</EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent>
+          <a
+            href={`${base}/tags/`}
+            data-slot="button"
+            class={cn(
+              buttonVariants({ variant: "outline", size: "lg" }),
+              "w-fit"
+            )}
+          >
+            Browse by tag
+          </a>
+        </EmptyContent>
+      </Empty>
+    ))}
+
+    {/* Pagefind's index is a build artefact, so under `astro dev` it only exists
+        once `dist/pagefind/` has been built; if it is missing the module reports
+        it instead of leaving an inert input. */}
+    <noscript>
+      <Empty>
+        <EmptyHeader>
+          <EmptyTitle>Search needs JavaScript</EmptyTitle>
+          <EmptyDescription>
+            The blog index lists every post, and tags group them by topic.
+          </EmptyDescription>
+        </EmptyHeader>
+        <EmptyContent className="flex-row justify-center">
+          <a
+            href={`${base}/blog/`}
+            data-slot="button"
+            class={buttonVariants({ variant: "outline", size: "lg" })}
+          >
+            Browse the blog
+          </a>
+          <a
+            href={`${base}/tags/`}
+            data-slot="button"
+            class={buttonVariants({ variant: "outline", size: "lg" })}
+          >
+            Explore tags
+          </a>
+        </EmptyContent>
+      </Empty>
+    </noscript>
+  </div>
+</section>
