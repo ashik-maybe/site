@@ -1,0 +1,32 @@
+---
+import { Badge } from "@/components/ui/badge"
+import { skillIcons } from "@/lib/skills"
+
+type Props = {
+  groups: { group: string; items: string[] }[]
+  class?: string
+}
+
+const { groups, class: className } = Astro.props
+---
+
+<dl class:list={["space-y-4", className]}>
+  {groups.map(({ group, items }) => (
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:gap-6">
+      <dt class="w-24 shrink-0 font-mono text-sm text-muted-foreground">
+        {group}
+      </dt>
+      <dd class="flex flex-wrap gap-1.5">
+        {items.map((item) => {
+          const Icon = skillIcons[item]
+          return (
+            <Badge variant="secondary" className="gap-1.5 font-normal">
+              {Icon && <Icon aria-hidden="true" className="size-3 shrink-0" />}
+              {item}
+            </Badge>
+          )
+        })}
+      </dd>
+    </div>
+  ))}
+</dl>

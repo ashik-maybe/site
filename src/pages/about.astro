@@ -1,6 +1,6 @@
 ---
 import { ProfileAvatar } from "@/components/portfolio/ProfileAvatar"
-import { Badge } from "@/components/ui/badge"
+import Skills from "@/components/portfolio/Skills.astro"
 import {
   Card,
   CardDescription,
@@ -14,9 +14,9 @@ import { site } from "@/config"
 const skills: { group: string; items: string[] }[] = [
   {
     group: "Languages",
-    items: ["Python", "C/C++", "JavaScript", "TypeScript", "SQL"],
+    items: ["Python", "C/C++", "JavaScript", "TypeScript", "MySQL"],
   },
-  { group: "Web", items: ["Astro", "React", "Tailwind CSS", "HTML/CSS"] },
+  { group: "Web", items: ["Astro", "React", "Tailwind CSS", "HTML", "CSS"] },
   {
     group: "Tools",
     items: ["Git", "Linux", "Bash", "Docker", "NumPy", "PyTorch"],
@@ -46,7 +46,7 @@ const timeline = [
 >
   <section class="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6">
     <div class="flex items-center gap-4">
-      <ProfileAvatar initial="A" />
+      <ProfileAvatar initial="J" />
       <div>
         <h1 class="font-mono text-2xl font-medium text-balance">{site.name}</h1>
         <p class="mt-1 text-muted-foreground">CSE undergrad, SWE/AI focus</p>
@@ -69,22 +69,7 @@ const timeline = [
     </Card>
 
     <h2 class="mt-14 text-lg font-medium">Skills</h2>
-    <dl class="mt-4 space-y-4">
-      {skills.map(({ group, items }) => (
-        <div class="flex flex-col gap-2 sm:flex-row sm:items-baseline sm:gap-6">
-          <dt class="w-24 shrink-0 font-mono text-sm text-muted-foreground">
-            {group}
-          </dt>
-          <dd class="flex flex-wrap gap-1.5">
-            {items.map((item) => (
-              <Badge variant="secondary" className="font-normal">
-                {item}
-              </Badge>
-            ))}
-          </dd>
-        </div>
-      ))}
-    </dl>
+    <Skills groups={skills} class="mt-4" />
 
     <h2 class="mt-14 text-lg font-medium">Experience</h2>
     <div class="mt-4 space-y-0">
