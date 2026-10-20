@@ -1,0 +1,35 @@
+---
+interface Props {
+  /** Shown as the avatar mark, and as the fallback behind an optional photo. */
+  initial: string
+  /** Optional photo. Stacked over the initial, so the initial shows through
+   *  while the image loads and stays visible if it fails — no JavaScript, and
+   *  it degrades the same way with JS disabled. */
+  src?: string
+  /** Alt text for the photo. Decorative by default: the initial underneath is
+   *  already the accessible mark. */
+  alt?: string
+}
+
+const { initial, src, alt = "" } = Astro.props
+---
+
+<span
+  data-slot="avatar"
+  class="group/avatar relative flex size-16 shrink-0 rounded-full select-none"
+>
+  <span
+    data-slot="avatar-fallback"
+    class="flex size-full items-center justify-center rounded-full bg-primary/10 font-mono text-xl text-muted-foreground uppercase"
+  >
+    {initial}
+  </span>
+  {src && (
+    <img
+      data-slot="avatar-image"
+      src={src}
+      alt={alt}
+      class="absolute inset-0 aspect-square size-full rounded-full object-cover"
+    />
+  )}
+</span>
