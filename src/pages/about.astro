@@ -11,17 +11,36 @@ import { Separator } from "@/components/ui/separator"
 import Layout from "@/layouts/main.astro"
 import { site } from "@/config"
 
-const skills: { group: string; items: string[] }[] = [
+const raw: { group: string; items: string[] }[] = [
   {
     group: "Languages",
-    items: ["Python", "C/C++", "JavaScript", "TypeScript", "MySQL"],
+    items: ["Python", "C", "C++", "Java", "JavaScript", "TypeScript", "MySQL"],
   },
-  { group: "Web", items: ["Astro", "React", "Tailwind CSS", "HTML", "CSS"] },
+  {
+    group: "Web",
+    items: ["Astro", "React", "Next.js", "Tailwind CSS", "HTML", "CSS"],
+  },
   {
     group: "Tools",
-    items: ["Git", "Linux", "Bash", "Docker", "NumPy", "PyTorch"],
+    items: [
+      "Git",
+      "Linux",
+      "Fedora Linux",
+      "Bash",
+      "fish shell",
+      "Docker",
+      "Podman",
+    ],
   },
+  { group: "ML", items: ["Scikit-learn", "NumPy", "PyTorch"] },
 ]
+
+// Skills render alphabetically so placement inside a group never matters;
+// group order itself stays narrative.
+const skills = raw.map((g) => ({
+  ...g,
+  items: [...g.items].sort((a, b) => a.localeCompare(b)),
+}))
 
 // TODO: replace with real education, experience, and interests.
 const timeline = [
