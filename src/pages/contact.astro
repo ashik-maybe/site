@@ -1,29 +1,11 @@
 ---
+import SocialLinks from "@/components/layout/SocialLinks.astro"
 import { buttonVariants } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
-import {
-  Card,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import Layout from "@/layouts/main.astro"
 import { site } from "@/config"
-import { FaGithub, FaLinkedin, FaDiscord } from "react-icons/fa"
+import { emailHref } from "@/lib/socials"
 import { MailIcon } from "lucide-react"
-import type { ComponentType } from "react"
-
-type IconProps = {
-  className?: string
-  "aria-hidden"?: boolean | "true" | "false"
-}
-
-const icons: Record<string, ComponentType<IconProps>> = {
-  GitHub: FaGithub,
-  LinkedIn: FaLinkedin,
-  Discord: FaDiscord,
-  Email: MailIcon,
-}
 ---
 
 <Layout
@@ -38,57 +20,13 @@ const icons: Record<string, ComponentType<IconProps>> = {
     </p>
 
     <ButtonGroup className="mt-8">
-      <a
-        href="mailto:hello@example.com"
-        data-slot="button"
-        class={buttonVariants()}
-      >
+      <a href={emailHref} data-slot="button" class={buttonVariants()}>
         <MailIcon aria-hidden="true" />
         Email me
-      </a>
-      <a
-        href={`https://github.com/${site.handle}`}
-        rel="me noopener"
-        data-slot="button"
-        class={buttonVariants({ variant: "outline" })}
-      >
-        <FaGithub aria-hidden="true" />
-        GitHub
       </a>
     </ButtonGroup>
 
     <h2 class="mt-14 text-lg font-medium">Elsewhere</h2>
-    <ul class="mt-4 grid gap-3 sm:grid-cols-2">
-      {site.socials.map((social) => {
-        const Icon = icons[social.label] ?? MailIcon
-        const external = social.href.startsWith("http")
-        return (
-          <li>
-            <Card className="relative">
-              <CardHeader className="flex-row items-center gap-4">
-                <Icon
-                  aria-hidden="true"
-                  className="size-5 text-muted-foreground"
-                />
-                <div>
-                  <CardTitle>
-                    <a
-                      href={social.href}
-                      {...(external ? { rel: "me noopener" } : {})}
-                      class="transition-colors after:absolute after:inset-0 after:content-[''] hover:text-primary"
-                    >
-                      {social.label}
-                    </a>
-                  </CardTitle>
-                  <CardDescription className="font-mono text-xs break-all">
-                    {social.href.replace(/^mailto:/, "")}
-                  </CardDescription>
-                </div>
-              </CardHeader>
-            </Card>
-          </li>
-        )
-      })}
-    </ul>
+    <SocialLinks variant="cards" class="mt-4" />
   </section>
 </Layout>

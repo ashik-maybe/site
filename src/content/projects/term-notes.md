@@ -4,7 +4,7 @@ description: "A terminal note-taking tool: capture, tag, and grep your notes wit
 pubDate: 2026-04-02
 tags: ["Python", "CLI"]
 featured: true
-repo: "https://github.com/ashik-maybe/term-notes"
+repo: "https://github.com/johndoe/term-notes"
 ---
 
 Notes you write in two seconds are notes you actually write. `term-notes` is my capture

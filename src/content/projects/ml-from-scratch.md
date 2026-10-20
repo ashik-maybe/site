@@ -4,7 +4,7 @@ description: "Classic machine learning algorithms implemented in NumPy, one file
 pubDate: 2026-08-30
 tags: ["Python", "Machine Learning", "Education"]
 featured: false
-repo: "https://github.com/ashik-maybe/ml-from-scratch"
+repo: "https://github.com/johndoe/ml-from-scratch"
 ---
 
 Linear regression, logistic regression, k-means, a small MLP, and PCA — each in a single

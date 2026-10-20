@@ -4,7 +4,7 @@ description: "A typing-race game where you fight anagrams of the same word, rend
 pubDate: 2026-02-14
 tags: ["Rust", "CLI"]
 featured: true
-repo: "https://github.com/ashik-maybe/anagram-racer"
+repo: "https://github.com/johndoe/anagram-racer"
 ---
 
 A game written to learn Rust's ownership model under real time pressure — literally.

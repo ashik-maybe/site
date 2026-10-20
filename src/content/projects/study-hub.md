@@ -4,7 +4,7 @@ description: "A small web app that turns my course notes into flashcards and spa
 pubDate: 2026-06-18
 tags: ["TypeScript", "Web", "Astro"]
 featured: true
-repo: "https://github.com/ashik-maybe/study-hub"
+repo: "https://github.com/johndoe/study-hub"
 ---
 
 Markdown notes in, flashcards out. Built because every Anki workflow I tried had too much

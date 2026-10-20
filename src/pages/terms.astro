@@ -1,0 +1,45 @@
+---
+import Layout from "@/layouts/main.astro"
+import { site } from "@/config"
+---
+
+<Layout
+  title={`Terms | ${site.name}`}
+  description="Plain terms for this site: the content is informational, the site is provided as-is."
+>
+  <section class="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6">
+    <h1 class="font-mono text-2xl font-medium text-balance">Terms</h1>
+    <p class="mt-3 max-w-prose text-muted-foreground">
+      By using this site, you agree to these terms.
+    </p>
+
+    <ul class="mt-8 max-w-prose list-disc space-y-4 pl-5 text-muted-foreground">
+      <li>
+        <strong class="text-foreground">The content is informational.</strong>
+        Posts and pages are personal notes and opinions, provided as-is. They
+        may be outdated or wrong, and are not professional, legal, or financial
+        advice.
+      </li>
+      <li>
+        <strong class="text-foreground">Availability.</strong> The site may
+        change or go offline at any time; content may be edited or removed
+        without notice.
+      </li>
+      <li>
+        <strong class="text-foreground">External links.</strong> Links to other
+        sites are offered for convenience; their content and practices are
+        outside this site's control.
+      </li>
+      <li>
+        <strong class="text-foreground">Copyright.</strong> The writing and
+        design on this site are &copy; {new Date().getFullYear()} {site.name}.
+        Quote and share with attribution; anything beyond that needs permission
+        first.
+      </li>
+      <li>
+        <strong class="text-foreground">Liability.</strong> Use of this site and
+        its content is at your own risk.
+      </li>
+    </ul>
+  </section>
+</Layout>

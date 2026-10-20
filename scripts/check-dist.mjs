@@ -77,6 +77,8 @@ const fixedPages = [
   "blog/",
   "blog/2/",
   "contact/",
+  "privacy/",
+  "terms/",
   "search/",
   "tags/",
   "404.html",
@@ -84,6 +86,17 @@ const fixedPages = [
 ]
 for (const page of fixedPages) check(`/${page} built`, exists(page))
 check("internal links carry the base prefix", html.includes(`href="${base}/`))
+// The footer is layout-owned, so every page must carry the legal links.
+const noLegal = listHtml().filter(
+  (p) =>
+    !read(p).includes(`href="${base}/privacy/"`) ||
+    !read(p).includes(`href="${base}/terms/"`)
+)
+check(
+  "every page links privacy and terms from the footer",
+  noLegal.length === 0,
+  noLegal.slice(0, 5).join(", ")
+)
 check(
   "rss and json feeds built",
   exists("rss.xml") && exists("blog/rss.xml") && exists("blog/feed.json")
@@ -245,6 +258,8 @@ const crawlable = [
   "blog/",
   "blog/2/",
   "contact/",
+  "privacy/",
+  "terms/",
 ]
 check(
   "sitemap lists every crawlable page exactly once",

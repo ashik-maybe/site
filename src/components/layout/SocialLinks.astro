@@ -1,0 +1,73 @@
+---
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { site } from "@/config"
+import { socialIcon } from "@/lib/socials"
+
+type Props = {
+  /** `icons` is the compact footer row; `cards` is the contact-page listing. */
+  variant?: "icons" | "cards"
+  class?: string
+}
+
+const { variant = "icons", class: className } = Astro.props
+
+const socials = site.socials
+---
+
+{variant === "icons" ? (
+  <div class={className}>
+    {socials.map((social) => {
+      const Icon = socialIcon(social.label)
+      const external = social.href.startsWith("http")
+      return (
+        <a
+          href={social.href}
+          aria-label={social.label}
+          title={social.label}
+          {...(external ? { rel: "me noopener" } : {})}
+          class="inline-flex size-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+        >
+          <Icon aria-hidden="true" className="size-4" />
+        </a>
+      )
+    })}
+  </div>
+) : (
+  <ul class:list={["grid gap-3 sm:grid-cols-2", className]}>
+    {socials.map((social) => {
+      const Icon = socialIcon(social.label)
+      const external = social.href.startsWith("http")
+      return (
+        <li>
+          <Card className="relative">
+            <CardHeader className="flex-row items-center gap-4">
+              <Icon
+                aria-hidden="true"
+                className="size-5 text-muted-foreground"
+              />
+              <div>
+                <CardTitle>
+                  <a
+                    href={social.href}
+                    {...(external ? { rel: "me noopener" } : {})}
+                    class="transition-colors after:absolute after:inset-0 after:content-[''] hover:text-primary"
+                  >
+                    {social.label}
+                  </a>
+                </CardTitle>
+                <CardDescription className="font-mono text-xs break-all">
+                  {social.href.replace(/^mailto:/, "")}
+                </CardDescription>
+              </div>
+            </CardHeader>
+          </Card>
+        </li>
+      )
+    })}
+  </ul>
+)}

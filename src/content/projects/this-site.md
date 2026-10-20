@@ -4,7 +4,7 @@ description: "This portfolio and blog: Astro, Tailwind, and shadcn, deployed str
 pubDate: 2026-10-16
 tags: ["TypeScript", "Web", "Astro"]
 featured: false
-repo: "https://github.com/ashik-maybe/site"
+repo: "https://github.com/johndoe/site"
 ---
 
 The site you are reading. Built with Astro's static output, Tailwind v4, shadcn components,

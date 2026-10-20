@@ -1,45 +1,37 @@
 ---
+import SocialLinks from "@/components/layout/SocialLinks.astro"
 import { site } from "@/config"
-import { FaGithub, FaLinkedin, FaDiscord } from "react-icons/fa"
-import { MailIcon, RssIcon } from "lucide-react"
-import type { ComponentType } from "react"
+import { RssIcon } from "lucide-react"
 
 const base = import.meta.env.BASE_URL
-
-type IconProps = {
-  className?: string
-  "aria-hidden"?: boolean | "true" | "false"
-}
-
-const icons: Record<string, ComponentType<IconProps>> = {
-  GitHub: FaGithub,
-  LinkedIn: FaLinkedin,
-  Discord: FaDiscord,
-  Email: MailIcon,
-}
 ---
 
 <footer class="border-t border-border/60">
   <div class="mx-auto flex w-full max-w-5xl flex-col gap-4 px-4 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-    <p class="font-mono text-sm text-muted-foreground">
-      © {new Date().getFullYear()} {site.name}
-    </p>
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-6">
+      <p class="font-mono text-sm text-muted-foreground">
+        © {new Date().getFullYear()} {site.name}
+      </p>
+      <nav
+        aria-label="Legal"
+        class="flex items-center gap-4 text-sm text-muted-foreground"
+      >
+        <a
+          href={`${base}/privacy/`}
+          class="transition-colors hover:text-foreground"
+        >
+          Privacy
+        </a>
+        <a
+          href={`${base}/terms/`}
+          class="transition-colors hover:text-foreground"
+        >
+          Terms
+        </a>
+      </nav>
+    </div>
     <div class="flex items-center gap-1">
-      {site.socials.map((social) => {
-        const Icon = icons[social.label] ?? MailIcon
-        const external = social.href.startsWith("http")
-        return (
-          <a
-            href={social.href}
-            aria-label={social.label}
-            title={social.label}
-            {...(external ? { rel: "me noopener" } : {})}
-            class="inline-flex size-9 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
-          >
-            <Icon aria-hidden="true" className="size-4" />
-          </a>
-        )
-      })}
+      <SocialLinks />
       <a
         href={`${base}/blog/rss.xml`}
         aria-label="RSS feed"
