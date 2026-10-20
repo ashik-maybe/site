@@ -161,6 +161,24 @@ const ogImageAlt = imageAlt ?? `${site.name} — portfolio, projects, and notes`
           }
           applyTheme()
           document.addEventListener("astro:after-swap", applyTheme)
+
+          // Applied before first paint for the same reason as the theme: a
+          // reader who picked a larger size must not see default text flash
+          // and reflow on every load. <html> survives a swap, so the inline
+          // style persists and only the initial call and the swap re-apply
+          // it. Percentages, so it composes with the browser's own zoom.
+          var applyTextSize = function () {
+            var stored = localStorage.getItem("text-size")
+            var size =
+              stored === "large"
+                ? "112.5%"
+                : stored === "xlarge"
+                  ? "125%"
+                  : "100%"
+            document.documentElement.style.fontSize = size
+          }
+          applyTextSize()
+          document.addEventListener("astro:after-swap", applyTextSize)
           // The <html> element persists across swaps, so one observer is
           // enough: it follows class changes (e.g. ThemeToggle) and only
           // writes metas — never the class — so it cannot loop.

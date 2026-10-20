@@ -1,5 +1,6 @@
 ---
 import MobileNav from "@/components/layout/MobileNav"
+import TextSizeToggle from "@/components/layout/TextSizeToggle"
 import ThemeToggle from "@/components/layout/ThemeToggle"
 import { site } from "@/config"
 
@@ -56,6 +57,11 @@ const isActive = (href: string) =>
       <ThemeToggle
         client:idle
         transition:persist="theme-toggle"
+        className="size-9"
+      />
+      <TextSizeToggle
+        client:idle
+        transition:persist="text-size-toggle"
         className="size-9"
       />
       {/* `md:hidden` above means this island is only ever visible below 768px,

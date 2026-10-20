@@ -1,7 +1,7 @@
 # Agent rules (this template)
 - NEVER commit unless the user says so; if committing, author = user only (`git commit --author="..."` or rely on git config — no AI co-author trailers).
 - NEVER push unless asked.
-- Preserve base `/site`, static output, Bun, Astro, minimal hydration (ThemeToggle + MobileNav only), Catppuccin Latte/Macchiato.
+- Preserve base `/site`, static output, Bun, Astro, minimal hydration (ThemeToggle, TextSizeToggle + MobileNav only), Catppuccin Latte/Macchiato.
 - Design: no ALL-CAPS eyebrows, no `A · B · C` middots, no `01/02/03` markers, no SaaS card grids, no gradient washes. Mauve (`#c6a0f6`) = only accent.
 - No invented employers / schools / dates / roles. Placeholders stay clearly placeholder or marked TODO/ask. No private data in repo or docs.
 - Docs describe the CURRENT committed template (not owner's real content).

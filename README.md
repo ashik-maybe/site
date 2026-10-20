@@ -7,7 +7,8 @@ Obsidian notes vault. Built with Astro and deployed to GitHub Pages under a
 ## Stack
 
 - **Astro 7** — static output, file-based routing
-- **React 19** — two islands only: `ThemeToggle` and `MobileNav`
+- **React 19** — three islands only: `ThemeToggle`, `TextSizeToggle`, and
+  `MobileNav`
 - **Tailwind CSS v4** — utilities via the `@tailwindcss/vite` plugin
 - **shadcn/ui** — source-owned components in `src/components/ui`
 - **Expressive Code** — Catppuccin code blocks with a copy button
