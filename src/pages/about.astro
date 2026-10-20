@@ -14,33 +14,32 @@ import { site } from "@/config"
 const raw: { group: string; items: string[] }[] = [
   {
     group: "Languages",
-    items: ["Python", "C", "C++", "Java", "JavaScript", "TypeScript", "MySQL"],
+    items: ["Python", "JavaScript", "TypeScript", "Java", "C++", "C"],
   },
   {
-    group: "Web",
-    items: ["Astro", "React", "Next.js", "Tailwind CSS", "HTML", "CSS"],
+    group: "Frontend",
+    items: ["React", "Next.js", "HTML", "CSS", "Tailwind CSS", "Astro"],
   },
+  { group: "Backend", items: ["FastAPI", "Hono", "MySQL"] },
   {
     group: "Tools",
     items: [
       "Git",
+      "Github",
       "Linux",
       "Fedora Linux",
-      "Bash",
       "fish shell",
-      "Docker",
+      "Bash",
       "Podman",
+      "Docker",
     ],
   },
-  { group: "ML", items: ["Scikit-learn", "NumPy", "PyTorch"] },
+  { group: "Libraries", items: ["NumPy", "Scikit-learn", "PyTorch"] },
 ]
 
-// Skills render alphabetically so placement inside a group never matters;
-// group order itself stays narrative.
-const skills = raw.map((g) => ({
-  ...g,
-  items: [...g.items].sort((a, b) => a.localeCompare(b)),
-}))
+// Arrays read top to bottom: move an entry to change its prominence. No sort,
+// so placement is editorial and deliberate.
+const skills = raw
 
 // TODO: replace with real education, experience, and interests.
 const timeline = [
