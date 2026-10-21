@@ -20,8 +20,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      # Steps intentionally mirror `.github/workflows/deploy.yml`: this is the
-      # pre-merge gate, that one re-checks before deploying.
+      # This is the strict gate: lint + format + type-check + build + dist
+      # assertions. `deploy.yml` deliberately runs a lighter build-only check so
+      # an unformatted commit still deploys; catching style here is enough.
       - name: Checkout
         uses: actions/checkout@v7
       - name: Setup Bun

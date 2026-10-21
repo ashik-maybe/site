@@ -46,13 +46,14 @@ jobs:
       # about as much as it saves; a cache step here is deliberately omitted.
       - name: Install dependencies
         run: bun install --frozen-lockfile
-      # Lint ~0.2s, format check ~2s, type-check + build + Pagefind ~20s, then
-      # scripts/check-dist.mjs asserts the built output (base path, Pagefind
-      # index, islands, OG images, sitemap exclusions, feeds, theme CSS).
-      # `astro check` stays in because pushes to `main` do not necessarily come
-      # through a pull request.
-      - name: Lint, build, and verify dist
-        run: bun run verify
+      # Type-check + build + Pagefind, then scripts/check-dist.mjs asserts the
+      # built output (base path, Pagefind index, islands, OG images, sitemap
+      # exclusions, feeds, theme CSS). Lint/format are NOT run here: they gate
+      # pull requests in ci.yml, and an unformatted commit should not block a
+      # deploy. `astro check` stays in because pushes to `main` need not come
+      # through a pull request, so nothing else type-checks them.
+      - name: Type-check, build, and verify dist
+        run: bun run build:ci && node scripts/check-dist.mjs
       # Stamp the artifact with its commit so the published site can be proven
       # to match this build (see the verification step at the end). Re-running
       # check-dist with the expected sha proves the stamp landed in the artifact.
@@ -79,7 +80,8 @@ jobs:
         run: |
           set -euo pipefail
           base="${PAGE_URL%/}"
-          attempts=20
+          attempts=8
+          interval=10
           live=""
           for attempt in $(seq 1 "$attempts"); do
             live=$(curl -sS --max-time 20 "$base/build.txt?run=$GITHUB_RUN_ID-$attempt" || true)
@@ -89,10 +91,10 @@ jobs:
               break
             fi
             echo "attempt $attempt/$attempts: live build.txt is '${live:-<no response>}' (want $EXPECTED)"
-            [ "$attempt" -eq "$attempts" ] || sleep 15
+            [ "$attempt" -eq "$attempts" ] || sleep "$interval"
           done
           if [ "$live" != "$EXPECTED" ]; then
-            echo "::error::$base/build.txt still does not serve this commit after $((attempts * 15))s."
+            echo "::error::$base/build.txt still does not serve this commit after $((attempts * interval))s."
             echo "GitHub platform status (an incident is the usual cause: wait, then re-run this job):"
             curl -sS --max-time 20 https://www.githubstatus.com/api/v2/components.json \
               | jq -r '.components[] | select(.name | test("Actions|Pages")) | "  \(.name): \(.status)"' || true
