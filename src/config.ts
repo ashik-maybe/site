@@ -6,7 +6,7 @@ export const site = {
   site: "https://ashik-maybe.github.io",
   /** GitHub handle, used for the repository and the profile link.
    *  TODO(deploy): likewise still the owner's — it appears in the site's
-   *  structured data and repo links. */
+   *  structured data (Person `identifier`) and repo links. */
   handle: "ashik-maybe",
   name: "John Doe",
   /** Browser tab title for the home page. */

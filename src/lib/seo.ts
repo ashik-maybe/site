@@ -25,6 +25,11 @@ export function personNode() {
     "@type": "Person",
     "@id": `${absolute("/")}#person`,
     name: site.name,
+    identifier: {
+      "@type": "PropertyValue",
+      propertyID: "GitHub",
+      value: site.handle,
+    },
     url: absolute("/"),
     sameAs: site.socials
       .filter((social) => social.href.startsWith("http"))

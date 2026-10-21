@@ -35,7 +35,10 @@ const date = post.data.pubDate.toLocaleDateString("en-US", {
 })
 
 const postUrl = absolute(`/blog/${post.id}/`)
-const ogImage = `/og/blog/${post.id}.png`
+const generatedOg = `/og/blog/${post.id}.png`
+/** A frontmatter `cover` wins over the generated card; both are base-safe
+ *  through `absolute()` in the layout. */
+const ogImage = post.data.cover ?? generatedOg
 const words = (post.body ?? "").trim().split(/\s+/).length
 
 const jsonLd = graph(
@@ -140,6 +143,18 @@ const jsonLd = graph(
           ))}
         </ul>
       </nav>
+    )}
+
+    {post.data.cover && (
+      <img
+        src={absolute(post.data.cover)}
+        alt=""
+        width={1200}
+        height={630}
+        loading="eager"
+        decoding="async"
+        class="mt-10 w-full rounded-lg border border-border/60"
+      />
     )}
 
     <div class="prose mt-10 max-w-none prose-neutral dark:prose-invert">

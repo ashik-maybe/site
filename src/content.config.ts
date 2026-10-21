@@ -11,6 +11,8 @@ const blog = defineCollection({
     updatedDate: z.coerce.date().optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+    /** Optional cover image, site-relative (e.g. `/covers/post.png`) or absolute. */
+    cover: z.string().optional(),
   }),
 })
 
@@ -24,6 +26,8 @@ const projects = defineCollection({
     featured: z.boolean().default(false),
     repo: z.url().optional(),
     demo: z.url().optional(),
+    /** Optional cover image, site-relative (e.g. `/covers/project.png`) or absolute. */
+    cover: z.string().optional(),
   }),
 })
 
