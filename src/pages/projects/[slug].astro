@@ -4,7 +4,6 @@ import { buttonVariants } from "@/components/ui/button"
 import { ButtonGroup } from "@/components/ui/button-group"
 import Layout from "@/layouts/main.astro"
 import { site } from "@/config"
-import { absolute } from "@/lib/seo"
 import { slugifyTag } from "@/lib/text"
 import { getCollection, render } from "astro:content"
 
@@ -19,8 +18,6 @@ export async function getStaticPaths() {
 const { project } = Astro.props
 const { Content } = await render(project)
 const base = import.meta.env.BASE_URL
-/** A frontmatter `cover` wins over the generated card. */
-const ogImage = project.data.cover ?? `/og/projects/${project.id}.png`
 const date = project.data.pubDate.toLocaleDateString("en-US", {
   month: "long",
   year: "numeric",
@@ -31,7 +28,7 @@ const date = project.data.pubDate.toLocaleDateString("en-US", {
 <Layout
   title={`${project.data.title} | ${site.name}`}
   description={project.data.description}
-  image={ogImage}
+  image={`/og/projects/${project.id}.png`}
   imageAlt={project.data.title}
 >
   <article class="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6">
@@ -87,18 +84,6 @@ const date = project.data.pubDate.toLocaleDateString("en-US", {
           </a>
         )}
       </ButtonGroup>
-    )}
-
-    {project.data.cover && (
-      <img
-        src={absolute(project.data.cover)}
-        alt=""
-        width={1200}
-        height={630}
-        loading="eager"
-        decoding="async"
-        class="mt-10 w-full rounded-lg border border-border/60"
-      />
     )}
 
     <div class="prose mt-10 max-w-none prose-neutral dark:prose-invert">
