@@ -19,6 +19,16 @@ const isActive = (href: string) =>
 
 <header class="site-header sticky top-0 z-40 border-b border-border/60 bg-background/70 backdrop-blur-xl backdrop-saturate-150">
   <div class="mx-auto flex h-14 w-full max-w-5xl items-center justify-between gap-2 px-4 sm:px-6">
+    {/* On mobile the trigger takes whichever edge the drawer opens from:
+        `data-nav-side` on <html> flips its `order`. On desktop it stays put. */}
+    <div class="nav-trigger-slot flex items-center md:hidden">
+      <MobileNav
+        client:media="(max-width: 767px)"
+        current={current}
+        className="size-9"
+      />
+    </div>
+
     <a
       href={`${base}/`}
       class="-ml-1 rounded-md px-1 py-2 font-mono text-sm font-medium whitespace-nowrap transition-colors hover:text-primary focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
@@ -63,13 +73,6 @@ const isActive = (href: string) =>
         client:idle
         transition:persist="text-size-toggle"
         className="size-9"
-      />
-      {/* `md:hidden` above means this island is only ever visible below 768px,
-          so skip desktop hydration entirely. */}
-      <MobileNav
-        client:media="(max-width: 767px)"
-        current={current}
-        className="size-9 md:hidden"
       />
     </div>
   </div>

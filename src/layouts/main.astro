@@ -179,6 +179,20 @@ const ogImageAlt = imageAlt ?? `${site.name} — portfolio, projects, and notes`
           }
           applyTextSize()
           document.addEventListener("astro:after-swap", applyTextSize)
+
+          // Mobile nav: the drawer's edge and its trigger's edge are one
+          // decision, so the trigger must not wait for hydration to move — a
+          // reader who picked "left" would otherwise see it jump across the
+          // header. <html> survives a swap, so the initial call and the swap
+          // re-apply cover every navigation.
+          var applyNavSide = function () {
+            var stored = localStorage.getItem("nav-side")
+            document.documentElement.dataset.navSide =
+              stored === "left" ? "left" : "right"
+          }
+          applyNavSide()
+          document.addEventListener("astro:after-swap", applyNavSide)
+
           // The <html> element persists across swaps, so one observer is
           // enough: it follows class changes (e.g. ThemeToggle) and only
           // writes metas — never the class — so it cannot loop.
