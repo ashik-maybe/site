@@ -7,7 +7,7 @@ import { site } from "@/config"
 
 /**
  * Shared 1200×630 Open Graph card renderer: satori lays the card out (Latte
- * background, mauve accent bar, Inter title, JetBrains Mono metadata) and
+ * background, BD green accent bar, Inter title, JetBrains Mono metadata) and
  * `@resvg/resvg-js` rasterises it. Used by the blog and project OG endpoints.
  *
  * Variable fonts render at their default instance, i.e. the regular weight.
@@ -74,26 +74,36 @@ export async function ogImageResponse({
       flexDirection: "column",
       justifyContent: "space-between",
       padding: "72px 80px",
-      backgroundColor: "#eff1f5",
-      color: "#4c4f69",
+      backgroundColor: "#f8fbf9",
+      color: "#1a2620",
       fontFamily: "Inter",
     },
     [
       el("div", { display: "flex", flexDirection: "column", gap: 20 }, [
-        // Mauve is the site's only accent colour.
-        el("div", {
-          display: "flex",
-          width: 56,
-          height: 4,
-          backgroundColor: "#c6a0f6",
-        }),
+        // Brand pair derived from the Bangladesh flag: a red disc beside the
+        // green bar, the flag's own composition.
+        el("div", { display: "flex", alignItems: "center", gap: 12 }, [
+          el("div", {
+            display: "flex",
+            width: 16,
+            height: 16,
+            borderRadius: 9999,
+            backgroundColor: "#f0a08c",
+          }),
+          el("div", {
+            display: "flex",
+            width: 56,
+            height: 4,
+            backgroundColor: "#65cfa2",
+          }),
+        ]),
         el(
           "div",
           {
             display: "flex",
             fontFamily: "JetBrains Mono",
             fontSize: 24,
-            color: "#6c6f85",
+            color: "#586961",
           },
           `${site.name} · ${kind}`
         ),
@@ -118,7 +128,7 @@ export async function ogImageResponse({
           alignItems: "baseline",
           fontFamily: "JetBrains Mono",
           fontSize: 22,
-          color: "#6c6f85",
+          color: "#586961",
         },
         [
           el("div", { display: "flex" }, date),

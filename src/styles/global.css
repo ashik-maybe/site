@@ -64,6 +64,12 @@
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary: var(--primary);
+  /* Brand pair derived from the Bangladesh flag. `--bd-green` mirrors
+     `--primary`; `--bd-red` is decorative-only and never semantic. Both follow
+     `--bd-green`/`--bd-red` token switching; hue anchors are #006747 (163.45)
+     and #DA291C (35). */
+  --color-bd-green: var(--bd-green);
+  --color-bd-red: var(--bd-red);
   --color-popover-foreground: var(--popover-foreground);
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
@@ -77,87 +83,110 @@
   --radius-2xl: calc(var(--radius) * 1.8);
 }
 
-/* LIGHT MODE — Catppuccin Latte */
+/* LIGHT MODE — "Bangal": a bespoke palette derived from the Bangladesh flag.
+   Hue 163.45 is the flag's green (#006747, Pantone 342 C) kept exact; every
+   neutral carries a trace of that hue (chroma 0.004-0.025) rather than being
+   pure grey, which is what makes the surfaces read as one family with the
+   accent instead of as grey boxes next to a green link. Contrast is checked
+   against `--background` in the comment on each line that carries text. */
 :root {
   /* Corner radius. `rounded-sm|md|lg|xl|2xl` all resolve to `var(--radius)` in
      the @theme block above, so without this every one of them is an invalid
      value and every shadcn control renders square. Matches the .625rem used by
      the OG images and Expressive Code frames. */
   --radius: 0.625rem;
-  --background: oklch(0.985 0.003 264.542); /* Base #eff1f5 */
-  --foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
-  --card: oklch(0.979 0.004 264.537); /* Surface 0 #ccd0da */
-  --card-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
-  --popover: oklch(0.979 0.004 264.537); /* Surface 0 #ccd0da */
-  --popover-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
-  --primary: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
-  --primary-foreground: oklch(0.985 0.003 264.542); /* Base #eff1f5 */
-  --secondary: oklch(0.829 0.042 263.613); /* Surface 1 #e6e9ef */
-  --secondary-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
-  --muted: oklch(0.782 0.034 260.406); /* Surface 2 #dbe0e8 */
-  --muted-foreground: oklch(0.551 0.051 279.941); /* Subtext 0 #8b8e99 */
-  --accent: oklch(0.777 0.073 183.054); /* Sky #34a0ff */
-  --accent-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
-  --destructive: oklch(0.704 0.155 11.979); /* Red #f85149 */
-  --border: oklch(0.793 0.031 261.468); /* Surface 1 #b4b8c0 */
+  --background: oklch(0.985 0.004 163.45); /* #f8fbf9 */
+  --foreground: oklch(0.255 0.02 163.45); /* #1a2620 — 15.0:1 on bg */
+  --card: oklch(0.972 0.006 163.45); /* #f2f7f5 */
+  --card-foreground: oklch(0.255 0.02 163.45); /* #1a2620 */
+  --popover: oklch(0.972 0.006 163.45); /* #f2f7f5 */
+  --popover-foreground: oklch(0.255 0.02 163.45); /* #1a2620 */
+  /* BD green #1f7b59 — the accent. L and C are retuned into the band a light
+     theme's accent has to live in; the hue is the flag's, untouched. 4.99:1 on
+     `--background`, so it carries link text as well as UI. */
+  --bd-green: oklch(0.52 0.1 163.45); /* BD green #1f7b59 */
+  /* BD red #bc4527 — the flag's second colour. Hue 35 is the flag's red
+     (#DA291C, Pantone 485 C) nudged +5.5 so it clears `--destructive` (27) and
+     never reads as an error. 5.02:1. */
+  --bd-red: oklch(0.55 0.16 35); /* BD red #bc4527 */
+  --primary: oklch(0.52 0.1 163.45); /* BD green #1f7b59 */
+  --primary-foreground: oklch(0.99 0.004 163.45); /* #f9fdfb — 10.4:1 on primary */
+  --secondary: oklch(0.93 0.01 163.45); /* #e2eae6 */
+  --secondary-foreground: oklch(0.255 0.02 163.45); /* #1a2620 */
+  --muted: oklch(0.945 0.009 163.45); /* #e8efeb */
+  --muted-foreground: oklch(0.505 0.025 163.45); /* #586961 — 5.6:1 on bg */
+  --accent: oklch(0.93 0.01 163.45); /* #e2eae6 — hover surface, not a hue */
+  --accent-foreground: oklch(0.255 0.02 163.45); /* #1a2620 */
+  /* Error red. Kept on hue 27, deliberately separate from `--bd-red` (35) so a
+     brand swatch can never be mistaken for a destructive state. */
+  --destructive: oklch(0.66 0.19 27); /* #f0574e */
+  --border: oklch(0.88 0.014 163.45); /* #d0dad5 — 1.37:1, a hairline by design */
   /* Scrollbar rail: a step past `--border` toward `--muted-foreground`, so the
-     thumb stays visible against the Latte background without becoming a
-     feature. Alpha, because the track is transparent. */
-  --scrollbar-thumb: oklch(0.735 0.038 262 / 0.55);
-  --scrollbar-thumb-hover: oklch(0.64 0.045 268 / 0.75);
-  --input: oklch(0.829 0.042 263.613); /* Surface 1 #e6e9ef */
-  --ring: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
-  --chart-1: oklch(0.699 0.119 57.744); /* Yellow #f9e2af */
-  --chart-2: oklch(0.764 0.193 128.973); /* Green #a6e3a1 */
-  --chart-3: oklch(0.707 0.133 253.382); /* Sapphire #74c7ec */
-  --chart-4: oklch(0.666 0.241 293.579); /* Mauve #cba6f7 */
-  --chart-5: oklch(0.726 0.104 238.662); /* Sky #89dceb */
-  --sidebar: oklch(0.979 0.004 264.537); /* Surface 0 #ccd0da */
-  --sidebar-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
-  --sidebar-primary: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
-  --sidebar-primary-foreground: oklch(0.985 0.003 264.542); /* Base #eff1f5 */
-  --sidebar-accent: oklch(0.829 0.042 263.613); /* Surface 1 #e6e9ef */
-  --sidebar-accent-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
-  --sidebar-border: oklch(0.793 0.031 261.468); /* Surface 1 #b4b8c0 */
-  --sidebar-ring: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
+     thumb stays visible against the background without becoming a feature.
+     Alpha, because the track is transparent. */
+  --scrollbar-thumb: oklch(0.86 0.016 163.45 / 0.55);
+  --scrollbar-thumb-hover: oklch(0.72 0.022 163.45 / 0.75);
+  --input: oklch(0.93 0.01 163.45); /* #e2eae6 */
+  --ring: oklch(0.52 0.1 163.45); /* BD green #1f7b59 */
+  --chart-1: oklch(0.68 0.15 60); /* #da7e1e amber */
+  --chart-2: oklch(0.6 0.15 163.45); /* #009b66 — the flag's green, saturated */
+  --chart-3: oklch(0.58 0.13 250); /* #347ec4 blue */
+  --chart-4: oklch(0.55 0.16 35); /* BD red #bc4527 */
+  --chart-5: oklch(0.55 0.17 300); /* #8254c4 violet */
+  --sidebar: oklch(0.972 0.006 163.45); /* #f2f7f5 */
+  --sidebar-foreground: oklch(0.255 0.02 163.45); /* #1a2620 */
+  --sidebar-primary: oklch(0.52 0.1 163.45); /* BD green #1f7b59 */
+  --sidebar-primary-foreground: oklch(0.99 0.004 163.45); /* #f9fdfb */
+  --sidebar-accent: oklch(0.93 0.01 163.45); /* #e2eae6 */
+  --sidebar-accent-foreground: oklch(0.255 0.02 163.45); /* #1a2620 */
+  --sidebar-border: oklch(0.88 0.014 163.45); /* #d0dad5 */
+  --sidebar-ring: oklch(0.52 0.1 163.45); /* BD green #1f7b59 */
 }
 
-/* DARK MODE — Catppuccin Macchiato */
+/* DARK MODE — "Bangal", dark. Same derivation as the light block: the flag's
+   green hue, deep enough to sit under everything, with the flag's red and the
+   accent lifted so both stay legible against it. */
 .dark {
-  --background: oklch(0.279 0.035 276.937); /* Base #24273a */
-  --foreground: oklch(0.871 0.048 273.665); /* Text #cad3f5 */
-  --card: oklch(0.249 0.03 278.435); /* Mantle #1e2030 */
-  --card-foreground: oklch(0.871 0.048 273.665); /* Text #cad3f5 */
-  --popover: oklch(0.249 0.03 278.435); /* Mantle #1e2030 */
-  --popover-foreground: oklch(0.871 0.048 273.665); /* Text #cad3f5 */
-  --primary: oklch(0.772 0.126 303.898); /* Mauve #c6a0f6 */
-  --primary-foreground: oklch(0.219 0.025 280.657); /* Crust #181926 */
-  --secondary: oklch(0.426 0.039 276.948); /* Surface 1 #494d64 */
-  --secondary-foreground: oklch(0.871 0.048 273.665); /* Text #cad3f5 */
-  --muted: oklch(0.354 0.037 275.985); /* Surface 0 #363a4f */
-  --muted-foreground: oklch(0.751 0.044 273.533); /* Subtext 0 #a5adcb */
-  --accent: oklch(0.494 0.039 275.683); /* Surface 2 #5b6078 */
-  --accent-foreground: oklch(0.871 0.048 273.665); /* Text #cad3f5 */
-  --destructive: oklch(0.737 0.125 11.194); /* Red #ed8796 */
-  --border: oklch(0.426 0.039 276.948); /* Surface 1 #494d64 */
-  /* Same rail, inverted: lighten toward the Macchiato subtext. */
-  --scrollbar-thumb: oklch(0.55 0.042 275 / 0.55);
-  --scrollbar-thumb-hover: oklch(0.63 0.044 274 / 0.75);
-  --input: oklch(0.494 0.039 275.683); /* Surface 2 #5b6078 */
-  --ring: oklch(0.772 0.126 303.898); /* Mauve #c6a0f6 */
-  --chart-1: oklch(0.911 0.029 31.133); /* Rosewater #f4dbd6 */
-  --chart-2: oklch(0.835 0.108 138.15); /* Green #a6da95 */
-  --chart-3: oklch(0.879 0.074 84.751); /* Yellow #eed49f */
-  --chart-4: oklch(0.772 0.126 303.898); /* Mauve #c6a0f6 */
-  --chart-5: oklch(0.837 0.072 209.366); /* Sky #91d7e3 */
-  --sidebar: oklch(0.249 0.03 278.435); /* Mantle #1e2030 */
-  --sidebar-foreground: oklch(0.871 0.048 273.665); /* Text #cad3f5 */
-  --sidebar-primary: oklch(0.772 0.126 303.898); /* Mauve #c6a0f6 */
-  --sidebar-primary-foreground: oklch(0.219 0.025 280.657); /* Crust #181926 */
-  --sidebar-accent: oklch(0.426 0.039 276.948); /* Surface 1 #494d64 */
-  --sidebar-accent-foreground: oklch(0.871 0.048 273.665); /* Text #cad3f5 */
-  --sidebar-border: oklch(0.426 0.039 276.948); /* Surface 1 #494d64 */
-  --sidebar-ring: oklch(0.772 0.126 303.898); /* Mauve #c6a0f6 */
+  --background: oklch(0.19 0.014 163.45); /* #0e1612 */
+  --foreground: oklch(0.93 0.02 163.45); /* #ddece4 — 15.1:1 on bg */
+  --card: oklch(0.235 0.016 163.45); /* #17211c */
+  --card-foreground: oklch(0.93 0.02 163.45); /* #ddece4 */
+  --popover: oklch(0.235 0.016 163.45); /* #17211c */
+  --popover-foreground: oklch(0.93 0.02 163.45); /* #ddece4 */
+  /* BD green #65cfa2 — the accent. Same hue 163.45 as the light theme; L and C
+     are lifted so it stays legible on a dark surface. 8.75:1 on `--background`. */
+  --bd-green: oklch(0.78 0.12 163.45); /* BD green #65cfa2 */
+  /* BD red #f0a08c — the flag's second colour, hue 35 as in the light theme. */
+  --bd-red: oklch(0.78 0.1 35); /* BD red #f0a08c */
+  --primary: oklch(0.78 0.12 163.45); /* BD green #65cfa2 */
+  --primary-foreground: oklch(0.17 0.014 163.45); /* #0a110e — 10.4:1 on primary */
+  --secondary: oklch(0.3 0.018 163.45); /* #26312b */
+  --secondary-foreground: oklch(0.93 0.02 163.45); /* #ddece4 */
+  --muted: oklch(0.27 0.016 163.45); /* #1f2924 */
+  --muted-foreground: oklch(0.72 0.024 163.45); /* #98aaa0 — 7.5:1 on bg */
+  --accent: oklch(0.3 0.018 163.45); /* #26312b — hover surface, not a hue */
+  --accent-foreground: oklch(0.93 0.02 163.45); /* #ddece4 */
+  /* Error red, hue 15 — well clear of `--bd-red` (35). */
+  --destructive: oklch(0.7 0.14 15); /* #e87782 */
+  --border: oklch(0.33 0.02 163.45); /* #2c3932 — 1.52:1, a hairline by design */
+  /* Same rail, inverted: lighten toward the light-on-dark text colour. */
+  --scrollbar-thumb: oklch(0.36 0.02 163.45 / 0.55);
+  --scrollbar-thumb-hover: oklch(0.48 0.024 163.45 / 0.75);
+  --input: oklch(0.33 0.02 163.45); /* #2c3932 */
+  --ring: oklch(0.78 0.12 163.45); /* BD green #65cfa2 */
+  --chart-1: oklch(0.8 0.12 70); /* #efb062 amber */
+  --chart-2: oklch(0.78 0.13 163.45); /* #5ad1a0 — the flag's green, saturated */
+  --chart-3: oklch(0.76 0.11 250); /* #79b6f4 blue */
+  --chart-4: oklch(0.78 0.1 35); /* BD red #f0a08c */
+  --chart-5: oklch(0.76 0.12 300); /* #bd9ff2 violet */
+  --sidebar: oklch(0.235 0.016 163.45); /* #17211c */
+  --sidebar-foreground: oklch(0.93 0.02 163.45); /* #ddece4 */
+  --sidebar-primary: oklch(0.78 0.12 163.45); /* BD green #65cfa2 */
+  --sidebar-primary-foreground: oklch(0.17 0.014 163.45); /* #0a110e */
+  --sidebar-accent: oklch(0.3 0.018 163.45); /* #26312b */
+  --sidebar-accent-foreground: oklch(0.93 0.02 163.45); /* #ddece4 */
+  --sidebar-border: oklch(0.33 0.02 163.45); /* #2c3932 */
+  --sidebar-ring: oklch(0.78 0.12 163.45); /* BD green #65cfa2 */
 }
 
 /* Pagefind result excerpts arrive as HTML with `<mark>` around the matched
@@ -293,26 +322,29 @@ button,
     display: none !important;
   }
 
-  /* Mirror of the LIGHT MODE palette above: .dark loses its dark values here. */
+  /* Mirror of the LIGHT MODE palette above: .dark loses its dark values here,
+     so a printed dark page uses light ink on paper. */
   .dark {
-    --background: oklch(0.985 0.003 264.542); /* Base #eff1f5 */
-    --foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
-    --card: oklch(0.979 0.004 264.537); /* Surface 0 #ccd0da */
-    --card-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
-    --popover: oklch(0.979 0.004 264.537); /* Surface 0 #ccd0da */
-    --popover-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
-    --primary: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
-    --primary-foreground: oklch(0.985 0.003 264.542); /* Base #eff1f5 */
-    --secondary: oklch(0.829 0.042 263.613); /* Surface 1 #e6e9ef */
-    --secondary-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
-    --muted: oklch(0.782 0.034 260.406); /* Surface 2 #dbe0e8 */
-    --muted-foreground: oklch(0.551 0.051 279.941); /* Subtext 0 #8b8e99 */
-    --accent: oklch(0.777 0.073 183.054); /* Sky #34a0ff */
-    --accent-foreground: oklch(0.445 0.043 279.327); /* Text #4c4f69 */
-    --destructive: oklch(0.704 0.155 11.979); /* Red #f85149 */
-    --border: oklch(0.793 0.031 261.468); /* Surface 1 #b4b8c0 */
-    --input: oklch(0.829 0.042 263.613); /* Surface 1 #e6e9ef */
-    --ring: oklch(0.555 0.25 297.016); /* Mauve #8839ef */
+    --background: oklch(0.985 0.004 163.45); /* #f8fbf9 */
+    --foreground: oklch(0.255 0.02 163.45); /* #1a2620 */
+    --card: oklch(0.972 0.006 163.45); /* #f2f7f5 */
+    --card-foreground: oklch(0.255 0.02 163.45); /* #1a2620 */
+    --popover: oklch(0.972 0.006 163.45); /* #f2f7f5 */
+    --popover-foreground: oklch(0.255 0.02 163.45); /* #1a2620 */
+    --bd-green: oklch(0.52 0.1 163.45); /* BD green #1f7b59 */
+    --bd-red: oklch(0.55 0.16 35); /* BD red #bc4527 */
+    --primary: oklch(0.52 0.1 163.45); /* BD green #1f7b59 */
+    --primary-foreground: oklch(0.99 0.004 163.45); /* #f9fdfb */
+    --secondary: oklch(0.93 0.01 163.45); /* #e2eae6 */
+    --secondary-foreground: oklch(0.255 0.02 163.45); /* #1a2620 */
+    --muted: oklch(0.945 0.009 163.45); /* #e8efeb */
+    --muted-foreground: oklch(0.505 0.025 163.45); /* #586961 */
+    --accent: oklch(0.93 0.01 163.45); /* #e2eae6 */
+    --accent-foreground: oklch(0.255 0.02 163.45); /* #1a2620 */
+    --destructive: oklch(0.66 0.19 27); /* #f0574e */
+    --border: oklch(0.88 0.014 163.45); /* #d0dad5 */
+    --input: oklch(0.93 0.01 163.45); /* #e2eae6 */
+    --ring: oklch(0.52 0.1 163.45); /* BD green #1f7b59 */
   }
 
   /* Code blocks on paper: light box + ink, readable whether or not the UA
@@ -345,21 +377,22 @@ button,
     --tw-prose-invert-td-borders: oklch(92.2% 0 none);
   }
 
-  /* expressive-code keeps macchiato hexes under .dark that don't follow the
-     palette — mirror its light theme. !important because the dark overrides
-     live in a separate stylesheet behind a higher-specificity selector. */
+  /* expressive-code carries its own theme hexes under .dark that don't follow
+     the palette — mirror the light theme instead. !important because the dark
+     overrides live in a separate stylesheet behind a higher-specificity
+     selector. */
   :root.dark .expressive-code {
-    --ec-codeFg: #4c4f69 !important;
-    --ec-gtrFg: #8c8fa1 !important;
-    --ec-gtrHlFg: #8839ef !important;
-    --ec-frm-edActTabBg: #eff1f5 !important;
-    --ec-frm-edActTabFg: #8839ef !important;
-    --ec-frm-edActTabIndTopCol: #8839ef !important;
-    --ec-frm-edTabBarBg: #dce0e8 !important;
-    --ec-frm-trmBg: #eff1f5 !important;
-    --ec-frm-trmTtbBg: #dce0e8 !important;
-    --ec-frm-trmTtbFg: #4c4f69 !important;
-    --ec-frm-trmTtbDotsFg: #4c4f69 !important;
+    --ec-codeFg: #1a2620 !important;
+    --ec-gtrFg: #586961 !important;
+    --ec-gtrHlFg: #1f7b59 !important;
+    --ec-frm-edActTabBg: #f8fbf9 !important;
+    --ec-frm-edActTabFg: #1f7b59 !important;
+    --ec-frm-edActTabIndTopCol: #1f7b59 !important;
+    --ec-frm-edTabBarBg: #e8efeb !important;
+    --ec-frm-trmBg: #f8fbf9 !important;
+    --ec-frm-trmTtbBg: #e8efeb !important;
+    --ec-frm-trmTtbFg: #1a2620 !important;
+    --ec-frm-trmTtbDotsFg: #1a2620 !important;
   }
   /* Token spans carry --0 (light) / --1 (dark) inline; pick --0 on paper. */
   :root.dark .expressive-code .ec-line span[style^="--"] {

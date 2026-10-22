@@ -1,13 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" role="img" aria-label="Terminal prompt">
-  <!-- Theme-aware favicon: Catppuccin Latte in light mode, Macchiato in dark,
-       mauve accent in both. Browsers apply prefers-color-scheme inside an
-       SVG favicon, so the mark flips with the OS, like the site does. -->
+  <!-- Theme-aware favicon: Bangal palette. Hue 163.45 from the Bangladesh flag's
+       green, tinted surfaces, BD green accent.
   <style>
-    .tile { fill: #eff1f5; }
-    .glyph { stroke: #8839ef; }
+    .tile { fill: #f8fbf9; }
+    .glyph { stroke: #1f7b59; }
     @media (prefers-color-scheme: dark) {
-      .tile { fill: #24273a; }
-      .glyph { stroke: #c6a0f6; }
+      .tile { fill: #0e1612; }
+      .glyph { stroke: #65cfa2; }
     }
   </style>
   <!-- Rounded tile, echoing the site's corner radius treatment. -->

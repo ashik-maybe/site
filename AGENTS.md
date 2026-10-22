@@ -2,7 +2,7 @@
 - NEVER commit unless the user says so; if committing, author = user only (`git commit --author="..."` or rely on git config — no AI co-author trailers).
 - NEVER push unless asked.
 - Preserve base `/site`, static output, Bun, Astro, minimal hydration (ThemeToggle, TextSizeToggle + MobileNav only), Catppuccin Latte/Macchiato.
-- Design: no ALL-CAPS eyebrows, no `A · B · C` middots, no `01/02/03` markers, no SaaS card grids, no gradient washes. Mauve (`#c6a0f6`) = only accent.
+- Design: no ALL-CAPS eyebrows, no `A · B · C` middots, no `01/02/03` markers, no SaaS card grids, no gradient washes. **Bangal** — a bespoke palette derived from the Bangladesh flag. BD green (`#1f7b59` light / `#65cfa2` dark), hue 163.45 exact from `#006747`; surfaces are tinted toward the same hue. BD red (`#bc4527` light / `#f0a08c` dark), hue 35 derived from `#DA291C`. BD green is the only interactive accent. BD red is decorative-only. `--destructive` stays separate so brand red never reads as an error.
 - No invented employers / schools / dates / roles. Placeholders stay clearly placeholder or marked TODO/ask. No private data in repo or docs.
 - Docs describe the CURRENT committed template (not owner's real content).
 - Terse chat; no over-engineering. Minimal edits; verify with `bun run verify` (lint → format:check → `build:ci` → `check-dist`).
