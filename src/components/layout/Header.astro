@@ -37,7 +37,7 @@ const isActive = (href: string) =>
                 href={hrefFor(item.href)}
                 aria-current={active ? "page" : undefined}
                 class:list={[
-                  "relative block rounded-md px-2.5 py-2 text-sm transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none",
+                  "relative block rounded-md px-2.5 py-2 text-sm transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none active:bg-muted",
                   active
                     ? "font-medium text-foreground after:absolute after:inset-x-2.5 after:bottom-0.5 after:h-0.5 after:rounded-full after:bg-primary"
                     : "text-muted-foreground",
