@@ -170,6 +170,9 @@
   color: var(--foreground);
 }
 
+/* Pointer on interactive elements (cursor-pointer missing site-wide) */
+button, [role="button"], a { cursor: pointer; }
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
