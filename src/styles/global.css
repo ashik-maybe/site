@@ -193,11 +193,13 @@ button, [role="button"], a { cursor: pointer; }
   }
 }
 
-/* Mobile nav: the trigger and its drawer share one edge. When the drawer opens
-   from the left, the trigger moves to the left of the wordmark so a left-handed
-   thumb reaches it without crossing the screen. */
+/* Mobile nav: the trigger and its drawer share one edge. The trigger rests at
+   the right (its source order), so a first visit looks untouched; only a reader
+   who explicitly chose "left" gets this override, which moves it to the left of
+   the wordmark so a left-handed thumb reaches it without crossing the screen. */
 html[data-nav-side="left"] .nav-trigger-slot {
   order: -1;
+  margin-left: -0.25rem;
   margin-right: 0.25rem;
 }
 

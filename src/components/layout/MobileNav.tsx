@@ -47,9 +47,15 @@ export default function MobileNav({
 
   // Mirror the choice onto <html> so the header CSS can move the trigger to the
   // matching edge. The inline script set it pre-paint; this keeps it in sync
-  // when the reader flips the control.
+  // when the reader flips the control. Right is the default, so it clears the
+  // attribute rather than naming a side.
   useEffect(() => {
-    document.documentElement.dataset.navSide = side
+    const root = document.documentElement
+    if (side === "left") {
+      root.dataset.navSide = "left"
+    } else {
+      delete root.dataset.navSide
+    }
   }, [side])
 
   const choose = (value: Side) => {
@@ -59,46 +65,6 @@ export default function MobileNav({
 
   return (
     <>
-      {/* The segmented control is a sibling of the sheet so its trigger can sit
-          at whichever edge the drawer opens from: `data-nav-side` on <html>
-          reorders `.nav-trigger-slot` in the header. */}
-      <div
-        role="radiogroup"
-        aria-label="Navigation slide-in side"
-        className="flex items-center rounded-full bg-muted p-0.5"
-      >
-        {(
-          [
-            {
-              value: "left",
-              label: "Open navigation from the left",
-              Icon: PanelLeftIcon,
-            },
-            {
-              value: "right",
-              label: "Open navigation from the right",
-              Icon: PanelRightIcon,
-            },
-          ] as const
-        ).map(({ value, label, Icon }) => (
-          <button
-            key={value}
-            type="button"
-            role="radio"
-            aria-checked={side === value}
-            aria-label={label}
-            onClick={() => choose(value)}
-            className={
-              side === value
-                ? "flex size-8 items-center justify-center rounded-full bg-primary/15 text-primary transition-colors"
-                : "flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors active:bg-background/60"
-            }
-          >
-            <Icon className="size-4" aria-hidden="true" />
-          </button>
-        ))}
-      </div>
-
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger
           render={
@@ -145,6 +111,51 @@ export default function MobileNav({
               })}
             </ul>
           </nav>
+
+          {/* A set-once preference, so it sits below the destinations rather
+              than in the header. Left is an accessibility affordance, not the
+              default — a first visit keeps the nav exactly where it always was. */}
+          <div className="mt-auto flex items-center justify-between gap-3 border-t border-border/60 px-4 py-4">
+            <span id="nav-side-label" className="text-sm text-muted-foreground">
+              Slide-in side
+            </span>
+            <div
+              role="radiogroup"
+              aria-labelledby="nav-side-label"
+              className="flex items-center rounded-full bg-muted p-0.5"
+            >
+              {(
+                [
+                  {
+                    value: "left",
+                    label: "Open navigation from the left",
+                    Icon: PanelLeftIcon,
+                  },
+                  {
+                    value: "right",
+                    label: "Open navigation from the right",
+                    Icon: PanelRightIcon,
+                  },
+                ] as const
+              ).map(({ value, label, Icon }) => (
+                <button
+                  key={value}
+                  type="button"
+                  role="radio"
+                  aria-checked={side === value}
+                  aria-label={label}
+                  onClick={() => choose(value)}
+                  className={
+                    side === value
+                      ? "flex size-9 items-center justify-center rounded-full bg-primary/15 text-primary transition-colors"
+                      : "flex size-9 items-center justify-center rounded-full text-muted-foreground transition-colors active:bg-background/60"
+                  }
+                >
+                  <Icon className="size-4" aria-hidden="true" />
+                </button>
+              ))}
+            </div>
+          </div>
         </SheetContent>
       </Sheet>
     </>

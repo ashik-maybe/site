@@ -180,15 +180,18 @@ const ogImageAlt = imageAlt ?? `${site.name} — portfolio, projects, and notes`
           applyTextSize()
           document.addEventListener("astro:after-swap", applyTextSize)
 
-          // Mobile nav: the drawer's edge and its trigger's edge are one
-          // decision, so the trigger must not wait for hydration to move — a
-          // reader who picked "left" would otherwise see it jump across the
-          // header. <html> survives a swap, so the initial call and the swap
-          // re-apply cover every navigation.
+          // Mobile nav: "left" is an opt-in accessibility affordance, so the
+          // default (no attribute) is the untouched header. Only a stored
+          // "left" sets it, and setting it before paint is what keeps the
+          // trigger from flashing across the header on a returning visit.
+          // <html> survives a swap, so the swap re-apply covers navigations.
           var applyNavSide = function () {
-            var stored = localStorage.getItem("nav-side")
-            document.documentElement.dataset.navSide =
-              stored === "left" ? "left" : "right"
+            var root = document.documentElement
+            if (localStorage.getItem("nav-side") === "left") {
+              root.dataset.navSide = "left"
+            } else {
+              delete root.dataset.navSide
+            }
           }
           applyNavSide()
           document.addEventListener("astro:after-swap", applyNavSide)
