@@ -1,26 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" role="img" aria-label="Terminal prompt">
-  <!-- Theme-aware favicon: Bangal palette. Hue 163.45 from the Bangladesh flag's
-       green, tinted surfaces, BD green accent.
+  <!-- Theme-aware favicon: Bangal palette. Two-tone prompt — green chevron,
+       red underscore. Light/dark modes share the same pair, with lightened
+       versions for dark. -->
   <style>
     .tile { fill: #f8fbf9; }
-    .glyph { stroke: #1f7b59; }
+    .chevron { stroke: #1f7b59; }
+    .underscore { stroke: #bc4527; }
     @media (prefers-color-scheme: dark) {
       .tile { fill: #0e1612; }
-      .glyph { stroke: #65cfa2; }
+      .chevron { stroke: #65cfa2; }
+      .underscore { stroke: #f0a08c; }
     }
   </style>
   <!-- Rounded tile, echoing the site's corner radius treatment. -->
   <rect class="tile" x="2" y="2" width="32" height="32" rx="8" />
-  <!-- Prompt glyph: a chevron and an underscore, drawn as rounded strokes so
-       the mark stays legible at 16px. -->
+  <!-- Prompt glyph: green chevron + red underscore. Each path carries its own
+       colour class so the two flag colours both appear without mixing. -->
   <g
-    class="glyph"
     fill="none"
     stroke-width="3"
     stroke-linecap="round"
     stroke-linejoin="round"
   >
-    <path d="M13 12.5 18.5 18 13 23.5" />
-    <path d="M20.5 23.5h5.5" />
+    <path d="M13 12.5 18.5 18 13 23.5" class="chevron" />
+    <path d="M20.5 23.5h5.5" class="underscore" />
   </g>
 </svg>

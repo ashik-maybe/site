@@ -199,6 +199,11 @@
   color: var(--foreground);
 }
 
+::selection {
+  background: color-mix(in srgb, var(--bd-red) 25%, transparent);
+  color: inherit;
+}
+
 /* Pointer on interactive elements (cursor-pointer missing site-wide) */
 button, [role="button"], a { cursor: pointer; }
 
