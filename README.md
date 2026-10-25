@@ -12,8 +12,7 @@ Obsidian notes vault. Built with Astro and deployed to GitHub Pages under a
 - **Tailwind CSS v4** — utilities via the `@tailwindcss/vite` plugin
 - **shadcn/ui** — source-owned components in `src/components/ui`
 - **Expressive Code** — Catppuccin code blocks with a copy button
-- **Catppuccin Latte / Macchiato** — light and dark themes; mauve is the only
-  accent colour
+- **Bangal palette** — derived from the Bangladesh flag (hue 163.45 from `#006747`, hue 35 from `#DA291C`), with green-tinted surfaces, light and dark themes; BD green is the only interactive accent colour
 
 ## Requirements
 

@@ -114,12 +114,12 @@ const ogImageAlt = imageAlt ?? `${site.name} — portfolio, projects, and notes`
 
     <meta
       name="theme-color"
-      content="#eff1f5"
+      content="#f8fbf9"
       media="(prefers-color-scheme: light)"
     />
     <meta
       name="theme-color"
-      content="#24273a"
+      content="#0e1612"
       media="(prefers-color-scheme: dark)"
     />
 
@@ -136,7 +136,7 @@ const ogImageAlt = imageAlt ?? `${site.name} — portfolio, projects, and notes`
           // Always re-queries: references taken before a swap point at nodes
           // that the swap has removed.
           var applyThemeColor = function (isDark) {
-            var color = isDark ? "#24273a" : "#eff1f5"
+            var color = isDark ? "#0e1612" : "#f8fbf9"
             // Not by media attribute: the first write clears it, so a media
             // selector would never match again after the initial call.
             var metas = document.querySelectorAll('meta[name="theme-color"]')
